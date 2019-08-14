@@ -20,10 +20,10 @@
 <body>
   <header id="header"></header>
 
+  <div class="banner">
+    <img class="cover-img" style="height: 400px;">
+  </div>
   <main class="layui-container">
-    <div class="banner">
-      <img class="cover-img" style="height: 300px;">
-    </div>
     <div class="block-pt">
       <div class="textC">
         <h1 class="block-title layui-inline">申请条件</h1>
@@ -64,56 +64,30 @@
       var element = layui.element
       var layer = layui.layer
       let $apply = $('.apply-btn')
+      var content = `
+      <h3 class="textC">请告诉我们以下信息方便我们联系到您</h3>
+      <div class="layui-form">
+        <div class="layui-form-item">
+          <label class="layui-form-label">联系人</label>
+          <div class="layui-input-block">
+            <input type="text" name="ownername" id="ownername" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">手机号码</label>
+          <div class="layui-input-block">
+            <input type="tel" name="ownerphone" id="ownerphone" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      `.trim()
       $apply.on('click', function () {
-        layer.open({
+        let config = {
           title: false,
-          area: ['390px', '370px'],
-          shade: .5,
-          shadeClose: true,
-          closeBtn: false,
-          content: `
-    <h3 class="textC">请告诉我们以下信息方便我们联系到您</h3>
-    <div class="layui-form">
-      <div class="layui-form-item">
-        <div class="laui-input-inline">
-          <label class="layui-label">姓名</label>
-          <input type="text" name="name" id="name" class="layui-input">
-        </div>
-      </div>
-      <div class="layui-form-item">
-        <div class="laui-input-inline">
-          <label class="layui-label">姓名</label>
-          <input type="text" name="phone" id="phone" class="layui-input">
-        </div>
-      </div>
-    </div>
-          `,
-          yes: function (index, layero) {
-            let $name = $('#name').val()
-            let $phone = $('#phone').val()
-            let data = {
-              name: $name,
-              phone: $phone
-            }
-            $.ajax({
-              url: `${BASEURL}`,
-              method: 'POST',
-              data: data,
-              dataType: 'json',
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-              },
-              success: res => {
-                console.log(res)
-                layer.close(index)
-                layer.alert('提交成功', {
-                  icon: 1,
-                  btn: '知道了'
-                })
-              }
-            })
-          }
-        })
+          content: content,
+          area: ['390px', '370px']
+        }
+        active.openForm(config, '/')
       })
     })
   </script>
