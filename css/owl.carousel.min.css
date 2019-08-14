@@ -14,12 +14,12 @@
   width: 100%;
   z-index: 1
 }
-/* 
+
 .owl-carousel .owl-stage {
   position: relative;
   -ms-touch-action: pan-Y;
   -moz-backface-visibility: hidden
-} */
+}
 
 .owl-carousel .owl-stage:after {
   content: ".";
@@ -45,13 +45,13 @@
   -moz-transform: translate3d(0, 0, 0);
   -ms-transform: translate3d(0, 0, 0)
 }
-/* 
+
 .owl-carousel .owl-item {
   min-height: 1px;
   float: left;
   -webkit-backface-visibility: hidden;
   -webkit-touch-callout: none
-} */
+}
 
 .owl-carousel .owl-item img {
   display: block;
