@@ -179,6 +179,16 @@
     <div class="layui-container">
       <h1 class="f-l">免费获取装修设计方案</h1>
       <div class="f-r layui-form">
+        <div data-toggle="distpicker">
+          <div class="form-group">
+            <label class="sr-only" for="province7">Province</label>
+            <select class="form-control" id="province7"></select>
+          </div>
+          <div class="form-group">
+            <label class="sr-only" for="city7">City</label>
+            <select class="form-control" id="city7"></select>
+          </div>
+        </div>
         <div class="layui-input-inline mr30">
           <input type="text" class="layui-input" name="phone" id="phone" placeholder="填写手机号码" autocomplete="off">
         </div>
@@ -192,39 +202,55 @@
     </div>
   </div>
 
-  <footer id="footer" class="block-pt"></footer>
+  <footer id="footer"></footer>
 
   <script src="../layui/layui.js"></script>
   <script src="../js/owl.carousel.min.js"></script>
+  <script src="../js/distpicker.data.min.js"></script>
+  <script src="../js/distpicker.min.js"></script>
   <script>
     jQuery(function () {
+      $("#distpicker").distpicker();
       $('.mhn-slide').owlCarousel({
-				nav:true,
-				//loop:true,
-				slideBy:'page',
-				rewind:false,
-				responsive:{
-					350:{items:1},
-					768:{items:2},
-					992:{items:3},
-					1220:{items:4}
-				},
-				smartSpeed: 500,
-				onInitialized:function(e){
-					$(e.target).find('img').each(function(){
-						if(this.complete){
-							$(this).closest('.mhn-inner').find('.loader-circle').hide();
-							$(this).closest('.mhn-inner').find('.mhn-img').css('background-image','url('+$(e.target).attr('src')+')');
-						}else{
-							$(this).bind('load',function(e){
-								$(e.target).closest('.mhn-inner').find('.loader-circle').hide();
-								$(e.target).closest('.mhn-inner').find('.mhn-img').css('background-image','url('+$(e.target).attr('src')+')');
-							});
-						}
-					});
-				},
-				navText:['<svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>','<svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>']
-			});
+        nav: true,
+        //loop:true,
+        slideBy: 'page',
+        rewind: false,
+        responsive: {
+          350: {
+            items: 1
+          },
+          768: {
+            items: 2
+          },
+          992: {
+            items: 3
+          },
+          1220: {
+            items: 4
+          }
+        },
+        smartSpeed: 500,
+        onInitialized: function (e) {
+          $(e.target).find('img').each(function () {
+            if (this.complete) {
+              $(this).closest('.mhn-inner').find('.loader-circle').hide();
+              $(this).closest('.mhn-inner').find('.mhn-img').css('background-image', 'url(' + $(e.target)
+                .attr('src') + ')');
+            } else {
+              $(this).bind('load', function (e) {
+                $(e.target).closest('.mhn-inner').find('.loader-circle').hide();
+                $(e.target).closest('.mhn-inner').find('.mhn-img').css('background-image', 'url(' + $(
+                  e.target).attr('src') + ')');
+              });
+            }
+          });
+        },
+        navText: [
+          '<svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>',
+          '<svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>'
+        ]
+      });
     })
     layui.use(['element', 'carousel', 'layer'], function () {
       var element = layui.element
@@ -266,14 +292,6 @@
       $apply.on('click', function () {
         let $phone = $('#phone').val()
         let $area = $('#area').val()
-        let id_arr = $('.layui-input-inline *')
-        id_arr.each((i, item) => {
-          if (item.id) {
-            if (item.tagName === 'INPUT') {
-              console.log(item.value)
-            }
-          }
-        });
         if (!area.length || !$phone.length) {
           layer.msg('填写装修面积和手机号码之后才能免费预约哦！')
           return false

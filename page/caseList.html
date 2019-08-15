@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="../layui/css/layui.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../layui/css/layui.mobile.css">
+  <script src="../js/jquery-1.11.3.min.js"></script>
+  <script src="../js/mian.js"></script>
+  <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <title>Document</title>
+</head>
+
+<body>
+  <header id="header"></header>
+  <div class="banner">
+    <img class="cover-img" style="height:400px;">
+  </div>
+  <main class="layui-container">
+    <div class="category">
+      <div class="category-item">
+        <ul>
+          <li></li>
+        </ul>
+      </div>
+    </div>
+    <div class="photos"></div>
+  </main>
+  <footer id="footer"></footer>
+
+  <script src="../layui/layui.js"></script>
+  <script>
+    jQuery(function () {
+      $.ajax({
+        url: '../js/data.json',
+        dataType: 'json',
+        success: res => {
+          let imgArr = []
+          res.data[0].list.forEach((item, index) => {
+            // console.log(item)
+            imgArr.push(`<img src="${item.cover_img}" layer-src="${item.cover_img}" alt="${item.title}"/>`)
+          });
+          $('.photos').append(imgArr)
+        },
+        fail: err => new Error(err)
+      })
+    })
+    layui.use(['element', 'layer'], function () {
+      var element = layui.element
+      var layer = layui.layer
+      layer.photos({
+        photos: '.photos',
+        anim: 5,
+        move: false,
+        tab: function (pic, layero) {
+          console.log(pic)
+        }
+      })
+    })
+  </script>
+</body>
+
+</html>
