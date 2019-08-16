@@ -38,7 +38,6 @@
       var element = layui.element
       var layer = layui.layer
       var form = layui.form
-      form.render()
       $('.apply-btn').on('click', function () {
         layer.open({
           title: '请告诉我们以下信息方便我们联系到您',
@@ -57,6 +56,7 @@
                 <div>经销商</div>
               </div>
             </div>
+            <div id="test">111</div>
             <div class="layui-form-item">
               <label class="layui-form-label">品牌名称</label>
               <div class="layui-input-block">
@@ -82,13 +82,19 @@
               </div>
             </div>
           </div>
-          `.trim(),
+          `,
           shade: .5,
           shadeClose: true,
           closeBtn: false,
           move: false,
           area: ['400px', '550px'],
           btn: '提交',
+          success: function(layero, index){
+            form.render()
+            $('#test').on('click', function(){
+              layer.msg($(this).text())
+            })
+          },
           yes: function (index, layero) {
             let $bname = $('#bname').val(),
               $cname = $('#cname').val(),

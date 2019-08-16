@@ -4,12 +4,6 @@ body {
 }
 
 /* -------------------layui------------------- */
-@media screen and (min-width: 1230px) {
-  .layui-container {
-    width: 1230px;
-  }
-}
-
 .layui-nav {
   background: transparent;
 }
@@ -27,10 +21,11 @@ body {
 }
 
 .layui-carousel-ind {
-  width: 1140px;
+  width: 1230px;
   padding: 0 15px;
   margin: 0 auto;
   text-align: right;
+  box-sizing: border-box;
 }
 
 .layui-carousel-ind ul {
@@ -49,6 +44,12 @@ body {
 
 .layui-anim {
   animation-duration: .5s;
+}
+
+@media screen and (min-width: 1230px) {
+  .layui-container {
+    width: 1230px;
+  }
 }
 
 /* -------------------layui end------------------- */
@@ -314,7 +315,8 @@ body {
 .layui-article {
   width: 700px;
 }
-.layui-article .layui-article-item{
+
+.layui-article .layui-article-item {
   padding: 20px;
   border: 1px solid #ddd;
   margin-bottom: 20px;
@@ -376,12 +378,17 @@ body {
 
 .bottom-bar h1 {
   font-weight: bold;
-  font-size: #333;
+  color: #fff;
   font-size: 25px;
 }
 
 .bottom-bar .layui-input-inline:last-of-type {
   line-height: 34px;
+}
+
+.bottom-bar .layui-form select {
+  display: inline-block;
+  width: 120px;
 }
 
 /* -------------------底部浮动条 end------------------- */
