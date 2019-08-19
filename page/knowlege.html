@@ -20,6 +20,28 @@
 <body>
   <header id="header"></header>
   <main class="layui-container">
+    <div class="knowlege-bar layui-col-space10">
+      <div class="layui-col-lg8">
+        <img class="cover-img" style="height: 400px;">
+      </div>
+      <div class="layui-col-lg4">
+        <div class="layui-col-space10">
+          <div class="layui-col-lg6" style="height: 205px;">
+          <div style="height: 100%; background:#ddd;"></div>
+        </div>
+        <div class="layui-col-lg6" style="height: 205px;">
+          <div style="height: 100%; background:#ddd;"></div>
+        </div>
+        <div class="layui-col-lg12" style="height: 205px;">
+          <div style="height: 100%; background:#ddd;"></div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-clear"></div>
+    <div class="textC block-mt">
+      <h1 class="block-title layui-inline">新房装修小知识</h1>
+    </div>
     <div class="layui-col-space10">
       <div class="layui-col-lg6" style="height: 400px;">
         <div class="layui-col-lg12" style="background: #ddd; height: 100%;"></div>
@@ -43,7 +65,9 @@
           </header>
           <main class="article-body">
             <img class="cover-img" style="height: 200px;">
-            <p>水泥存储期过长，其活性将会降低。一般存储3个月以上的水泥，强度约降低10%---20%；六个月约降低15%---30%；一年后约降低25%----40%。对已进场的每批水泥，根据在场的存放情况重新采样检验其强度和安全性。</p>
+            <p>
+              水泥存储期过长，其活性将会降低。一般存储3个月以上的水泥，强度约降低10%---20%；六个月约降低15%---30%；一年后约降低25%----40%。对已进场的每批水泥，根据在场的存放情况重新采样检验其强度和安全性。
+            </p>
           </main>
           <footer class="textR">
             <a href="javascript:;"><span>全文</span><i class="layui-icon layui-icon-next"></i></a>
@@ -57,6 +81,13 @@
     <div class="layui-clear"></div>
   </main>
   <footer id="footer"></footer>
+
+  <script src="../layui/layui.js"></script>
+  <script>
+    layui.use(['element'], function () {
+      var element = layui.element
+    })
+  </script>
 </body>
 
 </html>

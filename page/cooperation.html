@@ -34,14 +34,13 @@
 
   <script src="../layui/layui.js"></script>
   <script>
-    layui.use(['element', 'layer', 'form'], function () {
+    layui.use(['element', 'layer', 'form', 'upload'], function () {
       var element = layui.element
       var layer = layui.layer
       var form = layui.form
-      $('.apply-btn').on('click', function () {
-        layer.open({
-          title: '请告诉我们以下信息方便我们联系到您',
-          content: `
+      var upload = layui.upload
+      let config = {
+        content: `
           <div class="layui-form">
             <div class="layui-form-item">
               <label class="layui-form-label">经营模式</label>
@@ -56,7 +55,6 @@
                 <div>经销商</div>
               </div>
             </div>
-            <div id="test">111</div>
             <div class="layui-form-item">
               <label class="layui-form-label">品牌名称</label>
               <div class="layui-input-block">
@@ -83,60 +81,13 @@
             </div>
           </div>
           `,
-          shade: .5,
-          shadeClose: true,
-          closeBtn: false,
-          move: false,
-          area: ['400px', '550px'],
-          btn: '提交',
-          success: function(layero, index){
-            form.render()
-            $('#test').on('click', function(){
-              layer.msg($(this).text())
-            })
-          },
-          yes: function (index, layero) {
-            let $bname = $('#bname').val(),
-              $cname = $('#cname').val(),
-              $ownername = $('#ownername').val(),
-              $ownerphone = $('#ownerphone').val()
-            if (!$bname.length || !$cname.length || !$ownername.length || !$ownerphone.length) {
-              layer.alert('请输入对应的信息', {
-                icon: 2,
-                success: res => {
-                  console.log(res)
-                  return false
-                }
-              })
-              return false
-            }
-            let data = {
-              bname: $bname,
-              cname: $cname,
-              ownername: $ownername,
-              ownerphone: $ownerphone
-            }
-            $.ajax({
-              url: `${BASEURL}`,
-              method: 'POST',
-              data: data,
-              dataType: 'json',
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-              },
-              success: res => {
-                console.log(res)
-                layer.alert('提交成功', {
-                  icon: 1
-                })
-                layer.close(index)
-              },
-              fail: res => {
-                layer.msg('提交失败')
-                new Error(res)
-              }
-            })
-          }
+        title: '请告诉我们以下信息方便我们联系到您',
+        area: ['400px', '550px']
+      }
+      $('.apply-btn').on('click', function () {
+        active.openForm(config, '', {
+          form,
+          upload
         })
       })
     })

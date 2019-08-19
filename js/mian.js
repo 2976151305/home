@@ -28,8 +28,9 @@ var active = {
    * 表单弹框
    * @param {object} config layer弹出层设置
    * @param {string} api_url api路径
+   * @param {object} modules 需要重新加载的layui模块
    */
-  openForm: function (config, api_url) {
+  openForm: function (config, api_url, modules = {}) {
     layer.open({
       title: config.title || '请填写信息',
       content: config.content,
@@ -40,13 +41,18 @@ var active = {
       area: config.area,
       move: false,
       success: function () {
-        // if ($("#distpicker"))
-        $("#distpicker").distpicker()
+        if ($("#distpicker")[0])
+          $("#distpicker").distpicker()
+        // 重新加载模块
+        if (modules.form)
+          modules.form.render()
+        if (modules.upload)
+          modules.upload.render()
       },
       yes: (index, layero) => {
         return new Promise((resolve, reject) => {
           let dataObj = []
-          let id_arr = $('.layui-input-block *') || $('.layui-input-inline *')
+          let id_arr = $('.layui-input-block *')
           id_arr.each((i, item) => {
             // 检索所有带有id的表单元素
             if (item.id) {
@@ -65,6 +71,7 @@ var active = {
           resolve(dataObj)
         }).then(r => {
           console.log(r)
+          return
           $.ajax({
             url: `${BASEURL}${api_url}`,
             method: 'POST',

@@ -43,7 +43,22 @@ body {
 }
 
 .layui-anim {
+  -webkit-animation-duration: .5s;
+  -moz-animation-duration: .5s;
+  -o-animation-duration: .5s;
   animation-duration: .5s;
+}
+
+.layui-form select {
+  display: inline-block;
+}
+
+.layui-form-item .layui-form-checkbox[lay-skin=primary] {
+  margin-top: 0;
+}
+
+.layui-form-checkbox[lay-skin=primary] span {
+  padding-right: 0;
 }
 
 @media screen and (min-width: 1230px) {
@@ -140,17 +155,16 @@ body {
 /* -------------------装修现场------------------- */
 .mhn-slide .mhn-item {
   width: 100%;
-  padding: 5px
+  padding: 5px;
 }
 
 .mhn-slide .mhn-inner {
   width: 100%;
   height: 100%;
-  border-radius: 3px
 }
 
 .mhn-slide .mhn-item img {
-  display: none
+  display: none;
 }
 
 .mhn-slide .mhn-img {
@@ -160,11 +174,11 @@ body {
   width: 100%;
   color: white;
   background: #ececec no-repeat center/cover;
-  position: relative
+  position: relative;
 }
 
 .mhn-slide .owl-stage-outer {
-  z-index: 1
+  z-index: 1;
 }
 
 .mhn-slide .owl-nav {
@@ -173,15 +187,11 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0
-}
-
-.mhn-slide .owl-nav svg {
-  color: currentColor
+  bottom: 0;
 }
 
 .mhn-slide .owl-nav .disabled {
-  display: none
+  display: none;
 }
 
 .mhn-slide .owl-prev,
@@ -196,15 +206,15 @@ body {
   border-radius: 50%;
   background-color: #fff;
   -webkit-box-shadow: 0 4px 4px rgba(0, 0, 0, .3), 0 0 4px rgba(0, 0, 0, .2);
-  box-shadow: 0 4px 4px rgba(0, 0, 0, .3), 0 0 4px rgba(0, 0, 0, .2)
+  box-shadow: 0 4px 4px rgba(0, 0, 0, .3), 0 0 4px rgba(0, 0, 0, .2);
 }
 
 .mhn-slide .owl-prev {
-  left: -10px
+  left: -10px;
 }
 
 .mhn-slide .owl-next {
-  right: -10px
+  right: -10px;
 }
 
 /* -------------------装修现场 end------------------- */
@@ -389,6 +399,22 @@ body {
 .bottom-bar .layui-form select {
   display: inline-block;
   width: 120px;
+}
+
+.bottom-bar .close-bottom-bar {
+  position: absolute;
+  right: 40px;
+  top: 35px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  color: #333;
+  font-weight: bold;
+  font-size: 18px;
+  background: #fff;
+  text-align: center;
+
 }
 
 /* -------------------底部浮动条 end------------------- */

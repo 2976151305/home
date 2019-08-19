@@ -14,7 +14,7 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
-  <title>Document</title>
+  <title>先装修后付款</title>
 </head>
 
 <body>
@@ -78,15 +78,14 @@
         <div class="layui-form-item">
           <label class="layui-form-label">手机号码</label>
           <div class="layui-input-block">
-            <input type="tel" name="ownerphone" id="ownerphone" autocomplete="off" class="layui-input">
+            <input type="tel" name=("ownerphone" id="ownerphone" autocomplete="off" class="layui-input">
           </div>
         </div>
-        <div data-toggle="distpicker">
-          <div class="form-group">
-            <select class="form-control"></select>
-          </div>
-          <div class="form-group">
-            <select class="form-control"></select>
+        <div class="layui-form-item">
+          <label class="layui-form-label">所在地</label>
+          <div class="layui-input-block" id="distpicker" data-toggle="distpicker">
+            <select name="city" lay-verify="required" class="layui-input"></select>
+            <select name="city" lay-verify="required" class="layui-input"></select>
           </div>
         </div>
       </div>

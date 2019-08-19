@@ -197,16 +197,23 @@
   <script src="../js/distpicker.data.min.js"></script>
   <script src="../js/distpicker.min.js"></script>
   <script src="../layui/layui.js"></script>
-  <script src="../js/owl.carousel.min.js"></script> 
+  <script src="../js/owl.carousel.min.js"></script>
   <script>
     var caseCarousel = []
     var $caseCarousel = $('#case_carousel ul')
     var $caseInfo = $('.case-info')
+    var $bottomBar = $('.bottom-bar')
     jQuery(function () {
       $("#distpicker").distpicker();
+      if (localStorage.getItem('c')) {
+        $bottomBar.append(
+          '<a href="javascript:;" class="close-bottom-bar"><i class="layui-icon layui-icon-close"></i></a>')
+        $('.close-bottom-bar').on('click', function () {
+          $bottomBar.remove()
+        })
+      }
       // 装修案例数据挂载
       active.query('../js/data.json').then(res => {
-        console.log(res.data[1].list)
         res.data[1].list.forEach(item => {
           caseCarousel.push(item)
           $caseCarousel.append(
@@ -260,7 +267,6 @@
       var element = layui.element
       var carousel = layui.carousel
       var layer = layui.layer
-      // var form = layui.form
       // big banner
       carousel.render({
         elem: '#carousel',
@@ -304,21 +310,30 @@
           phone: $phone,
           area: $area
         }
-        $.ajax({
-          url: `${BASEURL}`,
-          method: 'POST',
-          data: data,
-          dataType: 'json',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlcoded'
-          },
-          success: res => {
-            console.log(res)
-          },
-          fail: res => {
-            layer.msg('提交失败')
-            new Error(res)
+        active.query('', data, 'POST').then(res => {
+          console.log(res)
+          if (res.data.code === 'success') {
+            layer.open({
+              title: '预约成功',
+              icon: 1,
+              content: '稍后会有装修管家以xxxx或xxxx开头的号码回电您，向您免费提供装修咨询服务。',
+              btn: '知道了',
+              shade: 0,
+              shadeClose: false
+            })
+            localStorage.setItem('c', true)
+            $bottomBar.append(
+              '<a href="javascript:;" class="close-bottom-bar"><i class="layui-icon layui-icon-close"></i></a>'
+            )
+            $('.close-bottom-bar').on('click', function () {
+              $bottomBar.remove()
+            })
+          } else {
+            layer.msg(res.data.msg)
           }
+        }).catch(err => {
+          layer.msg('提交失败,请稍后重试!')
+          new Error(err)
         })
       })
     })
