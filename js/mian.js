@@ -116,6 +116,11 @@ var active = {
   failCallBack: function (msg, err) {
     layer.msg(msg)
     new Error(err)
+  },
+  tabChangeAnimate: function (el) {
+    let $tabItem = el.parent().siblings('.layui-tab-content').children('.layui-tab-item')
+    $tabItem.removeClass('layui-anim layui-anim-fadein')
+    $tabItem.eq(el.index()).addClass('layui-anim layui-anim-fadein')
   }
 }
 

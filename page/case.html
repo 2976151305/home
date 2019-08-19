@@ -74,10 +74,7 @@
       var element = layui.element
       var flow = layui.flow
       element.on('tab(change)', function () {
-        let $self = $(this)
-        let $tabItem = $self.parent().siblings('.layui-tab-content').children('.layui-tab-item')
-        $tabItem.removeClass('layui-anim layui-anim-fadein')
-        $tabItem.eq($self.index()).addClass('layui-anim layui-anim-fadein')
+        active.tabChangeAnimate($(this))
       })
       flow.load({
         elem: '.more-case',
