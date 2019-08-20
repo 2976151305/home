@@ -10,11 +10,14 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../layui/css/layui.mobile.css">
   <script src="../js/jquery-1.11.3.min.js"></script>
-  <script src="../js/mian.js"></script>
+  <!--[if IE]>
+    <script src="../js/browser-polyfill.min.js"></script>
+  <![endif]-->
   <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <script src="../js/mian.js"></script>
   <title>整装之家</title>
 </head>
 
@@ -22,9 +25,6 @@
   <header id="header"></header>
   <div id="carousel" class="layui-carousel">
     <ul carousel-item>
-      <li style="background: linear-gradient(to bottom, rgb(209, 73, 221), rgb(157, 42, 235))"></li>
-      <li style="background: linear-gradient(to bottom, rgb(106, 221, 183), rgb(27, 207, 168))"></li>
-      <li style="background: linear-gradient(to bottom, rgb(55, 157, 224), rgb(24, 134, 207))"></li>
     </ul>
   </div>
 
@@ -41,8 +41,8 @@
         </div>
         <div class="layui-col-lg4">
           <div class="case-info textC">
-            <h2>北欧仲夏夜之梦</h2>
-            <p class="textJ">简约舒适大气高档时尚奢华回归大自然乡间小别野远洋江景房源描述详细文字描述详细文字描述详细文字描述详细文字描述详细文字描述这个房子非常好！！</p>
+            <h2></h2>
+            <p class="textJ"></p>
           </div>
         </div>
       </div>
@@ -124,42 +124,7 @@
       <div class="textC">
         <h1 class="block-title layui-inline">装修知多少</h1>
       </div>
-      <div class="layui-col-space10">
-        <div class="layui-col-lg8">
-          <div id="article_carousel" class="layui-carousel" lay-filter="article_carousel">
-            <ul carousel-item>
-              <li style="background: linear-gradient(to bottom, rgb(209, 73, 221), rgb(157, 42, 235))">
-                <h2 class="textC">this is title1</h2>
-              </li>
-              <li style="background: linear-gradient(to bottom, rgb(106, 221, 183), rgb(27, 207, 168))">
-                <h2 class="textC">this is title2</h2>
-              </li>
-              <li style="background: linear-gradient(to bottom, rgb(55, 157, 224), rgb(24, 134, 207))">
-                <h2 class="textC">this is title3</h2>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="layui-col-lg4 home-article-list">
-          <ul>
-            <li>
-              <img class="cover-img" style="width: 200px;height: 100%;">
-              <h3 class="layui-inline">title</h3>
-            </li>
-            <li>
-              <img class="cover-img" style="width: 200px;height: 100%;">
-              <h3 class="layui-inline">title</h3>
-            </li>
-            <li>
-              <img class="cover-img" style="width: 200px;height: 100%;">
-              <h3 class="layui-inline">title</h3>
-            </li>
-            <li>
-              <img class="cover-img" style="width: 200px;height: 100%;">
-              <h3 class="layui-inline">title</h3>
-            </li>
-          </ul>
-        </div>
+      <div class="layui-col-space10 home-article-list">
       </div>
       <div class="layui-clear"></div>
     </div>
@@ -201,6 +166,7 @@
   <script>
     var caseCarousel = []
     var $caseCarousel = $('#case_carousel ul')
+    var $articleList = $('.home-article-list')
     var $caseInfo = $('.case-info')
     var $bottomBar = $('.bottom-bar')
     jQuery(function () {
@@ -212,93 +178,137 @@
           $bottomBar.remove()
         })
       }
-      // 装修案例数据挂载
-      active.query('../js/data.json').then(res => {
-        res.data[1].list.forEach(item => {
-          caseCarousel.push(item)
-          $caseCarousel.append(
-            `<li style="background: url(${item.cover_img}) no-repeat center / cover;"></li>`)
-        });
-        $caseInfo.children('h2').text(caseCarousel[0].title)
-        $caseInfo.children('p').text(caseCarousel[0].introduce)
-      }).catch(err => new Error(err))
-      $('.mhn-slide').owlCarousel({
-        nav: true,
-        //loop:true,
-        slideBy: 'page',
-        rewind: false,
-        responsive: {
-          350: {
-            items: 1
-          },
-          768: {
-            items: 2
-          },
-          992: {
-            items: 3
-          },
-          1220: {
-            items: 4
-          }
-        },
-        smartSpeed: 500,
-        onInitialized: function (e) {
-          $(e.target).find('img').each(function () {
-            if (this.complete) {
-              $(this).closest('.mhn-inner').find('.loader-circle').hide();
-              $(this).closest('.mhn-inner').find('.mhn-img').css('background-image', 'url(' + $(e.target)
-                .attr('src') + ')');
-            } else {
-              $(this).bind('load', function (e) {
-                $(e.target).closest('.mhn-inner').find('.loader-circle').hide();
-                $(e.target).closest('.mhn-inner').find('.mhn-img').css('background-image', 'url(' + $(
-                  e.target).attr('src') + ')');
-              });
-            }
-          });
-        },
-        navText: [
-          '<svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>',
-          '<svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>'
-        ]
-      });
+      // active.query('').then(res => {
+      //   console.log(res)
+      //   let arr = []
+      //   res.data.map(item, index => {
+      //     console.log(item)
+      //     arr.push(`
+      //     <div class="mhn-item">
+      //       <div class="mhn-inner">
+      //         <div class="mhn-img" style="background: url(${item.cover_img}) no-repeat center / cover;"></div>
+      //       </div>
+      //     </div>`.trim())
+      //   })
+      //   $('.mhn-slide').append(arr)
+      //   $('.mhn-slide').owlCarousel({
+      //     nav: true,
+      //     //loop:true,
+      //     slideBy: 'page',
+      //     rewind: false,
+      //     responsive: {
+      //       350: {
+      //         items: 1
+      //       },
+      //       768: {
+      //         items: 2
+      //       },
+      //       992: {
+      //         items: 3
+      //       },
+      //       1220: {
+      //         items: 4
+      //       }
+      //     },
+      //     smartSpeed: 500,
+      //     // onInitialized: function (e) {
+      //     //   $(e.target).find('img').each(function () {
+      //     //     if (this.complete) {
+      //     //       $(this).closest('.mhn-inner').find('.loader-circle').hide();
+      //     //       $(this).closest('.mhn-inner').find('.mhn-img').css('background-image', 'url(' + $(e
+      //     //           .target)
+      //     //         .attr('src') + ')');
+      //     //     } else {
+      //     //       $(this).bind('load', function (e) {
+      //     //         $(e.target).closest('.mhn-inner').find('.loader-circle').hide();
+      //     //         $(e.target).closest('.mhn-inner').find('.mhn-img').css('background-image',
+      //     //           'url(' + $(
+      //     //             e.target).attr('src') + ')');
+      //     //       });
+      //     //     }
+      //     //   });
+      //     // },
+      //     navText: [
+      //       '<svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>',
+      //       '<svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>'
+      //     ]
+      //   });
+      // })
     })
     layui.use(['element', 'carousel', 'layer'], function () {
       var element = layui.element
       var carousel = layui.carousel
       var layer = layui.layer
-      // big banner
-      carousel.render({
-        elem: '#carousel',
-        width: '100%',
-        height: '600px',
-        anim: 'fade'
-      })
-      // case banner
-      carousel.render({
-        elem: '#case_carousel',
-        autoplay: false,
-        width: '100%',
-        height: '400px',
-        arrow: 'always',
-        interval: '5000',
-        indicator: 'none'
+      active.query('/decorate/advertising/api/adverts/').then(res => {
+        if (res.code === 'success') {
+          res.data.forEach(item => {
+            if (item.ad_location === '首页banner') {
+              $('#carousel ul').append(`
+              <li>
+                <a class="w h block" style="background: url(${item.image}) no-repeat center / cover;" href="${item.link_url ? item.link_url : 'javascript:;'}"></a>
+              </li>
+              `.trim())
+            }
+          })
+          // big banner
+          carousel.render({
+            elem: '#carousel',
+            width: '100%',
+            height: '400px',
+            anim: 'fade',
+            interval: '5000',
+          })
+        }
+      }).catch(err => new Error(err))
+      // 案例轮播
+      active.query('/decorate/cases/api/cases/').then(res => {
+        if (res.code === 'success') {
+          res.data.case.forEach(item => {
+            if (item.if_join_recommend) {
+              caseCarousel.push(item)
+              $caseCarousel.append(
+                `<li style="background: url(${item.cover_img}) no-repeat center / cover;"></li>`)
+            }
+          })
+          $caseInfo.children('h2').text(caseCarousel[0].title)
+          $caseInfo.children('p').text(caseCarousel[0].features_describe)
+          // case banner
+          carousel.render({
+            elem: '#case_carousel',
+            autoplay: false,
+            width: '100%',
+            height: '400px',
+            arrow: 'always',
+            indicator: 'none'
+          })
+        }
+      }).catch(err => new Error(err))
+
+      active.query('/decorate/articles/api/articles/').then(res => {
+        if (res.code === 'success') {
+          res.data.forEach(item => {
+            if (item.if_join_recommend) {
+              $articleList.append(`
+              <div class="article-item">
+                <div>
+                  <div class="article-cover-img" style="background: url(${item.cover_img})"></div>
+                  <h2>${item.title}</h2>
+                </div>
+              </div>
+              `.trim())
+            }
+          })
+        }
+      }).catch(err => {
+        new Error(err)
       })
       // 滑动切换监听事件
       carousel.on('change(case_carousel)', function (e) {
         $caseInfo.children('h2').text(caseCarousel[e.index].title)
-        $caseInfo.children('p').text(caseCarousel[e.index].indicator)
-      })
-      carousel.render({
-        elem: '#article_carousel',
-        autoplay: false,
-        width: '100%',
-        height: '400px',
-        arrow: 'always',
-        interval: '5000',
-        indicator: 'none'
+        $caseInfo.children('p').text(caseCarousel[e.index].features_describe)
       })
       let $apply = $('.apply')
+      // 申请
       $apply.on('click', function () {
         let $phone = $('#phone').val()
         let $area = $('#area').val()
@@ -311,7 +321,6 @@
           area: $area
         }
         active.query('', data, 'POST').then(res => {
-          console.log(res)
           if (res.data.code === 'success') {
             layer.open({
               title: '预约成功',

@@ -1,26 +1,20 @@
 const BASEURL = 'https://api.houyangguang.cn'
 $(function () {
-  $('#header').load('./header.html')
-  $('#footer').load('./footer.html')
-  // $('#footer').addClass('block-mt') 
+  $('#header').load('header.html')
+  $('#footer').load('footer.html')
 })
 var active = {
   query: function (api_url, data, method, headers) {
     return new Promise((resolve, reject) => {
       $.ajax({
-        url: `${api_url}`,
-        // url: `${BASEURL}${api_url}`,
+        url: `${BASEURL}${api_url}`,
         data: data || '',
         method: method || 'GET',
         headers: headers || {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        success: res => {
-          resolve(res)
-          if (res.status != 200)
-            reject(res.msg)
-        },
-        fail: err => new Error(err)
+        success: res => resolve(res),
+        fail: err => reject(err)
       })
     })
   },
@@ -41,13 +35,10 @@ var active = {
       area: config.area,
       move: false,
       success: function () {
-        if ($("#distpicker")[0])
-          $("#distpicker").distpicker()
+        if ($("#distpicker")[0]) $("#distpicker").distpicker()
         // 重新加载模块
-        if (modules.form)
-          modules.form.render()
-        if (modules.upload)
-          modules.upload.render()
+        if (modules.form) modules.form.render()
+        if (modules.upload) modules.upload.render()
       },
       yes: (index, layero) => {
         return new Promise((resolve, reject) => {
@@ -71,27 +62,13 @@ var active = {
           resolve(dataObj)
         }).then(r => {
           console.log(r)
-          return
-          $.ajax({
-            url: `${BASEURL}${api_url}`,
-            method: 'POST',
-            data: r,
-            dataType: 'json',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlcoded'
-            },
-            success: res => {
-              console.log(res)
-              active.successCallBack('提交成功', index)
-            },
-            fail: err => {
-              active.failCallBack('提交失败', err)
-            }
-          })
+          active.query(api_url, dataObj, 'POST')
+        }).then(c => {
+          console.log(c)
+          active.successCallBack('提交成功', index)
         }).catch(err => {
           if (!err) {
-            layer.msg('请输入完整的信息')
-            new Error(err)
+            active.failCallBack('请输入完整的信息', err)
           }
         })
       }
