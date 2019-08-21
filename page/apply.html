@@ -117,25 +117,6 @@
                 layer.msg(res.msg)
               }
             }).catch(err => new Error(err))
-            // $.ajax({
-            //   url: BASEURL + '/decorate/users/api/apply/loans/',
-            //   data,
-            //   method: 'POST',
-            //   dataType: 'json',
-            //   headers: {
-            //     'Content-Type': 'application/x-www-form-urlencoded'
-            //   },
-            //   success: function(res) {
-            //     console.log(res)
-            //     if(res.code === 'success'){
-            //       layer.msg('提交成功')
-            //       layer.close(index)
-            //     }
-            //   },
-            //   fail: function(err){
-            //     new Error(err)
-            //   }
-            // })
           }
         })
       })
