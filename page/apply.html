@@ -65,38 +65,79 @@
     layui.use(['element', 'layer'], function () {
       var element = layui.element
       var layer = layui.layer
-      let $apply = $('.apply-btn')
+      var $apply = $('.apply-btn')
       var content = `
       <h3 class="textC">请告诉我们以下信息方便我们联系到您</h3>
       <div class="layui-form">
         <div class="layui-form-item">
           <label class="layui-form-label">联系人</label>
           <div class="layui-input-block">
-            <input type="text" name="ownername" id="ownername" autocomplete="off" class="layui-input">
+            <input type="text" name="name" id="name" autocomplete="off" class="layui-input">
           </div>
         </div>
         <div class="layui-form-item">
           <label class="layui-form-label">手机号码</label>
           <div class="layui-input-block">
-            <input type="tel" name=("ownerphone" id="ownerphone" autocomplete="off" class="layui-input">
+            <input type="tel" maxlength="11" name="phone" id="phone" autocomplete="off" class="layui-input">
           </div>
         </div>
         <div class="layui-form-item">
           <label class="layui-form-label">所在地</label>
-          <div class="layui-input-block" id="distpicker" data-toggle="distpicker">
-            <select name="city" lay-verify="required" class="layui-input"></select>
-            <select name="city" lay-verify="required" class="layui-input"></select>
+          <div class="layui-input-block layui-col-space10" id="distpicker" data-toggle="distpicker">
+            <select name="province" lay-verify="required" id="province" class="layui-input layui-col-lg6"></select>
+            <select name="city" lay-verify="required" id="city" class="layui-input layui-col-lg6"></select>
           </div>
         </div>
       </div>
       `.trim()
       $apply.on('click', function () {
-        let config = {
+        layer.open({
           title: false,
-          content: content,
-          area: ['390px', '370px']
-        }
-        active.openForm(config, '/')
+          content,
+          area: ['390px', '370px'],
+          shadeClose: true,
+          closeBtn: false,
+          shade: .5,
+          move: false,
+          btn: '提交',
+          btnAlign: 'c',
+          success: function () {
+            $("#distpicker").distpicker()
+          },
+          yes: function (index, layero) {
+            var name = $('#name').val()
+            var phone = $('#phone').val()
+            var city = $('#province').val() + $('#city').val()
+            var data = { name, phone, city }
+            console.log(data)
+            active.query('/decorate/users/api/apply/loans/', data, 'POST').then(res => {
+              if (res.code === 'success') {
+                layer.msg('提交成功')
+              } else{
+                layer.msg(res.msg)
+              }
+            }).catch(err => new Error(err))
+            // $.ajax({
+            //   url: BASEURL + '/decorate/users/api/apply/loans/',
+            //   data,
+            //   method: 'POST',
+            //   dataType: 'json',
+            //   headers: {
+            //     'Content-Type': 'application/x-www-form-urlencoded'
+            //   },
+            //   success: function(res) {
+            //     console.log(res)
+            //     if(res.code === 'success'){
+            //       layer.msg('提交成功')
+            //       layer.close(index)
+            //     }
+            //   },
+            //   fail: function(err){
+            //     new Error(err)
+            //   }
+            // })
+          }
+        })
       })
     })
   </script>

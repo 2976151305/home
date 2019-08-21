@@ -10,9 +10,6 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../layui/css/layui.mobile.css">
   <script src="../js/jquery-1.11.3.min.js"></script>
-  <!--[if IE]>
-    <script src="../js/browser-polyfill.min.js"></script>
-  <![endif]-->
   <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -71,30 +68,6 @@
               <div class="mhn-img"></div>
             </div>
           </div>
-          <div class="mhn-item">
-            <div class="mhn-inner">
-              <img src="https://source.unsplash.com/600x400/?paper">
-              <div class="mhn-img"></div>
-            </div>
-          </div>
-          <div class="mhn-item">
-            <div class="mhn-inner">
-              <img src="https://source.unsplash.com/600x400/?paper">
-              <div class="mhn-img"></div>
-            </div>
-          </div>
-          <div class="mhn-item">
-            <div class="mhn-inner">
-              <img src="https://source.unsplash.com/600x400/?paper">
-              <div class="mhn-img"></div>
-            </div>
-          </div>
-          <div class="mhn-item">
-            <div class="mhn-inner">
-              <img src="https://source.unsplash.com/600x400/?paper">
-              <div class="mhn-img"></div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -140,11 +113,12 @@
       <h1 class="f-l">免费获取装修设计方案</h1>
       <div class="f-r layui-form">
         <div class="layui-input-inline mr30" data-toggle="distpicker">
-          <select name="city" lay-verify="required" class="layui-input"></select>
-          <select name="city" lay-verify="required" class="layui-input"></select>
+          <select name="province" id="province" lay-verify="required" class="layui-input"></select>
+          <select name="city" id="city" lay-verify="required" class="layui-input"></select>
         </div>
         <div class="layui-input-inline mr30">
-          <input type="text" class="layui-input" name="phone" id="phone" placeholder="填写手机号码" autocomplete="off">
+          <input type="text" class="layui-input" name="phone" id="phone" maxlength="11" placeholder="填写手机号码"
+            autocomplete="off">
         </div>
         <div class="layui-input-inline mr30">
           <input type="text" class="layui-input" name="area" id="area" placeholder="输入您的装修面积" autocomplete="off">
@@ -165,6 +139,7 @@
   <script src="../js/owl.carousel.min.js"></script>
   <script>
     var caseCarousel = []
+    var $carousel = $('#carousel ul')
     var $caseCarousel = $('#case_carousel ul')
     var $articleList = $('.home-article-list')
     var $caseInfo = $('.case-info')
@@ -241,15 +216,17 @@
       var layer = layui.layer
       active.query('/decorate/advertising/api/adverts/').then(res => {
         if (res.code === 'success') {
+          let arr = []
           res.data.forEach(item => {
             if (item.ad_location === '首页banner') {
-              $('#carousel ul').append(`
+              arr.push(`
               <li>
                 <a class="w h block" style="background: url(${item.image}) no-repeat center / cover;" href="${item.link_url ? item.link_url : 'javascript:;'}"></a>
               </li>
               `.trim())
             }
           })
+          $carousel.append(arr)
           // big banner
           carousel.render({
             elem: '#carousel',
@@ -261,15 +238,17 @@
         }
       }).catch(err => new Error(err))
       // 案例轮播
-      active.query('/decorate/cases/api/cases/').then(res => {
+      active.query('/decorate/cases/api/case/recommend/').then(res => {
         if (res.code === 'success') {
-          res.data.case.forEach(item => {
-            if (item.if_join_recommend) {
-              caseCarousel.push(item)
-              $caseCarousel.append(
-                `<li style="background: url(${item.cover_img}) no-repeat center / cover;"></li>`)
-            }
+          let arr = []
+          res.data.cases.forEach(item => {
+            caseCarousel.push(item)
+            arr.push(
+              `<li>
+                  <a class="w h block" href="./case.html?id=${item.id}" style="background: url(${item.cover_img}) no-repeat center / cover;"></a>
+                </li>`)
           })
+          $caseCarousel.append(arr)
           $caseInfo.children('h2').text(caseCarousel[0].title)
           $caseInfo.children('p').text(caseCarousel[0].features_describe)
           // case banner
@@ -286,18 +265,24 @@
 
       active.query('/decorate/articles/api/articles/').then(res => {
         if (res.code === 'success') {
+          let i = 0
+          let arr = []
           res.data.forEach(item => {
-            if (item.if_join_recommend) {
-              $articleList.append(`
-              <div class="article-item">
-                <div>
-                  <div class="article-cover-img" style="background: url(${item.cover_img})"></div>
-                  <h2>${item.title}</h2>
+            if (i < 5) {
+              if (item.if_join_recommend) {
+                arr.push(`
+                <article class="article-item">
+                  <article>
+                    <div class="article-cover-img" style="background: url(${item.cover_img})"></div>
+                    <h2 class="layui-elip">${item.title}</h2>
+                  </article>
                 </div>
-              </div>
               `.trim())
+                i++
+              }
             }
           })
+          $articleList.append(arr)
         }
       }).catch(err => {
         new Error(err)
@@ -312,31 +297,37 @@
       $apply.on('click', function () {
         let $phone = $('#phone').val()
         let $area = $('#area').val()
-        if (!area.length || !$phone.length) {
+        let $province = $('#province').val()
+        let $city = $('#city').val()
+        if (!$area.length || !$phone.length) {
           layer.msg('填写装修面积和手机号码之后才能免费预约哦！')
           return false
         }
         let data = {
           phone: $phone,
-          area: $area
+          area: $area,
+          city: $province + $city
         }
-        active.query('', data, 'POST').then(res => {
-          if (res.data.code === 'success') {
+        active.query('/decorate/cases/api/case/apply/', data, 'POST').then(res => {
+          console.log(res)
+          if (res.code === 'success') {
             layer.open({
               title: '预约成功',
               icon: 1,
               content: '稍后会有装修管家以xxxx或xxxx开头的号码回电您，向您免费提供装修咨询服务。',
               btn: '知道了',
-              shade: 0,
+              shade: .5,
               shadeClose: false
             })
-            localStorage.setItem('c', true)
-            $bottomBar.append(
-              '<a href="javascript:;" class="close-bottom-bar"><i class="layui-icon layui-icon-close"></i></a>'
-            )
-            $('.close-bottom-bar').on('click', function () {
-              $bottomBar.remove()
-            })
+            if (!localStorage.getItem('c')) {
+              localStorage.setItem('c', true)
+              $bottomBar.append(
+                '<a href="javascript:;" class="close-bottom-bar"><i class="layui-icon layui-icon-close"></i></a>'
+              )
+              $('.close-bottom-bar').on('click', function () {
+                $bottomBar.remove()
+              })
+            }
           } else {
             layer.msg(res.data.msg)
           }
