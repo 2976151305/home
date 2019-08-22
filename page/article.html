@@ -22,7 +22,15 @@
 
   <script src="../layui/layui.js"></script>
   <script>
-    layui.use(['element'])
+    jQuery(function(){
+      var id = active.getQueryString('id')
+      active.query(`/decorate/articles/api/article/detail/${id}`).then(res => {
+        console.log(res)
+      }).catch(err => new Error(err))
+    })
+    layui.use(['element'], function(){
+
+    })
   </script>
 </body>
 </html>

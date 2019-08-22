@@ -61,8 +61,21 @@ body {
   padding-right: 0;
 }
 
-.layui-flow-more{
+.layui-flow-more {
   clear: both;
+}
+
+.layui-btn {
+  border: none;
+}
+
+.layui-btn:hover {
+  opacity: 1;
+}
+
+.layui-btn-primary:hover {
+  border: none;
+  color: #fff;
 }
 
 @media screen and (min-width: 1230px) {
@@ -164,6 +177,8 @@ body {
 }
 
 .case-info p {
+  word-break: break-word;
+  word-break: break-all;
   line-height: 30px;
 }
 
@@ -237,6 +252,10 @@ body {
 /* -------------------装修现场 end------------------- */
 
 /* -------------------我们的优势------------------- */
+.advantage-box {
+  background: rgba(255, 255, 255, .89);
+}
+
 .advantage .advantage-box .advantage-item {
   position: relative;
   width: 540px;
@@ -348,7 +367,7 @@ body {
 /* -------------------apply.html end------------------- */
 
 /* -------------------case.html end------------------- */
-.case-img{
+.case-img {
   height: 400px;
 }
 
@@ -363,6 +382,32 @@ body {
 /* -------------------case.html end------------------- */
 
 /* -------------------konwlege.html------------------- */
+.tab-item div {
+  position: relative;
+}
+
+.tab-item div .shade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, .5);
+  opacity: 0;
+  -webkit-transition: opacity .5s ease;
+  -moz-transition: opacity .5s ease;
+  -o-transition: opacity .5s ease;
+  transition: opacity .5s ease;
+}
+
+.tab-item div:hover .shade {
+  opacity: 1;
+}
+
+.tab-content {
+  display: none;
+}
+
 .layui-article {
   width: 700px;
 }
@@ -373,8 +418,51 @@ body {
   margin-bottom: 20px;
 }
 
+.block-1>div {
+  height: 200px;
+}
+
+.block-1>div:first-of-type {
+  height: 400px;
+}
+
 .hot-block {
   width: 510px;
+}
+
+.hot-block .hot-list {
+  padding: 20px;
+  border: 1px solid #ddd;
+}
+
+.hot-block .hot-list h3 {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.hot-block .hot-list ul li {
+  margin-bottom: 10px;
+}
+
+.hot-block .hot-list ul li a {
+  font-size: 0;
+}
+
+.hot-block .hot-list ul li a em {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  background: rgb(189, 189, 189);
+  color: #fff;
+  vertical-align: middle;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.hot-block .hot-list ul li a span {
+  max-width: 418px;
+  font-size: 14px;
 }
 
 /* -------------------konwlege.html end------------------- */
@@ -420,17 +508,17 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, .6);
-  height: 100px;
-  line-height: 100px;
+  background: rgba(212, 209, 200, .7);
+  height: 106px;
+  line-height: 106px;
   font-size: 0;
   z-index: 999;
+  border: 1px solid #aeacaf;
 }
 
 .bottom-bar h1 {
-  font-weight: bold;
-  color: #fff;
-  font-size: 25px;
+  color: #000;
+  font-size: 30px;
 }
 
 .bottom-bar .layui-input-inline:last-of-type {
@@ -439,7 +527,11 @@ body {
 
 .bottom-bar .layui-form select {
   display: inline-block;
-  width: 120px;
+  min-width: unset;
+  width: 100px;
+  border: none;
+  background: transparent;
+  padding: 0 26px 0 0;
 }
 
 .bottom-bar .close-bottom-bar {
@@ -456,6 +548,15 @@ body {
   background: #fff;
   text-align: center;
 
+}
+
+.apply {
+  width: 200px;
+  height: 66px;
+  background: #000000;
+  color: #fff;
+  font-size: 26px;
+  border-radius: 10px;
 }
 
 /* -------------------底部浮动条 end------------------- */

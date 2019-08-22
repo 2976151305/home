@@ -25,67 +25,191 @@
         <img class="cover-img" style="height: 400px;">
       </div>
       <div class="layui-col-lg4">
-        <div class="layui-col-space10">
-          <div class="layui-col-lg6" style="height: 205px;">
-          <div style="height: 100%; background:#ddd;"></div>
-        </div>
-        <div class="layui-col-lg6" style="height: 205px;">
-          <div style="height: 100%; background:#ddd;"></div>
-        </div>
-        <div class="layui-col-lg12" style="height: 205px;">
-          <div style="height: 100%; background:#ddd;"></div>
-        </div>
-        </div>
-      </div>
-    </div>
-    <div class="layui-clear"></div>
-    <div class="textC block-mt">
-      <h1 class="block-title layui-inline">新房装修小知识</h1>
-    </div>
-    <div class="layui-col-space10">
-      <div class="layui-col-lg6" style="height: 400px;">
-        <div class="layui-col-lg12" style="background: #ddd; height: 100%;"></div>
-      </div>
-      <div class="layui-col-lg6" style="height: 200px;">
-        <div class="layui-col-lg12" style="background: #ddd; height : 100%;"></div>
-      </div>
-      <div class="layui-col-lg6" style="height: 200px;">
-        <div class="layui-col-lg12" style="background: #ddd; height: 100%;"></div>
-      </div>
-    </div>
-    <div class="layui-clear"></div>
-    <div class="layui-col-space10">
-      <div class="layui-article layui-border-box f-l">
-        <article class="layui-article-item">
-          <header class="article-header">
-            <h2>一升的邦韵乳胶漆刷三遍，能刷多少平方?</h2>
-            <div class="date">
-              <span>1234</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>发布时间&nbsp;&nbsp;2019-8-15</span>
+        <!-- 导航 -->
+        <div class="layui-col-space10 tab-list">
+          <div class="layui-col-lg6 tab-item" style="height: 205px;">
+            <div style="height: 100%; background:#ddd;">
+              <div class="shade"></div>
             </div>
-          </header>
-          <main class="article-body">
-            <img class="cover-img" style="height: 200px;">
-            <p>
-              水泥存储期过长，其活性将会降低。一般存储3个月以上的水泥，强度约降低10%---20%；六个月约降低15%---30%；一年后约降低25%----40%。对已进场的每批水泥，根据在场的存放情况重新采样检验其强度和安全性。
-            </p>
-          </main>
-          <footer class="textR">
-            <a href="javascript:;"><span>全文</span><i class="layui-icon layui-icon-next"></i></a>
-          </footer>
-        </article>
-      </div>
-      <div class="hot-block layui-border-box f-r">
-        <div style="padding: 20px; border: 1px solid #ddd;"></div>
+          </div>
+          <div class="layui-col-lg6 tab-item" style="height: 205px;">
+            <div style="height: 100%; background:#ddd;">
+              <div class="shade"></div>
+            </div>
+          </div>
+          <div class="layui-col-lg12 tab-item" style="height: 205px;">
+            <div style="height: 100%; background:#ddd;">
+              <div class="shade"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="layui-clear"></div>
+    <!-- 导航1 -->
+    <div class="tab-content">
+      <div class="textC block-mt">
+        <h1 class="block-title layui-inline">新房装修小知识</h1>
+      </div>
+      <!-- 模块1 -->
+      <div class="layui-col-space10 block-1"></div>
+      <div class="layui-clear"></div>
+      <div class="layui-col-space10">
+        <!-- 模块2 -->
+        <div class="layui-article layui-border-box f-l"></div>
+        <!-- 模块3 -->
+        <div class="hot-block layui-border-box f-r">
+          <div class="hot-list">
+            <h3 class="textC">热门话题</h3>
+            <ul></ul>
+          </div>
+        </div>
+      </div>
+      <div class="layui-clear"></div>
+    </div>
+    <div class="tab-content"></div>
+    <div class="tab-content">
+      <!-- 模块1 -->
+      <div class="layui-col-space10 block-1"></div>
+      <div class="layui-clear"></div>
+      <div class="layui-col-space10">
+        <!-- 模块2 -->
+        <div class="layui-article layui-border-box f-l"></div>
+        <!-- 模块3 -->
+        <div class="hot-block layui-border-box f-r">
+          <div class="hot-list">
+            <h3 class="textC">热门话题</h3>
+            <ul></ul>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
   <footer id="footer"></footer>
 
   <script src="../layui/layui.js"></script>
   <script>
+    jQuery(function () {
+      var $tabItem = $('.tab-list')
+      var $tabContent = $('.tab-content')
+      var $block1 = $('.block-1')
+      var $articleList = $('.layui-article')
+      var $hotList = $('.hot-block .hot-list ul')
+      $tabItem.children('div').on('click', function () {
+        var index = $(this).index()
+        $tabContent.siblings('.tab-content').removeClass('layui-show layui-anim layui-anim-fadein')
+        $tabContent.eq(index).addClass('layui-show layui-anim layui-anim-fadein')
+      })
+      // var tabContent = document.querySelectorAll('.tab-content')
+      active.query('/decorate/articles/api/articles/').then(res => {
+        console.log(res)
+        var arr1 = [
+            [],
+            [],
+            []
+          ],
+          arr2 = [
+            [],
+            [],
+            []
+          ],
+          arr3 = [
+            [],
+            [],
+            []
+          ]
+        res.data.forEach(item => {
+          if (item.navigation_bar === "导航1") {
+            var i1 = 1
+            if (item.location === "文章预览区(模块3)") {
+              if (arr1[0].length < 3) {
+                arr1[0].push(`
+                <div class="layui-col-lg6">
+                  <div class="layui-col-lg12" style="background: url(${item.cover_img}) #ddd no-repeat center / cover; height: 100%;"></div>
+                </div>
+                `.trim())
+              }
+            } else if (item.location === "文章展示区(模块4)") {
+              arr1[1].push(`
+              <article class="layui-article-item">
+                <header class="article-header">
+                  <h2>${item.title}</h2>
+                  <div class="date">
+                    <span>浏览次数：${item.numbers}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>发布时间：${item.create}</span>
+                  </div>
+                </header>
+                <main class="article-body">
+                  <img class="cover-img" src="${item.cover_img}">
+                  <p>${item.introduction}</p>
+                </main>
+                <footer class="textR">
+                  <a href="./article.html?id=${item.id}"><span>全文</span><i class="layui-icon layui-icon-next"></i></a>
+                </footer>
+              </article>
+              `.trim())
+            } else if (item.location === "文章话题区(模块5)") {
+              arr1[2].push(`
+              <li>
+                <a class="layui-inline" href="./article.html?id=${item.id}">
+                  <em class="layui-inline">${i1}</em>
+                  <span class="layui-inline layui-elip">${item.title}</span>
+                </a>
+              </li>
+              `.trim())
+              i1++
+            }
+          }
+          if (item.navigation_bar === "导航2") {
+            if (item.location === "文章预览区(模块3)") {
+              arr2[0].push(item)
+            } else if (item.location === "文章展示区(模块4)") {
+              arr2[1].push(item)
+            } else if (item.location === "文章话题区(模块5)") {
+              arr2[2].push(item)
+            }
+          }
+          if (item.navigation_bar === "导航3") {
+            if (item.location === "文章预览区(模块3)") {
+              arr3[0].push(`
+                <div class="layui-col-lg6">
+                  <div class="layui-col-lg12" style="background: url(${item.cover_img}) #ddd no-repeat center / cover; height: 100%;"></div>
+                </div>
+                `.trim())
+            } else if (item.location === "文章展示区(模块4)") {
+              arr3[1].push(`
+              <article class="layui-article-item">
+                <header class="article-header">
+                  <h2>${item.title}</h2>
+                  <div class="date">
+                    <span>浏览次数：${item.numbers}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>发布时间：${item.create}</span>
+                  </div>
+                </header>
+                <main class="article-body">
+                  <img class="cover-img" src="${item.cover_img}">
+                  <p>${item.introduction}</p>
+                </main>
+                <footer class="textR">
+                  <a href="./article.html?id=${item.id}"><span>全文</span><i class="layui-icon layui-icon-next"></i></a>
+                </footer>
+              </article>
+              `.trim())
+            } else if (item.location === "文章话题区(模块5)") {
+              arr3[2].push()
+            }
+          }
+        })
+        console.log(arr1, arr2, arr3)
+        $tabContent.eq(0).addClass('layui-show layui-anim layui-amin-fadein')
+        $block1.append(arr1[0])
+        $articleList.append(arr1[1])
+        $hotList.append(arr1[2])
+      }).catch(err => new Error(err))
+    })
     layui.use(['element'], function () {
       var element = layui.element
+      element.on('tab(change)', function () {
+        console.log(index)
+      })
     })
   </script>
 </body>

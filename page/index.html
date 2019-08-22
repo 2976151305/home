@@ -62,33 +62,35 @@
       </div>
       <div class="layui-border-box">
         <div class="mhn-slide owl-carousel">
-          <div class="mhn-item">
+          <!-- <div class="mhn-item">
             <div class="mhn-inner">
               <img src="https://source.unsplash.com/600x400/?paper">
               <div class="mhn-img"></div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
-    <div class="layui-container block-pt advantage">
+    <div class="block-pt advantage">
       <div class="textC">
         <h1 class="block-title layui-inline">我们的优势</h1>
       </div>
       <div class="advantage-box">
-        <div class="advantage-item f-l">
-          <div class="b"></div>
-          <div class="img-box">
-            <img class="cover-img" style="height: 100%;">
+        <div class="layui-container">
+          <div class="advantage-item layui-col-lg6">
+            <div class="b"></div>
+            <div class="img-box">
+              <img class="cover-img" style="height: 100%;">
+            </div>
+            <div class="layui-inline go-detail textC">查看详情</div>
           </div>
-          <div class="layui-inline go-detail textC">查看详情</div>
-        </div>
-        <div class="advantage-item f-r">
-          <div class="b"></div>
-          <div class="img-box">
-            <img class="cover-img" style="height: 100%;">
+          <div class="advantage-item layui-col-lg6">
+            <div class="b"></div>
+            <div class="img-box">
+              <img class="cover-img" style="height: 100%;">
+            </div>
+            <div class="layui-inline go-detail textC">查看详情</div>
           </div>
-          <div class="layui-inline go-detail textC">查看详情</div>
         </div>
       </div>
       <div class="layui-clear"></div>
@@ -124,7 +126,7 @@
           <input type="text" class="layui-input" name="area" id="area" placeholder="输入您的装修面积" autocomplete="off">
         </div>
         <div class="layui-input-inline">
-          <button class="layui-btn layui-btn-primary apply"> 立即免费获取</button>
+          <button class="layui-btn layui-btn-primary apply">立即免费获取</button>
         </div>
       </div>
       <div class="layui-clear"></div>
@@ -153,62 +155,44 @@
           $bottomBar.remove()
         })
       }
-      // active.query('').then(res => {
-      //   console.log(res)
-      //   let arr = []
-      //   res.data.map(item, index => {
-      //     console.log(item)
-      //     arr.push(`
-      //     <div class="mhn-item">
-      //       <div class="mhn-inner">
-      //         <div class="mhn-img" style="background: url(${item.cover_img}) no-repeat center / cover;"></div>
-      //       </div>
-      //     </div>`.trim())
-      //   })
-      //   $('.mhn-slide').append(arr)
-      //   $('.mhn-slide').owlCarousel({
-      //     nav: true,
-      //     //loop:true,
-      //     slideBy: 'page',
-      //     rewind: false,
-      //     responsive: {
-      //       350: {
-      //         items: 1
-      //       },
-      //       768: {
-      //         items: 2
-      //       },
-      //       992: {
-      //         items: 3
-      //       },
-      //       1220: {
-      //         items: 4
-      //       }
-      //     },
-      //     smartSpeed: 500,
-      //     // onInitialized: function (e) {
-      //     //   $(e.target).find('img').each(function () {
-      //     //     if (this.complete) {
-      //     //       $(this).closest('.mhn-inner').find('.loader-circle').hide();
-      //     //       $(this).closest('.mhn-inner').find('.mhn-img').css('background-image', 'url(' + $(e
-      //     //           .target)
-      //     //         .attr('src') + ')');
-      //     //     } else {
-      //     //       $(this).bind('load', function (e) {
-      //     //         $(e.target).closest('.mhn-inner').find('.loader-circle').hide();
-      //     //         $(e.target).closest('.mhn-inner').find('.mhn-img').css('background-image',
-      //     //           'url(' + $(
-      //     //             e.target).attr('src') + ')');
-      //     //       });
-      //     //     }
-      //     //   });
-      //     // },
-      //     navText: [
-      //       '<svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>',
-      //       '<svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>'
-      //     ]
-      //   });
-      // })
+      active.query('/decorate/advertising/api/adverts/decorate/scene/').then(res => {
+        console.log(res)
+        let arr = []
+        res.data.forEach(item => {
+          arr.push(`
+          <div class="mhn-item">
+            <div class="mhn-inner">
+              <div class="mhn-img" style="background: url(${item.image}) no-repeat center / cover;"></div>
+            </div>
+          </div>`.trim())
+        })
+        $('.mhn-slide').append(arr)
+        $('.mhn-slide').owlCarousel({
+          nav: true,
+          //loop:true,
+          slideBy: 'page',
+          rewind: false,
+          responsive: {
+            350: {
+              items: 1
+            },
+            768: {
+              items: 2
+            },
+            992: {
+              items: 3
+            },
+            1220: {
+              items: 4
+            }
+          },
+          smartSpeed: 500,
+          navText: [
+            '<svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>',
+            '<svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>'
+          ]
+        });
+      })
     })
     layui.use(['element', 'carousel', 'layer'], function () {
       var element = layui.element
@@ -231,7 +215,7 @@
           carousel.render({
             elem: '#carousel',
             width: '100%',
-            height: '400px',
+            height: '670px',
             anim: 'fade',
             interval: '5000',
           })
@@ -273,7 +257,7 @@
                 arr.push(`
                 <article class="article-item">
                   <article>
-                    <div class="article-cover-img" style="background: url(${item.cover_img})"></div>
+                    <div class="article-cover-img" style="background: url(${item.cover_img}) no-repeat center / cover"></div>
                     <h2 class="layui-elip">${item.title}</h2>
                   </article>
                 </div>

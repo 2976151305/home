@@ -4,6 +4,13 @@ $(function () {
   $('#footer').load('footer.html')
 })
 var active = {
+  /**
+   * ajax封装
+   * @param {string} api_url api地址
+   * @param {obj} data data
+   * @param {string} method 方法
+   * @param {object} headers 请求头
+   */
   query: function (api_url, data, method, headers) {
     return new Promise((resolve, reject) => {
       $.ajax({

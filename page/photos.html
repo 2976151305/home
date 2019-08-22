@@ -9,11 +9,11 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../layui/css/layui.mobile.css">
   <script src="../js/jquery-1.11.3.min.js"></script>
-  <script src="../js/mian.js"></script>
   <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <script src="../js/mian.js"></script>
   <title>Document</title>
 </head>
 
@@ -36,32 +36,30 @@
 
   <script src="../layui/layui.js"></script>
   <script>
-    jQuery(function () {
-      $.ajax({
-        url: '../js/data.json',
-        dataType: 'json',
-        success: res => {
-          let imgArr = []
-          res.data[0].list.forEach((item, index) => {
-            // console.log(item)
-            imgArr.push(`<img src="${item.cover_img}" layer-src="${item.cover_img}" alt="${item.title}"/>`)
-          });
-          $('.photos').append(imgArr)
-        },
-        fail: err => new Error(err)
-      })
-    })
-    layui.use(['element', 'layer'], function () {
+    jQuery(function () {})
+    layui.use(['element', 'layer', 'flow'], function () {
       var element = layui.element
       var layer = layui.layer
-      layer.photos({
-        photos: '.photos',
-        anim: 5,
-        move: false,
-        tab: function (pic, layero) {
-          console.log(pic)
+      var flow = layui.flow
+      active.query('/decorate/rendering/api/renderings/').then(res => {
+        console.log(res)
+        if (res.code === 'success') {
+          let imgArr = []
+          res.data.forEach(item => {
+            imgArr.push(
+              `<img class="cover-img" layer-src="${item.cover_img}" src="${item.cover_img}" alt="${item.name}">`
+              .trim()
+            )
+          })
+          $('.photos').append(imgArr)
+          layer.photos({
+            photos: '.photos',
+            anim: 5,
+            move: false,
+            tab: function (pic, layero) {}
+          })
         }
-      })
+      }).catch(err => new Error(err))
     })
   </script>
 </body>
