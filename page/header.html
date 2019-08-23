@@ -15,32 +15,35 @@
   </div>
 </div>
 <div class="layui-clear"></div>
-<div class="layui-container">
-  <div class="logo"></div>
-  <nav>
-    <ul class="layui-nav">
-      <li class="layui-nav-item"><a href="./">首页</a></li>
-      <li class="layui-nav-item"><a href="./">装修案例</a></li>
-      <li class="layui-nav-item"><a href="./">智能家居</a></li>
-      <li class="layui-nav-item"><a href="./knowlege.html">装修知识</a></li>
-      <li class="layui-nav-item"><a href="./photos.html">装修效果图</a></li>
-      <li class="layui-nav-item"><a href="./">关于我们</a></li>
-      <li class="layui-nav-item"><a href="./">个人中心</a></li>
+<div class="layui-container header-nav">
+  <div class="logo layui-col-lg3">
+    <img src="../images/logo.png">
+  </div>
+  <nav class="navigation layui-col-lg9">
+    <ul class="textR">
+      <li><a href="./">首页</a></li>
+      <li><a href="./">装修案例</a></li>
+      <li><a href="./">智能家居</a></li>
+      <li><a href="./knowlege.html">装修知识</a></li>
+      <li><a href="./photos.html">装修效果图</a></li>
+      <li><a href="./">关于我们</a></li>
+      <li><a href="./">个人中心</a></li>
     </ul>
   </nav>
+  <div class="layui-clear"></div>
 </div>
 
 <script>
   var path = window.location.pathname.split('/')
   path = path[path.length - 1]
-  var $navItem = $('nav .layui-nav li')
+  var $navItem = $('.navigation ul li')
   $navItem.each((i, item) => {
     var itemPath = $(item).find('a').attr('href').split('/')[1]
     if (path === '' && i === 0) {
-      $(item).addClass('layui-this')
+      $(item).find('a').addClass('active')
     }
     if (itemPath === path && itemPath != "") {
-      $(item).addClass('layui-this')
+      $(item).find('a').addClass('active')
     }
   })
 </script>
