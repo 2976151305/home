@@ -26,7 +26,7 @@
   </div>
 
   <main>
-    <div class="layui-container case">
+    <div class="case marginAuto">
       <div class="textR title f-r block-pt100 block-mb60">
         <h1>真实案例</h1>
         <span class="letter-spacing3 block">TURE CASE</span>
@@ -36,13 +36,13 @@
         <h4>简约舒适大气</h4>
         <span>Simple and comfortable, high grade</span>
       </div>
-      <div class="layui-col-lg8">
+      <div class="case-carousel-main">
         <div id="case_carousel" class="layui-carousel" lay-filter="case_carousel">
           <ul carousel-item></ul>
         </div>
       </div>
-      <div class="layui-col-lg4">
-        <div class="case-info">
+      <div class="case-info">
+        <div class="case-info-content f-r">
           <h2></h2>
           <p class="textJ"></p>
         </div>
@@ -58,9 +58,7 @@
       </div>
       <div class="smart-box">
         <img class="cover-img" src="../images/bg2.jpg" id="smart-img">
-        <div class="smart-shade">
-
-        </div>
+        <div class="smart-shade"></div>
       </div>
     </div>
     <div>
@@ -172,7 +170,7 @@
     var $carousel = $('#carousel ul')
     var $caseCarousel = $('#case_carousel ul')
     var $articleList = $('.home-article-list')
-    var $caseInfo = $('.case-info')
+    var $caseInfo = $('.case-info .case-info-content')
     var $bottomBar = $('.bottom-bar')
     var $effect = $('.effect')
     var $smart = $('.smart-box')
@@ -197,42 +195,43 @@
         })
       }
       active.query('/decorate/advertising/api/adverts/decorate/scene/').then(res => {
-        console.log(res)
-        let arr = []
-        res.data.forEach(item => {
-          arr.push(`
-          <div class="mhn-item">
-            <div class="mhn-inner">
-              <div class="mhn-img" style="background: url(${item.image}) no-repeat center / cover;"></div>
-            </div>
-          </div>`.trim())
-        })
-        $('.mhn-slide').append(arr)
-        $('.mhn-slide').owlCarousel({
-          nav: true,
-          //loop:true,
-          slideBy: 'page',
-          rewind: false,
-          responsive: {
-            350: {
-              items: 1
+        if (res.code === 'success') {
+          let arr = []
+          res.data.forEach(item => {
+            arr.push(`
+            <div class="mhn-item">
+              <div class="mhn-inner">
+                <div class="mhn-img" style="background: url(${item.image}) no-repeat center / cover;"></div>
+              </div>
+            </div>`.trim())
+          })
+          $('.mhn-slide').append(arr)
+          $('.mhn-slide').owlCarousel({
+            nav: true,
+            //loop:true,
+            slideBy: 'page',
+            rewind: false,
+            responsive: {
+              350: {
+                items: 1
+              },
+              768: {
+                items: 2
+              },
+              992: {
+                items: 3
+              },
+              1220: {
+                items: 4
+              }
             },
-            768: {
-              items: 2
-            },
-            992: {
-              items: 3
-            },
-            1220: {
-              items: 4
-            }
-          },
-          smartSpeed: 500,
-          navText: [
-            '<i class="layui-icon layui-icon-prev"></i>',
-            '<i class="layui-icon layui-icon-next"></i>'
-          ]
-        });
+            smartSpeed: 500,
+            navText: [
+              '<i class="layui-icon layui-icon-prev"></i>',
+              '<i class="layui-icon layui-icon-next"></i>'
+            ]
+          })
+        }
       })
     })
     layui.use(['element', 'carousel', 'layer'], function () {
@@ -313,7 +312,6 @@
         new Error(err)
       })
       active.query('/decorate/rendering/api/renderings/').then(res => {
-        console.log(res)
         if (res.code === 'success') {
           let arr = []
           let i = 0
