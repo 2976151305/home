@@ -17,10 +17,6 @@ body {
   color: #333;
 }
 
-.layui-input-inline {
-  font-size: 14px;
-}
-
 .layui-carousel-ind {
   width: 1230px;
   padding: 0 15px;
@@ -108,8 +104,8 @@ body {
   height: 100%;
 }
 
-.mr30 {
-  margin-right: 30px;
+.mr15 {
+  margin-right: 15px;
 }
 
 .textC {
@@ -550,21 +546,21 @@ body {
   margin-bottom: 0;
 }
 
-.article-item>article {
+.article-item article {
   overflow: hidden;
   font-size: 0;
 }
 
-.article-item:first-of-type>article {
+.article-item:first-of-type article {
   margin-right: 50px;
   position: relative;
 }
 
-.article-item>article>.article-cover-img {
+.article-item article .article-cover-img {
   display: inline-block;
   width: 164px;
   height: 112px;
-  vertical-align: top;
+  vertical-align: middle;
 }
 
 .article-item h2 {
@@ -574,7 +570,22 @@ body {
   font-size: 24px;
 }
 
-.article-item:first-of-type div {
+.article-item .article-introduction {
+  display: -webkit-box;
+  width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  margin-left: 17px;
+  margin-top: 8px;
+  line-height: 25px;
+  font-size: 19px;
+  color: #333;
+  text-align: justify;
+}
+
+.article-item:first-of-type article .article-cover-img {
   width: 667px;
   height: 478px;
 }
@@ -607,6 +618,10 @@ body {
   transition: all .3s ease;
 }
 
+.article-item:first-of-type article p {
+  display: none;
+}
+
 .article-item:first-of-type:hover h2 {
   -webkit-transform: translateY(0);
   -moz-transform: translateY(0);
@@ -621,6 +636,15 @@ body {
 /* -------------------装修效果图------------------- */
 .percent-box {
   padding-top: 90%;
+}
+
+.effect-box {
+  padding-bottom: 58px;
+  margin-bottom: 100px;
+}
+
+.effect {
+  overflow: hidden;
 }
 
 .effect-item {
@@ -668,6 +692,71 @@ body {
 .effect-item:hover .effect-shade {
   transform: none;
   opacity: 1;
+}
+
+.effect-shade h3 {
+  position: relative;
+  line-height: 33px;
+  margin-top: 30%;
+  padding-bottom: 7px;
+  font-size: 33px;
+  text-align: center;
+  font-family: initial;
+}
+
+.effect-shade h3::after{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0px;
+  height: 1px;
+  background: #fff;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+  -webkit-transition: width .5s ease;
+  -moz-transition: width  .5s ease;
+  -o-transition: width  .5s ease;
+  transition: width .5s ease;
+}
+
+.effect-item:hover .effect-shade h3::after{
+  width: 152px;
+}
+
+.effect-bg {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+  z-index: -1;
+}
+
+.effect-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+  opacity: 0;
+}
+
+.o1 {
+  position: absolute;
+  bottom: 23px;
+  left: -45px;
+}
+
+.o2 {
+  position: absolute;
+  bottom: -18px;
+  right: -200px;
 }
 
 /* -------------------装修效果图 end------------------- */
@@ -783,6 +872,13 @@ body {
 
 /* -------------------konwlege.html end------------------- */
 
+/* -------------------register.html------------------- */
+.get-code {
+  cursor: pointer;
+}
+
+/* -------------------register.html end------------------- */
+
 /* -------------------页脚------------------- */
 .layui-footer {
   background: url(../images/footer.jpg) no-repeat center / cover;
@@ -833,8 +929,8 @@ body {
   left: 0;
   right: 0;
   background: rgba(212, 209, 200, .7);
-  height: 106px;
-  line-height: 106px;
+  height: 110px;
+  line-height: 110px;
   font-size: 0;
   z-index: 999;
   border: 1px solid #aeacaf;
@@ -856,20 +952,31 @@ body {
   border: none;
   background: transparent;
   padding: 0 26px 0 0;
+  vertical-align: middle;
+  font-size: 24px;
+  color: #000;
+}
+
+.bottom-bar input {
+  width: 204px;
+  text-align: center;
+  height: 46px;
+  line-height: 46px;
+  font-size: 24px;
+  color: #999;
+  padding: 0;
 }
 
 .bottom-bar .close-bottom-bar {
   position: absolute;
   right: 40px;
-  top: 35px;
+  top: 40px;
   width: 30px;
   height: 30px;
   line-height: 30px;
-  border-radius: 50%;
   color: #333;
   font-weight: bold;
   font-size: 18px;
-  background: #fff;
   text-align: center;
 
 }
@@ -881,6 +988,7 @@ body {
   color: #fff;
   font-size: 26px;
   border-radius: 10px;
+  margin-left: 70px;
 }
 
 /* -------------------底部浮动条 end------------------- */

@@ -120,37 +120,41 @@
           <span class="block">Decoration of small classrooms</span>
         </div>
       </div>
-      <div class="home-article-list">
-      </div>
+      <div class="home-article-list"></div>
       <div class="layui-clear"></div>
     </div>
-    <div class="layui-container">
+    <div class="effect-box layui-container">
       <div class="textC block-mt100 block-mb60">
         <div class="textL title marginAuto layui-inline">
           <h1>装修效果图</h1>
           <span class="block">Decoration effect</span>
         </div>
       </div>
-      <div class="effect layui-col-space18">
+      <div class="effect layui-col-space18"></div>
+      <div class="layui-clear"></div>
+      <div class="effect-bg">
+        <img src="../images/bg3.jpg">
       </div>
+      <img src="../images/o1.png" class="o1">
+      <img src="../images/o2.png" class="o2">
     </div>
     <div class="layui-clear"></div>
   </main>
   <!-- 底部浮动条 -->
   <div class="bottom-bar">
     <div class="layui-container">
-      <h1 class="f-l">免费获取装修设计方案</h1>
+      <h1 class="f-l">免费获取装修方案</h1>
       <div class="f-r layui-form">
-        <div class="layui-input-inline mr30" data-toggle="distpicker">
+        <div class="layui-input-inline" data-toggle="distpicker">
           <select name="province" id="province" lay-verify="required" class="layui-input"></select>
           <select name="city" id="city" lay-verify="required" class="layui-input"></select>
         </div>
-        <div class="layui-input-inline mr30">
+        <div class="layui-input-inline mr15">
           <input type="text" class="layui-input" name="phone" id="phone" maxlength="11" placeholder="填写手机号码"
             autocomplete="off">
         </div>
-        <div class="layui-input-inline mr30">
-          <input type="text" class="layui-input" name="area" id="area" placeholder="输入您的装修面积" autocomplete="off">
+        <div class="layui-input-inline">
+          <input type="text" class="layui-input" name="area" id="area" placeholder="输入装修面积" autocomplete="off">
         </div>
         <div class="layui-input-inline">
           <button class="layui-btn layui-btn-primary apply">立即免费获取</button>
@@ -267,10 +271,10 @@
           let arr = []
           res.data.cases.forEach(item => {
             caseCarousel.push(item)
-            arr.push(
-              `<li>
-                  <a class="w h block" href="./case.html?id=${item.id}" style="background: url(${item.cover_img}) no-repeat center / cover;"></a>
-                </li>`)
+            arr.push(`
+            <li>
+              <a class="w h block" href="./case.html?id=${item.id}" style="background: url(${item.cover_img}) no-repeat center / cover;"></a>
+            </li>`)
           })
           $caseCarousel.append(arr)
           $caseInfo.children('h2').text(caseCarousel[0].title)
@@ -288,6 +292,7 @@
       }).catch(err => new Error(err))
 
       active.query('/decorate/articles/api/articles/').then(res => {
+        console.log(res.data)
         if (res.code === 'success') {
           let i = 0
           let arr = []
@@ -297,8 +302,13 @@
                 arr.push(`
                 <article class="article-item">
                   <article>
-                    <div class="article-cover-img" style="background: url(${item.cover_img}) no-repeat center / cover"></div>
-                    <h2 class="layui-elip">${item.title}</h2>
+                    <a class="block" href="./article.html?id=${item.id}">
+                      <div class="article-cover-img" style="background: url(${item.cover_img}) no-repeat center / cover"></div>
+                      <div class="layui-inline">
+                        <h2 class="layui-elip">${item.title}</h2>
+                        <p class="article-introduction">${item.introduction}</p>
+                      </div>
+                    </a>
                   </article>
                 </div>
               `.trim())
@@ -313,6 +323,7 @@
       })
       active.query('/decorate/rendering/api/renderings/').then(res => {
         if (res.code === 'success') {
+          console.log(res.data)
           let arr = []
           let i = 0
           res.data.forEach(item => {
@@ -322,10 +333,11 @@
               <div class="layui-col-lg4">
                 <div class="effect-item">
                   <div class="percent-box"></div>
-                  <div class="effect-img-box" layer-src="${item.cover_img}" style="background: url(${item.cover_img}) no-repeat center / cover;"></div>
+                  <div class="effect-img-box" style="background: url(${item.cover_img}) no-repeat center / cover;"></div>
                   <div class="effect-shade">
                     <h3>${item.name}</h3>
                   </div>
+                  <img layer-src="${item.cover_img}" class="effect-img" alt="${item.name}">
                 </div>
               </div>
               `.trim())
@@ -333,6 +345,12 @@
             }
           })
           $effect.append(arr)
+          layer.photos({
+            photos: '.effect',
+            anim: 5,
+            move: false,
+            tab: function (pic, layero) {}
+          })
         }
       }).catch(err => new Error(err))
       // 滑动切换监听事件
