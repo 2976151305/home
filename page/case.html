@@ -41,7 +41,14 @@
         </ul>
       </div>
       <div class="layui-tab-content layui-container">
-        <div class="layui-tab-item layui-show"></div>
+        <div class="layui-tab-item layui-show">
+          <div class="diy-table">
+            <div class="diy-table-header diy-table-row">
+              <div class="diy-table-column diy-table-type">类型</div>
+            </div>
+            <div class="diy-table-body"></div>
+          </div>
+        </div>
         <div class="layui-tab-item"></div>
         <div class="layui-tab-item">
           <img class="cover-img" height="400px;">
@@ -65,12 +72,16 @@
   <script src="../layui/layui.js"></script>
   <script>
     jQuery(function () {
+      var $tabItem = $('.case-tab .layui-tab-title li')
       var $coverImg = $('.article-detail-top .case-img')
       var $title = $('.article-detail-top .case-info > h2')
       var $content = $('.article-detail-top .case-info > p')
       let $tabContent = $('.case-detail .layui-tab-content')
       var id = active.getQueryString('id')
       active.query(`/decorate/cases/api/case/detail/${id}/`).then(res => {
+        console.log(res)
+        let template1 = ``
+        let template2 = ``
         if (res.code === 'success') {
           let data = res.data[0]
           $coverImg.attr('style', `background: url(${data.cover_img}) no-repeat center / cover`)
@@ -78,13 +89,15 @@
           $content.text(data.features_describe)
         }
       }).catch(err => new Error(err))
+      $tabItem.on('click', function () {
+        var $tabItem = $(this).parents().find('.case-tab').siblings('.layui-tab-content').children('.layui-tab-item');
+        $tabItem.removeClass('layui-anim layui-anim-fadein');
+        $tabItem.eq($(this).index()).addClass('layui-anim layui-anim-fadein');
+      })
     })
     layui.use(['element', 'flow'], function () {
       var element = layui.element
       var flow = layui.flow
-      element.on('tab(change)', function () {
-        active.tabChangeAnimate($(this))
-      })
       flow.load({
         elem: '.more-case',
         done: function (page, next) {
