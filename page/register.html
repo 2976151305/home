@@ -9,11 +9,12 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../layui/css/layui.mobile.css">
   <script src="../js/jquery-1.11.3.min.js"></script>
-  <script src="../js/mian.js"></script>
   <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <script src="../dist/js/mian.js"></script>
+  <!-- <script src="../dist/js/mian.js"></script> -->
   <title>注册</title>
 </head>
 
@@ -87,6 +88,7 @@
   <footer id="footer"></footer>
   <script src="../layui/layui.js"></script>
   <script>
+    if (localStorage.getItem('uid')) window.location.href = "./"
     var $getCode = $('.get-code')
     var $phone = $("input[name='phone']")
     jQuery(function () {

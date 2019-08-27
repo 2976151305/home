@@ -13,19 +13,19 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
-  <script src="../js/mian.js"></script>
+  <script src="../dist/js/mian.js"></script>
   <title>案例详情</title>
 </head>
 
 <body>
   <header id="header"></header>
-  <main class="layui-container case-detail">
-    <div class="article-detail-top layui-col-space20">
-      <div class="layui-col-lg8">
+  <main class="case-detail">
+    <div class="article-detail-top">
+      <div class="layui-col-lg6">
         <div class="case-img"></div>
       </div>
-      <div class="layui-col-lg4">
-        <div class="case-info textC">
+      <div class="layui-col-lg6">
+        <div class="case-info">
           <h2></h2>
           <p class="textJ"></p>
         </div>
@@ -33,26 +33,30 @@
     </div>
     <div class="layui-clear"></div>
     <div class="layui-tab layui-tab-brief" lay-filter="change">
-      <ul class="layui-tab-title textC block-mb">
-        <li class="layui-this">案例详情</li>
-        <li>物品清单</li>
-        <li>售后保障</li>
-      </ul>
-      <div class="layui-tab-content">
-        <div class="layui-tab-item layui-show">
-          1
-        </div>
-        <div class="layui-tab-item">
-          1
-        </div>
+      <div class="case-tab">
+        <ul class="layui-tab-title textC layui-container">
+          <li class="layui-this layui-col-lg4">案例详情</li>
+          <li class="layui-col-lg4">物品清单</li>
+          <li class="layui-col-lg4">售后保障</li>
+        </ul>
+      </div>
+      <div class="layui-tab-content layui-container">
+        <div class="layui-tab-item layui-show"></div>
+        <div class="layui-tab-item"></div>
         <div class="layui-tab-item">
           <img class="cover-img" height="400px;">
         </div>
       </div>
+      <div class="layui-clear"></div>
     </div>
-    <div class="block-mt">
-      <h2 class="textC">更多案例</h2>
-      <div class="more-case layui-col-space20"></div>
+    <div class="layui-container">
+      <div class="textC block-mb60 block-mt60">
+        <div class="textL title marginAuto layui-inline">
+          <h1>更多案例</h1>
+          <span class="block">MORE CASE</span>
+        </div>
+      </div>
+      <div class="more-case layui-col-space18"></div>
     </div>
     <div class="layui-clear"></div>
   </main>
@@ -85,13 +89,15 @@
         elem: '.more-case',
         done: function (page, next) {
           let list = []
-          active.query('/decorate/cases/api/cases/', {page}).then(res => {
+          active.query('/decorate/cases/api/cases/', {
+            page
+          }).then(res => {
             if (res.code === 'success') {
               layui.each(res.data.cases, function (index, item) {
                 list.push(`
                 <div class="layui-col-lg4 more-case-item">
                   <a href="./case.html?id=${item.id}" class="layui-show-lg-block">
-                    <div class="b">
+                    <div class="percent-box">
                       <div class="img-box" style="background: url(${item.cover_img}) no-repeat center / cover"></div>
                     </div>
                   </a>

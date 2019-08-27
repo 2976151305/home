@@ -9,22 +9,77 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../layui/css/layui.mobile.css">
   <script src="../js/jquery-1.11.3.min.js"></script>
-  <script src="../js/mian.js"></script>
+  <script src="../dist/js/mian.js"></script>
   <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
   <title>个人中心</title>
+  <style>
+    /* body {
+      background: #f7f7f7;
+    } */
+  </style>
 </head>
 
 <body>
   <header id="header"></header>
   <main>
-    
+    <div class="layui-container">
+      <aside class="min-sidebar">
+        <section>
+          <ul class="sidebar-tree">
+            <li>
+              <div class="user-avatar textC">
+                <img src="" class="avatar latui-inline layui-circle">
+                <span class="latui-inline"></span>
+              </div>
+            </li>
+            <li>
+              <h4>我的订单</h4>
+              <a href="javascript:;" class="sidebar-tree-item active"><span>装修订单</span></a>
+            </li>
+            <li>
+              <h4>我的收藏</h4>
+              <a href="javascript:;" class="sidebar-tree-item"><span>装修案例</span></a>
+              <a href="javascript:;" class="sidebar-tree-item"><span>文章资讯</span></a>
+              <a href="javascript:;" class="sidebar-tree-item"><span>问题和回答</span></a>
+            </li>
+            <li>
+              <a href="javascript:;" class="sidebar-tree-item un-text-indent"><span>装修贷款</span></a>
+            </li>
+            <li>
+              <a href="javascript:;" class="sidebar-tree-item un-text-indent"><span>消息中心</span></a>
+            </li>
+          </ul>
+        </section>
+      </aside>
+      <div class="menber-container">
+        <h2 class="nav-title">个人资料</h2>
+      </div>
+      <div class="layui-clear"></div>
+    </div>
   </main>
   <footer id="footer"></footer>
   <script src="../layui/layui.js"></script>
   <script>
+    var uid = localStorage.getItem('uid')
+    var $avatar = $('.avatar')
+    var $phoneBox = $('.user-avatar span')
+    jQuery(function () {
+      active.query(`/decorate/users/api/user/${uid}/`).then(res => {
+        console.log(res)
+        if (res.code === 'success') {
+          $avatar.attr('src', res.data.avatar_url)
+          let start = res.data.phone.slice(0, 4)
+          let end = res.data.phone.slice(7, 11)
+          $phoneBox.text(`${start}...${end}`)
+        }
+      }).catch(err => {
+        layer.msg('获取失败，请稍后重试')
+        new Error(err)
+      })
+    })
     layui.use(['element'], function () {
       var element = layui.element
     })

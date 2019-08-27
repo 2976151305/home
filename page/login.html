@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../layui/css/layui.mobile.css">
   <script src="../js/jquery-1.11.3.min.js"></script>
-  <script src="../js/mian.js"></script>
+  <script src="../dist/js/mian.js"></script>
   <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -93,6 +93,7 @@
   <script src="../js/crypto-js.min.js"></script>
   <script>
     jQuery(function () {
+      if(localStorage.getItem('uid')) window.location.href = "./"
       var $getCode = $('.get-code')
       // 账号密码
       var $phone1 = $("#phone1")
@@ -124,10 +125,12 @@
       }
       let dataObj = data.field
       active.query(url, dataObj).then(res => {
+        console.log(res)
         if (res.code === 'success') {
           layer.msg(res.msg, {
             time: 1000
           })
+          localStorage.setItem('uid', res.user_id);
           setTimeout(() => {
             window.location.href = './'
           }, 1000);
