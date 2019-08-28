@@ -8,7 +8,6 @@ var $caseInfo = $('.case-info .case-info-content');
 var $bottomBar = $('.bottom-bar');
 var $effect = $('.effect');
 var $smart = $('.smart-box');
-var flag = true;
 jQuery(function () {
   $("#distpicker").distpicker();
   if (localStorage.getItem('c')) {
@@ -17,21 +16,26 @@ jQuery(function () {
       $bottomBar.remove();
     });
   }
-  if (flag) {
-    $smart.on('mouseover', function () {
-      var self = $(this);
-      self.find('.smart-shade').css({
-        'opacity': '1',
-        'transform': 'translateX(0)'
-      });
-      flag = false;
+  var flag = true;
+  $smart.on('mouseover', function () {
+    if(!flag) return
+    var self = $(this);
+    self.find('.smart-shade').css({
+      'opacity': '1'
     });
-  }
+    let imgArr = []
+    for(let i = 0; i < 7; i++){
+      let img = `<img class="hover-img hover-img${i + 1} layui-anim layui-anim-fadein" src="../images/hover${i + 1}.png" style="-webkit-animation-delay: ${1000 + i * 500}s; animation-delay: ${1000 + i * 500}ms;">`
+      imgArr.push(img)
+    }
+    self.append(imgArr.join(''))
+    flag = false;
+  });
   active.query('/decorate/advertising/api/adverts/decorate/scene/').then(function (res) {
     if (res.code === 'success') {
       var arr = [];
       res.data.forEach(function (item) {
-        arr.push(('\n            <div class="mhn-item">\n              <div class="mhn-inner">\n                <div class="mhn-img" style="background: url(' + item.image + ') no-repeat center / cover;"></div>\n              </div>\n            </div>').trim());
+        arr.push(('<div class="mhn-item">  <div class="mhn-inner">    <div class="mhn-img" style="background: url(' + item.image + ') no-repeat center / cover;"></div>  </div></div>').trim());
       });
       $('.mhn-slide').append(arr);
       $('.mhn-slide').owlCarousel({
@@ -68,10 +72,10 @@ layui.use(['element', 'carousel', 'layer'], function () {
       var arr = [];
       res.data.forEach(function (item) {
         if (item.ad_location === '首页banner') {
-          arr.push(('\n              <li>\n                <a class="w h block" style="background: url(' + item.image + ') no-repeat center / cover;" href="' + (item.link_url ? item.link_url : 'javascript:;') + '"></a>\n              </li>\n              ').trim());
+          arr.push(('  <li>    <a class="w h block" style="background: url(' + item.image + ') no-repeat center / cover;" href="' + (item.link_url ? item.link_url : 'javascript:;') + '"></a>  </li>  ').trim());
         }
       });
-      $carousel.append(arr);
+      $carousel.html(arr);
       // big banner
       carousel.render({
         elem: '#carousel',
@@ -90,7 +94,7 @@ layui.use(['element', 'carousel', 'layer'], function () {
       var arr = [];
       res.data.cases.forEach(function (item) {
         caseCarousel.push(item);
-        arr.push('\n            <li>\n              <a class="w h block" href="./case.html?id=' + item.id + '" style="background: url(' + item.cover_img + ') no-repeat center / cover;"></a>\n            </li>');
+        arr.push('<li>  <a class="w h block" href="./case.html?id=' + item.id + '" style="background: url(' + item.cover_img + ') no-repeat center / cover;"></a></li>');
       });
       $caseCarousel.append(arr);
       $caseInfo.children('h2').text(caseCarousel[0].title);
@@ -116,7 +120,7 @@ layui.use(['element', 'carousel', 'layer'], function () {
       res.data.forEach(function (item) {
         if (i < 5) {
           if (item.if_join_recommend) {
-            arr.push(('\n                <article class="article-item">\n                  <article>\n                    <a class="block" href="./article.html?id=' + item.id + '">\n                      <div class="article-cover-img" style="background: url(' + item.cover_img + ') no-repeat center / cover"></div>\n                      <div class="layui-inline">\n                        <h2 class="layui-elip">' + item.title + '</h2>\n                        <p class="article-introduction">' + item.introduction + '</p>\n                      </div>\n                    </a>\n                  </article>\n                </div>\n              ').trim());
+            arr.push(('    <article class="article-item">      <article>        <a class="block" href="./article.html?id=' + item.id + '">          <div class="article-cover-img" style="background: url(' + item.cover_img + ') no-repeat center / cover"></div>          <div class="layui-inline">            <h2 class="layui-elip">' + item.title + '</h2>            <p class="article-introduction">' + item.introduction + '</p>          </div>        </a>      </article>    </div>  ').trim());
             i++;
           }
         }
@@ -133,7 +137,7 @@ layui.use(['element', 'carousel', 'layer'], function () {
       res.data.forEach(function (item) {
         if (i >= 6) return;
         if (item.if_join_recommend) {
-          arr.push(('\n              <div class="layui-col-lg4">\n                <div class="effect-item">\n                  <div class="percent-box"></div>\n                  <div class="effect-img-box" style="background: url(' + item.cover_img + ') no-repeat center / cover;"></div>\n                  <div class="effect-shade">\n                    <h3>' + item.name + '</h3>\n                  </div>\n                  <img layer-src="' + item.cover_img + '" class="effect-img" alt="' + item.name + '">\n                </div>\n              </div>\n              ').trim());
+          arr.push(('  <div class="layui-col-lg4">    <div class="effect-item">      <div class="percent-box"></div>      <div class="effect-img-box" style="background: url(' + item.cover_img + ') no-repeat center / cover;"></div>      <div class="effect-shade">        <h3>' + item.name + '</h3>      </div>      <img layer-src="' + item.cover_img + '" class="effect-img" alt="' + item.name + '">    </div>  </div>  ').trim());
           i++;
         }
       });

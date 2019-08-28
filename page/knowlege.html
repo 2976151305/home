@@ -51,13 +51,15 @@
         <!-- 模块1 -->
         <div class="layui-col-space20 block-1"></div>
         <div class="layui-clear"></div>
-        <div class="layui-col-space10">
+        <div class="layui-col-space15">
           <!-- 模块2 -->
           <div class="layui-article layui-border-box f-l"></div>
           <!-- 模块3 -->
           <div class="hot-block layui-border-box f-r">
             <div class="hot-list">
-              <h3 class="textC">热门话题</h3>
+              <div class="textC">
+                <h3 class="layui-inline">热门话题</h3>
+              </div>
               <ul></ul>
             </div>
           </div>
@@ -123,7 +125,9 @@
               if (arr1[0].length < 3) {
                 arr1[0].push(`
                 <div class="layui-col-lg6">
-                  <div style="background: url(${item.cover_img}) #ddd no-repeat center / cover; height: 100%;"></div>
+                  <a class="block" href="./article.html?id=${item.id}">
+                    <div style="background: url(${item.cover_img}) #ddd no-repeat center / cover;"></div>
+                  </a>
                 </div>
                 `.trim())
               }
@@ -131,17 +135,17 @@
               arr1[1].push(`
               <article class="layui-article-item">
                 <header class="article-header">
-                  <h2>${item.title}</h2>
-                  <div class="date">
-                    <span>浏览次数：${item.numbers}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>发布时间：${item.create}</span>
-                  </div>
+                  <h2><a href="./article.html?id=${item.id}">${item.title}</a></h2>
                 </header>
                 <main class="article-body">
                   <img class="cover-img" src="${item.cover_img}">
+                  <div class="date">
+                    <span>浏览次数：${item.numbers}</span><span>发布时间：${formatDate(item.last_update_time)}</span>
+                  </div>
                   <p>${item.introduction}</p>
                 </main>
                 <footer class="textR">
-                  <a href="./article.html?id=${item.id}"><span>全文</span><i class="layui-icon layui-icon-next"></i></a>
+                  <a href="./article.html?id=${item.id}"><span>全文</span>&gt;&gt;&gt;</a>
                 </footer>
               </article>
               `.trim())
@@ -178,13 +182,13 @@
               <article class="layui-article-item">
                 <header class="article-header">
                   <h2>${item.title}</h2>
-                  <div class="date">
-                    <span>浏览次数：${item.numbers}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>发布时间：${item.create}</span>
-                  </div>
                 </header>
                 <main class="article-body">
                   <img class="cover-img" src="${item.cover_img}">
-                  <p>${item.introduction}</p>
+                  <div class="date">
+                    <span>浏览次数：${item.numbers}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>发布时间：${formatDate(item.create)}</span>
+                  </div>
+                  <p class="textJ">${item.introduction}</p>
                 </main>
                 <footer class="textR">
                   <a href="./article.html?id=${item.id}"><span>全文</span><i class="layui-icon layui-icon-next"></i></a>
@@ -202,6 +206,10 @@
         $articleList.append(arr1[1])
         $hotList.append(arr1[2])
       }).catch(err => new Error(err))
+      function formatDate(date){
+        var year = date.split('T')
+        return year[0]
+      }
     })
     layui.use(['element'], function () {
       var element = layui.element

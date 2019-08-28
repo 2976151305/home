@@ -14,19 +14,30 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
   <script src="../dist/js/mian.js"></script>
-  <title>Document</title>
+  <title>装修效果图</title>
 </head>
 
 <body>
   <header id="header"></header>
   <div class="banner">
-    <img class="cover-img" style="height:400px;">
+    <img class="cover-img" src="../images/banner2.jpg">
   </div>
   <main class="layui-container">
     <div class="category">
-      <div class="category-item">
-        <ul>
-          <li></li>
+      <div class="category-row category-row-type">
+        <div class="category-type layui-inline">
+          <i class="layui-inline"></i>
+          <h3 class="layui-inline">装修空间</h3>
+        </div>
+        <ul class="layui-inline">
+        </ul>
+      </div>
+      <div class="category-row category-row-area">
+        <div class="category-type layui-inline">
+          <i class="layui-inline"></i>
+          <h3 class="layui-inline">面积大小</h3>
+        </div>
+        <ul class="layui-inline">
         </ul>
       </div>
     </div>
@@ -36,12 +47,43 @@
 
   <script src="../layui/layui.js"></script>
   <script>
-    jQuery(function () {})
+    var $type = $('.category-row-type')
+    var $area = $('.category-row-area')
+    var space_type = active.getQueryString('space_type') ? active.getQueryString('space_type') : ''
+    var area_range = active.getQueryString('area') ? active.getQueryString('area') : ''
+    jQuery(function () {
+      active.query('/decorate/rendering/api/renderings/spaces/').then(res => {
+        let type = [`<li><a href="./photos.html?space_type=&area=${area_range}" class="${space_type ? '' : 'active'}">不限</a></li>`]
+        if (res.code === 'success') {
+          res.data.forEach(item => {
+            type.push(
+              `<li><a href="./photos.html?space_type=${item.name}&area=${area_range}" class="${space_type === item.name ? 'active' : ''}">${item.name}</a></li>`
+              )
+          })
+          $type.find('ul').append(type.join(''))
+        }
+      })
+      active.query('/decorate/rendering/api/renderings/area/config/').then(res => {
+        console.log(res)
+        let area = [`<li><a href="./photos.html?space_type=${space_type}&area=" class="${area_range ? '' : 'active'}">不限</a></li>`]
+        if (res.code === 'success') {
+          Object.keys(res.data).forEach(key => {
+            area.push(
+              `<li><a href="./photos.html?space_type=${space_type}&area=${res.data[key]}" class="${area_range === res.data[key] ? 'active' : ''}">${res.data[key]}</a></li>`
+              )
+          })
+          $area.find('ul').append(area.join(''))
+        }
+      })
+    })
     layui.use(['element', 'layer', 'flow'], function () {
       var element = layui.element
       var layer = layui.layer
       var flow = layui.flow
-      active.query('/decorate/rendering/api/renderings/').then(res => {
+      active.query('/decorate/rendering/api/renderings/', {
+        space_type,
+        area: area_range
+      }).then(res => {
         console.log(res)
         if (res.code === 'success') {
           let imgArr = []

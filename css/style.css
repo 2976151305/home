@@ -256,6 +256,29 @@ body {
   background: #F7F7F7;
 }
 
+.top .login-center {
+  height: 42px;
+  line-height: 42px;
+  margin-right: 53px;
+}
+
+.color-g {
+  color: #56A748;
+}
+
+.top .login-center a {
+  display: inline-block;
+  line-height: 1;
+  text-align: center;
+  width: 80px;
+  border-right: 1px solid #C2C0C1;
+  vertical-align: middle;
+}
+
+.top .login-center a:hover {
+  color: #56A748;
+}
+
 .logo img {
   height: 70px;
   vertical-align: middle;
@@ -347,19 +370,58 @@ body {
   bottom: 0;
   opacity: 0;
   background: rgba(0, 0, 0, .44);
-  -webkit-transform: translateX(-100%);
-  -moz-transform: translateX(-100%);
-  -o-transform: translateX(-100%);
-  transform: translateX(-100%);
-  -webkit-transition: all .7s ease;
-  -moz-transition: all .7s ease;
-  -o-transition: all .7s ease;
-  transition: all .7s ease;
+  -webkit-transition: opacity 1s linear;
+  -moz-transition: opacity 1s linear;
+  -o-transition: opacity 1s linear;
+  transition: opacity 1s linear;
+}
+
+.smart-box .hover-img {
+  position: absolute;
+}
+
+.smart-box .hover-img1 {
+  top: 70px;
+  left: 120px;
+}
+
+.smart-box .hover-img2 {
+  top: 250px;
+  left: 358px;
+}
+
+.smart-box .hover-img3 {
+  top: 280px;
+  left: 789px;
+}
+
+.smart-box .hover-img4 {
+  top: 161px;
+  right: 550px;
+}
+
+.smart-box .hover-img5 {
+  bottom: 0;
+  right: 580px;
+}
+
+.smart-box .hover-img6 {
+  top: 375px;
+  right: 108px;
+}
+
+.smart-box .hover-img7 {
+  left: 875px;
+  bottom: 136px;
 }
 
 /* -------------------智能家居 end------------------- */
 
 /* -------------------装修案例------------------- */
+#carousel {
+  min-height: 670px;
+}
+
 .case-carousel-main {
   width: 718px;
 }
@@ -395,6 +457,7 @@ body {
   bottom: 0;
   width: 1445px;
   border: 1px solid #999;
+  z-index: -1;
 }
 
 .case-info h2 {
@@ -895,25 +958,48 @@ body {
 }
 
 .layui-article {
-  width: 700px;
+  width: 772px;
 }
 
-.layui-article .layui-article-item {
-  padding: 20px;
-  border: 1px solid #ddd;
-  margin-bottom: 20px;
+.block-1>div div {
+  height: 272px;
 }
 
-.block-1>div {
-  height: 282px;
-}
-
-.block-1>div:first-of-type {
+.block-1>div:first-of-type div {
   height: 565px;
 }
 
+
+.layui-article .layui-article-item {
+  padding: 20px;
+  border: 1px solid rgba(216, 215, 215, 1);
+  margin-bottom: 20px;
+}
+
+.layui-article-item .article-header h2 {
+  font-size: 26px;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.layui-article-item .article-body p {
+  font-size: 22px;
+  color: #666;
+  margin-bottom: 20px;
+  line-height: 28px;
+}
+
+.date {
+  padding: 10px 0;
+}
+
+.layui-article-item footer a {
+  color: #F1906D;
+  font-size: 22px;
+}
+
 .hot-block {
-  width: 510px;
+  width: 443px;
 }
 
 .hot-block .hot-list {
@@ -922,8 +1008,9 @@ body {
 }
 
 .hot-block .hot-list h3 {
-  font-weight: bold;
-  font-size: 16px;
+  font-size: 26px;
+  line-height: 1;
+  padding: 10px 0 30px;
 }
 
 .hot-block .hot-list ul li {
@@ -984,6 +1071,69 @@ body {
 }
 
 /* -------------------register.html end------------------- */
+
+/* -------------------photos.html------------------- */
+.category{
+  margin: 75px 0 60px;
+}
+.category .category-row {
+  padding: 25px 0;
+}
+
+.category .category-row h3 {
+  color: #000;
+  font-size: 22px;
+}
+
+.category .category-row ul li {
+  display: inline-block;
+  width: 80px;
+  text-align: right;
+  margin-left: 77px;
+  font-size: 20px;
+}
+
+.category .category-row ul li a {
+  position: relative;
+  color: #666;
+}
+
+.category .category-row ul li a::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  width: 0;
+  height: 2px;
+  background: #333;
+  border-radius: 50px;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+  -webkit-transition: width .3s ease;
+  -moz-transition: width .3s ease;
+  -o-transition: width .3s ease;
+  transition: width .3s ease;
+}
+
+.category .category-row ul li a:hover {
+  color: #333;
+}
+
+.category .category-row ul li a:hover::after {
+  width: 100%;
+}
+
+.category .category-row ul li a.active {
+  color: #333;
+}
+
+.category .category-row ul li a.active::after {
+  width: 100%;
+}
+
+/* -------------------photos.html end------------------- */
 
 /* -------------------menber.html------------------- */
 
@@ -1078,9 +1228,62 @@ body {
 }
 
 .menber-container {
+  position: relative;
   margin-left: 260px;
   width: 940px;
   background: #fff;
+}
+
+.save {
+  position: absolute;
+  right: 20px;
+  top: 77px;
+  width: 75px;
+  height: 45px;
+  line-height: 45px;
+  color: #fff;
+  background: #F1906D;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.user-avatar-nickname-box {
+  width: 150px;
+  margin-top: 114px;
+}
+
+.user-avatar-nickname-box .user-avatar-src {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.user-avatar-nickname-box .user-avatar-src .avatar-shade {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  line-height: 110px;
+  background: rgba(0, 0, 0, .5);
+  color: #fff;
+  opacity: 0;
+  font-size: 24px;
+  -webkit-transition: opacity .5s ease;
+  -moz-transition: opacity .5s ease;
+  -o-transition: opacity .5s ease;
+  transition: opacity .5s ease;
+}
+
+.user-avatar-nickname-box .user-avatar-src:hover .avatar-shade {
+  opacity: 1;
 }
 
 .nav-title {
@@ -1092,6 +1295,38 @@ body {
 }
 
 /* -------------------menber.html end------------------- */
+
+/* -------------------aboutus.html------------------- */
+.tablecell {
+  -webkit-display: table-cell;
+  -moz-display: table-cell;
+  display: table-cell;
+  vertical-align: middle;
+  height: 337px;
+}
+
+.about div.layui-col-lg6 {
+  margin-bottom: 60px;
+}
+
+.about div.layui-col-lg6:nth-child(odd) .tablecell {
+  padding-left: 80px;
+}
+
+.tablecell h2 {
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+.tablecell p {
+  width: 526px;
+  font-size: 16px;
+  color: #666;
+  line-height: 30px;
+  text-align: justify;
+}
+
+/* -------------------aboutus.html end------------------- */
 
 /* -------------------页脚------------------- */
 .layui-footer {

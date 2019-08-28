@@ -32,7 +32,7 @@
             <li>
               <div class="user-avatar textC">
                 <img src="" class="avatar latui-inline layui-circle">
-                <span class="latui-inline"></span>
+                <span class="latui-inline phone"></span>
               </div>
             </li>
             <li>
@@ -56,6 +56,17 @@
       </aside>
       <div class="menber-container">
         <h2 class="nav-title">个人资料</h2>
+        <button class="save">保存</button>
+        <div class="user-box">
+          <div class="user-avatar-nickname-box marginAuto textC">
+            <div class="layui-circle user-avatar-src layui-inline">
+              <input type="file" class="layui-hide" name="avatar" accept=".jpg,.png,.gif,.jpeg">
+              <img>
+              <div class="avatar-shade">修改头像</div>
+            </div>
+            <em class="phone"></em>
+          </div>
+        </div>
       </div>
       <div class="layui-clear"></div>
     </div>
@@ -65,12 +76,50 @@
   <script>
     var uid = localStorage.getItem('uid')
     var $avatar = $('.avatar')
-    var $phoneBox = $('.user-avatar span')
+    var $phoneBox = $('.phone')
+    var $avatar1 = $('.user-avatar-src img')
+    var $open = $('.avatar-shade')
+    var $file = $('input[type="file"]')
+    var $save = $('.save')
     jQuery(function () {
+      $open.on('click', function () {
+        $file.click()
+      })
+      $save.on('click', function () {
+        var formData = new FormData()
+        var files = $file[0].files[0]
+        formData.append('image', files)
+        if (files.type !== "image/png" && files.type !== "image/jpg" && files.type !== "image/jpeg" && files
+          .type !== "image/gif") {
+          layer.msg('请选择正确的图片文件')
+          return
+        }
+        var uid = localStorage.getItem('uid')
+        $.ajax({
+          url: `${BASEURL}/decorate/users/api/upload/avatar/${uid}/`,
+          method: 'POST',
+          processData: false,
+          contentType: false,
+          data: formData,
+          dataType: 'json',
+          success: function (res) {
+            if (res.code === 'success') {
+              $avatar.attr('src', res.avatar_url)
+              $avatar1.attr('src', res.avatar_url)
+              layer.msg('提交成功')
+            }
+          },
+          fail: function (err) {
+            layer.msg('提交失败')
+            new Error(err)
+          }
+        })
+      })
       active.query(`/decorate/users/api/user/${uid}/`).then(res => {
         console.log(res)
         if (res.code === 'success') {
           $avatar.attr('src', res.data.avatar_url)
+          $avatar1.attr('src', res.data.avatar_url)
           let start = res.data.phone.slice(0, 4)
           let end = res.data.phone.slice(7, 11)
           $phoneBox.text(`${start}...${end}`)
@@ -80,8 +129,9 @@
         new Error(err)
       })
     })
-    layui.use(['element'], function () {
+    layui.use(['element', 'layer'], function () {
       var element = layui.element
+      var layer = layui.layer
     })
   </script>
 </body>
