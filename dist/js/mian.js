@@ -106,17 +106,25 @@ var active = {
       return false;
     } else if (reg.length) {
       var r = new RegExp(reg);
-      if (!r.test(strings)) return false;else return true;
+      if (!r.test(strings)) return false;
+      else return true;
     } else {
       return true;
     }
+  },
+  slicePhone: function (phone) {
+    let start = phone.slice(0, 4)
+    let end = phone.slice(7, 11)
+    return `${start}...${end}`
   }
   /**
    * 获取手机验证码
    * @param {object} self 获取验证码dom节点
    * @param {string} phone 手机号
    */
-};function getCode(self, phone) {
+};
+
+function getCode(self, phone) {
   if (!active.verify(phone)) {
     layer.msg('请输入您的手机号码');
     return;

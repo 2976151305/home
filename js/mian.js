@@ -4,6 +4,7 @@ $(function () {
   $('#header').load('header.html')
   $('#footer').load('footer.html')
 })
+
 var active = {
   /**
    * ajax封装
@@ -103,6 +104,11 @@ var active = {
     } else {
       return true
     }
+  },
+  slicePhone: function(phone) {
+    let start = phone.slice(0, 4)
+    let end = phone.slice(7, 11)
+    return `${start}...${end}`
   }
 }
 /**

@@ -27,32 +27,6 @@
   <main>
     <div class="layui-container">
       <aside class="min-sidebar">
-        <section>
-          <ul class="sidebar-tree">
-            <li>
-              <div class="user-avatar textC">
-                <img src="" class="avatar latui-inline layui-circle">
-                <span class="latui-inline phone"></span>
-              </div>
-            </li>
-            <li>
-              <h4>我的订单</h4>
-              <a href="javascript:;" class="sidebar-tree-item active"><span>装修订单</span></a>
-            </li>
-            <li>
-              <h4>我的收藏</h4>
-              <a href="javascript:;" class="sidebar-tree-item"><span>装修案例</span></a>
-              <a href="javascript:;" class="sidebar-tree-item"><span>文章资讯</span></a>
-              <a href="javascript:;" class="sidebar-tree-item"><span>问题和回答</span></a>
-            </li>
-            <li>
-              <a href="javascript:;" class="sidebar-tree-item un-text-indent"><span>装修贷款</span></a>
-            </li>
-            <li>
-              <a href="javascript:;" class="sidebar-tree-item un-text-indent"><span>消息中心</span></a>
-            </li>
-          </ul>
-        </section>
       </aside>
       <div class="menber-container">
         <h2 class="nav-title">个人资料</h2>
@@ -75,13 +49,12 @@
   <script src="../layui/layui.js"></script>
   <script>
     var uid = localStorage.getItem('uid')
-    var $avatar = $('.avatar')
-    var $phoneBox = $('.phone')
     var $avatar1 = $('.user-avatar-src img')
     var $open = $('.avatar-shade')
     var $file = $('input[type="file"]')
     var $save = $('.save')
     jQuery(function () {
+      $('.min-sidebar').load('./sidebar.html')
       $open.on('click', function () {
         $file.click()
       })
@@ -104,6 +77,7 @@
           dataType: 'json',
           success: function (res) {
             if (res.code === 'success') {
+              var $avatar = $('.avatar')
               $avatar.attr('src', res.avatar_url)
               $avatar1.attr('src', res.avatar_url)
               layer.msg('提交成功')
@@ -116,13 +90,12 @@
         })
       })
       active.query(`/decorate/users/api/user/${uid}/`).then(res => {
-        console.log(res)
         if (res.code === 'success') {
+          var $avatar = $('.avatar')
+          var $phoneBox = $('.phone')
           $avatar.attr('src', res.data.avatar_url)
           $avatar1.attr('src', res.data.avatar_url)
-          let start = res.data.phone.slice(0, 4)
-          let end = res.data.phone.slice(7, 11)
-          $phoneBox.text(`${start}...${end}`)
+          $phoneBox.text(active.slicePhone(res.data.phone))
         }
       }).catch(err => {
         layer.msg('获取失败，请稍后重试')

@@ -307,21 +307,22 @@ body {
 .navigation ul li a::before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: -20px;
-  width: 17px;
-  height: 17px;
+  left: 50%;
+  bottom: -5px;
+  width: 0;
+  height: 2px;
   background: #333;
-  border-radius: 50%;
-  -webkit-transform: translateY(-50%) scale(0);
-  -moz-transform: translateY(-50%) scale(0);
-  transform: translateY(-50%) scale(0);
-  -webkit-transition: transform .3s ease;
-  -moz-transition: transform .3s ease;
-  transition: transform .3s ease;
+  border-radius: 50px;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  transform: translateX(-50%);
+  -webkit-transition: width .3s ease;
+  -moz-transition: width .3s ease;
+  transition: width .3s ease;
 }
 
 .navigation ul li a {
+  position: relative;
   color: #666;
   -webkit-transition: all .3s ease;
   -moz-transition: all .3s ease;
@@ -329,9 +330,7 @@ body {
 }
 
 .navigation ul li a:hover::before {
-  -webkit-transform: translateY(-50%) scale(1);
-  -moz-transform: translateY(-50%) scale(1);
-  transform: translateY(-50%) scale(1);
+  width: 100%;
 }
 
 .navigation ul li a:hover {
@@ -340,9 +339,7 @@ body {
 }
 
 .navigation ul li a.active::before {
-  -webkit-transform: translateY(-50%) scale(1);
-  -moz-transform: translateY(-50%) scale(1);
-  transform: translateY(-50%) scale(1);
+  width: 100%;
 }
 
 .navigation ul li a.active {
@@ -593,19 +590,19 @@ body {
 }
 
 .advantage .advantage-box .advantage-item .go-detail {
-  width: 203px;
+  letter-spacing: 5px;
+  width: 200px;
   height: 56px;
   line-height: 56px;
   color: #fff;
-  background: #BFBFBF;
-  border: 1px #666 solid;
+  background: #CFA972;
   font-size: 36px;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
-  -webkit-box-shadow: -7px 7px 3px rgba(0, 0, 0, .24);
-  -moz-box-shadow: -7px 7px 3px rgba(0, 0, 0, .24);
-  box-shadow: -7px 7px 3px rgba(0, 0, 0, .24);
+  -webkit-box-shadow: 0 0 17px 1px rgba(207, 169, 114, 0.8);
+  -moz-box-shadow: 0 0 17px 1px rgba(207, 169, 114, 0.8);
+  box-shadow: 0 0 17px 1px rgba(207, 169, 114, 0.8);
   margin-top: 40px;
 }
 
@@ -1068,14 +1065,136 @@ body {
 /* -------------------register.html------------------- */
 .get-code {
   cursor: pointer;
+  width: 193px;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  margin: 0;
+  color: #fff !important;
+  background: #F1906D;
+  padding: 0 !important;
+  border-radius: 6px;
+  font-size: 24px;
+}
+
+.register-container {
+  background: url(../images/register.jpg) no-repeat center / cover;
+}
+
+.register-title h2 {
+  position: relative;
+  line-height: 1;
+  margin-bottom: 68px;
+  font-size: 36px;
+}
+
+.register-title h2::before,
+.register-title h2::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  width: 39px;
+  height: 25px;
+  background: url(../images/line1.png) no-repeat center / cover;
+}
+
+.register-title h2::before {
+  right: -60px;
+}
+
+.register-title h2::after {
+  left: -60px;
+}
+
+.register-box {
+  width: 510px;
+  margin: 110px 222px 110px 0;
+  background: #fff;
+  border-radius: 10px;
+  padding: 62px 100px 92px;
+}
+
+.register-box .layui-form-item {
+  margin-bottom: 40px;
+}
+
+.register-box .layui-form-item:last-of-type {
+  margin-bottom: 0;
+}
+
+.register-box .layui-form-item label {
+  width: 155px;
+  height: 50px;
+  line-height: 50px;
+  text-align: left;
+  padding: 0;
+  font-size: 26px;
+}
+
+.register-box .layui-form-item label .layui-icon {
+  font-size: inherit;
+  margin-right: 10px;
+}
+
+.register-box .layui-form-item .layui-input-block {
+  margin-left: 155px;
+}
+
+.register-box .layui-form-item .layui-input-block .layui-input,
+.register-box .layui-form-item .layui-input-inline .layui-input {
+  height: 50px;
+  line-height: 50px;
+  padding-left: 20px;
+  font-size: 18px;
+  color: #aaa;
+  border-radius: 6px;
+}
+
+.register-box .layui-form-item .layui-input-inline {
+  width: 140px;
+  margin-right: 22px;
+}
+
+.register-box .layui-form-item .layui-input::placeholder {
+  color: #aaa;
+}
+
+.register-box .layui-form-checkbox[lay-skin=primary] i {
+  border-radius: 50%;
+}
+
+.register-box .layui-form-checked[lay-skin=primary] i {
+  border-color: #3288D1 !important;
+  background-color: #3288D1;
+}
+
+.register-box .layui-form-checkbox[lay-skin=primary]:hover i {
+  border-color: #3288D1;
+}
+
+.post-btn {
+  border-radius: 50px;
+  color: #fff;
+  -webkit-background: linear-gradient(to right, #F1906D, #F07144);
+  -moz-background: linear-gradient(to right, #F1906D, #F07144);
+  -o-background: linear-gradient(to right, #F1906D, #F07144);
+  background: linear-gradient(to right, #F1906D, #F07144);
+  height: 50px;
+  line-height: 50px;
+  font-size: 26px;
+  -webkit-box-shadow: 0px 9px 13px 0px rgba(243, 126, 84, 0.66);
+  -moz-box-shadow: 0px 9px 13px 0px rgba(243, 126, 84, 0.66);
+  box-shadow: 0px 9px 13px 0px rgba(243, 126, 84, 0.66);
+  border: none;
 }
 
 /* -------------------register.html end------------------- */
 
 /* -------------------photos.html------------------- */
-.category{
+.category {
   margin: 75px 0 60px;
 }
+
 .category .category-row {
   padding: 25px 0;
 }
@@ -1159,7 +1278,6 @@ body {
 .user-avatar .avatar {
   width: 78px;
   height: 78px;
-  background: #ddd;
   margin-bottom: 17px;
 }
 
@@ -1264,6 +1382,11 @@ body {
   margin-bottom: 15px;
 }
 
+.user-avatar-nickname-box .user-avatar-src img {
+  width: 100%;
+  height: 100%;
+}
+
 .user-avatar-nickname-box .user-avatar-src .avatar-shade {
   cursor: pointer;
   position: absolute;
@@ -1295,6 +1418,62 @@ body {
 }
 
 /* -------------------menber.html end------------------- */
+
+/* -------------------orders.html------------------- */
+.order-container {
+  width: 770px;
+  margin: 30px 0 0 20px;
+  font-size: 18px;
+  border: #bfbfbf 1px solid;
+}
+
+.order-header {
+  background: #bbb;
+  font-size: 16px;
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px solid #bfbfbf;
+  overflow: hidden;
+  padding-left: 30px;
+}
+.order-tab{
+  height: 38px;
+  line-height: 38px;
+  border-bottom: 1px solid #bfbfbf;
+}
+.order-tab .order-tab-item {
+  height: 38px;
+  line-height: 38px;
+  text-align: center;
+  border-right: 1px solid #bfbfbf;
+}
+
+.order-tab .order-tab-item:last-of-type{
+  border-right: 0;
+}
+
+.order-tab .order-tab-item.active {
+  background: #e5e5e5;
+}
+
+.order-main .order-side {
+  width: 177px;
+}
+
+.order-main .order-side ul li {
+  height: 38px;
+  line-height: 38px;
+  padding: 0 20px;
+  border-right: 1px solid #bfbfbf;
+  border-bottom: 1px solid #bfbfbf;
+}
+.order-main .order-side ul li:last-of-type{
+  border-bottom: none;
+}
+.order-main .order-side ul li.active{
+  background: #e5e5e5;
+}
+/* -------------------orders.html end------------------- */
 
 /* -------------------aboutus.html------------------- */
 .tablecell {

@@ -53,29 +53,33 @@
     var area_range = active.getQueryString('area') ? active.getQueryString('area') : ''
     jQuery(function () {
       active.query('/decorate/rendering/api/renderings/spaces/').then(res => {
-        let type = [`<li><a href="./photos.html?space_type=&area=${area_range}" class="${space_type ? '' : 'active'}">不限</a></li>`]
+        let type = [
+          `<li><a href="./photos.html?space_type=&area=${area_range}" class="${space_type ? '' : 'active'}">不限</a></li>`.trim()
+        ]
         if (res.code === 'success') {
           res.data.forEach(item => {
             type.push(
-              `<li><a href="./photos.html?space_type=${item.name}&area=${area_range}" class="${space_type === item.name ? 'active' : ''}">${item.name}</a></li>`
-              )
+              `<li><a href="./photos.html?space_type=${item.name}&area=${area_range}" class="${space_type === item.name ? 'active' : ''}">${item.name}</a></li>`.trim()
+            )
           })
           $type.find('ul').append(type.join(''))
         }
       })
       active.query('/decorate/rendering/api/renderings/area/config/').then(res => {
-        console.log(res)
-        let area = [`<li><a href="./photos.html?space_type=${space_type}&area=" class="${area_range ? '' : 'active'}">不限</a></li>`]
+        let area = [
+          `<li><a href="./photos.html?space_type=${space_type}&area=" class="${area_range ? '' : 'active'}">不限</a></li>`.trim()
+        ]
         if (res.code === 'success') {
           Object.keys(res.data).forEach(key => {
             area.push(
-              `<li><a href="./photos.html?space_type=${space_type}&area=${res.data[key]}" class="${area_range === res.data[key] ? 'active' : ''}">${res.data[key]}</a></li>`
-              )
+              `<li><a href="./photos.html?space_type=${space_type}&area=${res.data[key]}" class="${area_range === res.data[key] ? 'active' : ''}">${res.data[key]}</a></li>`.trim()
+            )
           })
           $area.find('ul').append(area.join(''))
         }
       })
     })
+
     layui.use(['element', 'layer', 'flow'], function () {
       var element = layui.element
       var layer = layui.layer
@@ -84,7 +88,6 @@
         space_type,
         area: area_range
       }).then(res => {
-        console.log(res)
         if (res.code === 'success') {
           let imgArr = []
           res.data.forEach(item => {
