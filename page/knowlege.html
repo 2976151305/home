@@ -21,21 +21,27 @@
   <header id="header"></header>
   <main class="cover-info">
     <div class="knowlege-bar cover-info">
-      <img class="cover-img" style="height: 670px;">
+      <img class="cover-img" src="../images/banner4.jpg">
     </div>
     <!-- 导航 -->
-    <div class="tab-list textC">
-      <div class="tab-item layui-inline">
-        <span>新房装修小知识</span>
-        <i class="layui-inline"></i>
-      </div>
-      <div class="tab-item layui-inline">
-        <span>装修也要讲风水</span>
-        <i class="layui-inline"></i>
-      </div>
-      <div class="tab-item layui-inline">
-        <span>业主社区</span>
-        <i class="layui-inline"></i>
+    <div class="tab-list">
+      <div class=" layui-container">
+        <div class="tab-item layui-col-lg4">
+          <div class="layui-inline"></div>
+          <span>新房装修小知识</span>
+          <i class="layui-inline"></i>
+        </div>
+        <div class="tab-item layui-col-lg4 textC">
+          <div class="layui-inline">
+            <span class="textL">装修也要讲风水</span>
+            <i class="layui-inline"></i></div>
+        </div>
+        <div class="tab-item layui-col-lg4 textR">
+          <div class="layui-inline">
+            <span class="lh62">业主社区</span>
+            <i class="layui-inline"></i></div>
+        </div>
+        <div class="layui-clear"></div>
       </div>
     </div>
     <div class="layui-clear"></div>
@@ -102,7 +108,6 @@
       })
       // var tabContent = document.querySelectorAll('.tab-content')
       active.query('/decorate/articles/api/articles/').then(res => {
-        console.log(res)
         var arr1 = [
             [],
             [],
@@ -140,7 +145,7 @@
                 <main class="article-body">
                   <img class="cover-img" src="${item.cover_img}">
                   <div class="date">
-                    <span>浏览次数：${item.numbers}</span><span>发布时间：${formatDate(item.last_update_time)}</span>
+                    <span>浏览次数：${item.numbers}</span><span>发布时间：${active.formatDate(item.last_update_time)}</span>
                   </div>
                   <p>${item.introduction}</p>
                 </main>
@@ -186,7 +191,7 @@
                 <main class="article-body">
                   <img class="cover-img" src="${item.cover_img}">
                   <div class="date">
-                    <span>浏览次数：${item.numbers}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>发布时间：${formatDate(item.create)}</span>
+                    <span>浏览次数：${item.numbers}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>发布时间：${active.formatDate(item.create)}</span>
                   </div>
                   <p class="textJ">${item.introduction}</p>
                 </main>
@@ -206,16 +211,10 @@
         $articleList.append(arr1[1])
         $hotList.append(arr1[2])
       }).catch(err => new Error(err))
-      function formatDate(date){
-        var year = date.split('T')
-        return year[0]
-      }
     })
     layui.use(['element'], function () {
       var element = layui.element
-      element.on('tab(change)', function () {
-        console.log(index)
-      })
+      element.on('tab(change)', function () {})
     })
   </script>
 </body>

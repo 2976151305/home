@@ -67,6 +67,10 @@
     </div>
     <div class="layui-clear"></div>
   </main>
+  <div class="collection textC">
+    <i class="layui-icon layui-icon-rate block"></i>
+    <span>收藏这个案例</span>
+  </div>
   <footer id="footer"></footer>
 
   <script src="../layui/layui.js"></script>
@@ -78,6 +82,7 @@
       var $content = $('.article-detail-top .case-info > p')
       let $tabContent = $('.case-detail .layui-tab-content')
       var id = active.getQueryString('id')
+      var $collection = $('.collection')
       active.query(`/decorate/cases/api/case/detail/${id}/`).then(res => {
         console.log(res)
         let template1 = ``
@@ -93,6 +98,20 @@
         var $tabItem = $(this).parents().find('.case-tab').siblings('.layui-tab-content').children('.layui-tab-item');
         $tabItem.removeClass('layui-anim layui-anim-fadein');
         $tabItem.eq($(this).index()).addClass('layui-anim layui-anim-fadein');
+      })
+      $collection.on('click', function(){
+        active.isLogin()
+        var self = $(this)
+        let uid = active.getLocalStorage('uid')
+        active.query(`/decorate/cases/api/case/collect/${uid}/${id}/`, undefined, 'POST').then(res => {
+          console.log(res)
+          if(res.code === 'success'){
+            self.find('i').removeClass('layui-icon-rate').addClass('layui-icon-rate-solid')
+          }
+        }).catch(err => {
+          layer.msg('收藏失败，请稍后重试')
+          new Error(err)
+        })
       })
     })
     layui.use(['element', 'flow'], function () {

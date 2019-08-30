@@ -15,6 +15,11 @@
   <![endif]-->
   <script src="../dist/js/mian.js"></script>
   <title>订单</title>
+  <style>
+    body {
+      background: #F7F7F7;
+    }
+  </style>
 </head>
 
 <body>
@@ -25,31 +30,6 @@
       </aside>
       <div class="menber-container">
         <h2 class="nav-title">装修订单</h2>
-        <div class="order-container">
-          <div class="order-header">
-            <span class="orderno"></span>
-            <span class="area"></span>
-            <span class="city"></span>
-            <span class="cellphone"></span>
-            <span class="upadte">修改</span>
-          </div>
-          <div class="order-tab">
-            <div class="layui-col-lg4 order-tab-item active">装修前</div>
-            <div class="layui-col-lg4 order-tab-item">装修中</div>
-            <div class="layui-col-lg4 order-tab-item">装修后</div>
-            <div class="layui-clear"></div>
-          </div>
-          <div class="order-main">
-            <div class="order-side">
-              <ul>
-                <li class="active">1、在线预约</li>
-                <li>2、上门量房</li>
-                <li>3、装修方案</li>
-              </ul>
-            </div>
-            <div class="order-content"></div>
-          </div>
-        </div>
       </div>
       <div class="layui-clear"></div>
     </div>
@@ -65,45 +45,92 @@
         return
       }
       $('.min-sidebar').load('./sidebar.html')
-      var $orderNo = $('.orderno'),
-        $area = $('.area'),
-        $city = $('.city'),
-        $cellphone = $('.cellphone')
+      var $orderBox = $('.menber-container')
       var processArr = []
       active.query(`/decorate/users/api/user/order/${uid}/`).then(res => {
         console.log(res)
-        let template = `
-        <div class="order-container">
-          <div class="order-header">
-            <span class="orderno"></span>
-            <span class="area"></span>
-            <span class="city"></span>
-            <span class="cellphone"></span>
-            <span class="upadte">修改</span>
-          </div>
-          <div class="order-tab">
-            <div class="layui-col-lg4 order-tab-item active">装修前</div>
-            <div class="layui-col-lg4 order-tab-item">装修中</div>
-            <div class="layui-col-lg4 order-tab-item">装修后</div>
-            <div class="layui-clear"></div>
-          </div>
-          <div class="order-main">
-            <div class="order-side">
-              <ul>
-                <li class="active">1、在线预约</li>
-                <li>2、上门量房</li>
-                <li>3、装修方案</li>
-              </ul>
-            </div>
-            <div class="order-content"></div>
-          </div>
-        </div>
-        `
-        $orderNo.text(`订单号:${res.data[0].trade_no}`)
-        $area.text(`面积:${res.data[0].area}平方`)
-        $city.text(`订单号:${res.data[0].city}`)
-        $cellphone.text(`订单号:${res.data[0].phone}`)
-        processArr = res.data[0].process
+        if (res.code === 'success') {
+          let orderArr = []
+          let step = ['1、在线预约', '2、上门量房']
+          res.data.forEach((item, index) => {
+            processArr.push(item.process)
+            orderArr.push(`
+            <div class="order-container">
+              <div class="order-header">
+                <span class="orderno">订单号：${item.trade_no}</span>
+                <span class="area">面积：${item.area}平方</span>
+                <span class="city">城市：${item.city}</span>
+                <span class="cellphone">手机号码：${active.slicePhone(item.phone)}</span>
+                <span class="upadte">修改</span>
+              </div>
+              <div class="order-tab" data-index="${index}">
+                <div class="layui-col-lg4 order-tab-item active">装修前</div>
+                <div class="layui-col-lg4 order-tab-item">装修中</div>
+                <div class="layui-col-lg4 order-tab-item">装修后</div>
+              </div>
+              <div class="order-main">
+                <div class="order-side f-l">
+                  <ul>
+                    ${processArr[index].slice(0, 7).map((it, idx) => {
+                      return `<li class="${idx === 0 ? 'active' : ''}">${it.name}</li>`
+                    }).join('')}
+                  </ul>
+                </div>
+                <div class="order-content">${item.process[0].note}</div>
+              </div>
+            </div>`.trim())
+          })
+          $orderBox.append(orderArr)
+          // 初始化流程点击事件
+          $('.order-side ul li').on('click', function () {
+            var self = $(this)
+            changeStep(self, self.index())
+          })
+
+          function changeTab(el, content, index, arr_start, arr_end) {
+            el.html(processArr[index].slice(arr_start, arr_end).map((item, index) =>
+              `<li class="${index === 0 ? 'active' : ''}">${item.name}</li>`.trim()).join(''))
+            // 切换时初始化内容区域
+            content.text(processArr[index][arr_start].status === '已完成' ? processArr[index][arr_start]
+              .note : processArr[index][arr_start].status)
+            // 重新绑定流程点击事件
+            $('.order-side ul li').on('click', function () {
+              var self = $(this)
+              changeStep(self, arr_start + self.index())
+            })
+          }
+
+          function changeStep(self, item_index) {
+            self.siblings().removeClass('active')
+            self.addClass('active')
+            // 订单索引
+            var parentIndex = self.parents('.order-main').siblings('.order-tab').data('index')
+            // 显示区域
+            var $content = self.parents('.order-side').siblings('.order-content')
+            console.log(item_index, processArr[parentIndex][item_index])
+            $content.text(processArr[parentIndex][item_index].status === '已完成' ? processArr[parentIndex][
+                item_index
+              ]
+              .note : processArr[parentIndex][item_index].status)
+          }
+
+          var $orderItem = $('.order-tab .order-tab-item')
+          $orderItem.on('click', function () {
+            var self = $(this)
+            self.siblings().removeClass('active')
+            self.addClass('active')
+            var orderIndex = self.parent().data('index')
+            var $orderSide = self.parent().siblings('.order-main').find('.order-side ul')
+            var $orderContent = self.parent().siblings('.order-main').find('.order-content')
+            if (self.index() === 0) {
+              changeTab($orderSide, $orderContent, orderIndex, 0, 7)
+            } else if (self.index() === 1) {
+              changeTab($orderSide, $orderContent, orderIndex, 7, 14)
+            } else if (self.index() === 2) {
+              changeTab($orderSide, $orderContent, orderIndex, 14, 17)
+            }
+          })
+        }
       }).catch(err => {
         layer.msg('获取失败,请稍后重试')
         new Error(err)

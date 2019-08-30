@@ -88,6 +88,10 @@ body {
 /* -------------------layui end------------------- */
 
 /* -------------------公共样式------------------- */
+.color-ce {
+  color: #CEA972;
+}
+
 .f0 {
   font-size: 0;
 }
@@ -250,6 +254,10 @@ body {
 /* -------------------公共样式 end------------------- */
 
 /* -------------------头部------------------- */
+#header {
+  background: #fff;
+}
+
 .top {
   height: 42px;
   line-height: 42px;
@@ -263,7 +271,7 @@ body {
 }
 
 .color-g {
-  color: #56A748;
+  color: #CEA972;
 }
 
 .top .login-center a {
@@ -276,7 +284,7 @@ body {
 }
 
 .top .login-center a:hover {
-  color: #56A748;
+  color: #CEA972
 }
 
 .logo img {
@@ -330,7 +338,7 @@ body {
 }
 
 .navigation ul li a:hover::before {
-  width: 100%;
+  width: 40px;
 }
 
 .navigation ul li a:hover {
@@ -339,7 +347,7 @@ body {
 }
 
 .navigation ul li a.active::before {
-  width: 100%;
+  width: 40px;
 }
 
 .navigation ul li a.active {
@@ -848,7 +856,25 @@ body {
 
 /* -------------------apply.html end------------------- */
 
-/* -------------------case.html end------------------- */
+/* -------------------case.html------------------- */
+.collection {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  width: 96px;
+  height: 76px;
+  padding-top: 20px;
+  vertical-align: middle;
+  background: #fff;
+  cursor: pointer;
+  border: 1px solid #E9E4E4;
+}
+
+.collection .layui-icon {
+  font-size: 35px;
+  color: #A79049;
+}
+
 .case-tab {
   height: 55px;
   position: relative;
@@ -917,37 +943,78 @@ body {
 
 /* -------------------case.html end------------------- */
 
-/* -------------------konwlege.html------------------- */
+/* -------------------article.html------------------- */
+.location {
+  font-size: 18px;
+  color: #666;
+  margin-top: 30px;
+}
 
+.location hr {
+  background: #e5e5e5;
+  margin: 3px 0 0;
+}
+
+.article-main {
+  padding: 40px 0 80px;
+}
+
+.article-main .article-title {
+  margin-bottom: 20px;
+  font-size: 26px;
+  color: #000;
+}
+
+.article-main .article-sub {
+  color: #999;
+  font-size: 20px;
+  line-height: 30px;
+  margin: 20px 0;
+}
+
+.article-main .article-sub .article-collection {
+  cursor: pointer;
+}
+
+.article-main .article-sub .article-collection>* {
+  vertical-align: middle;
+}
+
+.article-main .article-sub .article-collection .layui-icon {
+  font-size: 30px;
+  color: #A79049;
+}
+
+.article-main .article-content {
+  font-size: 22px;
+  color: #666;
+  line-height: 28px;
+}
+
+/* -------------------article.html end------------------- */
+
+/* -------------------konwlege.html------------------- */
 .tab-list {
-  background: #F5F5F5;
   font-size: 0;
 }
 
 .tab-item {
   cursor: pointer;
-  width: 197px;
-  height: 62px;
-  margin: 22px 10px;
-  padding: 40px;
+  margin: 66px 0;
   background: #fff;
   font-size: 24px;
-  text-align: left;
-  -webkit-transition: box-shadow .5s ease;
-  -moz-transition: box-shadow .5s ease;
-  -o-transition: box-shadow .5s ease;
-  transition: box-shadow .5s ease;
 }
 
 .tab-item span {
-  display: table-cell;
+  display: inline-block;
   max-width: 100px;
   vertical-align: middle;
   height: 62px;
+  margin-right: 50px;
 }
 
-.tab-item:hover {
-  box-shadow: 0px 3px 21px 0px rgba(0, 0, 0, 0.24);
+.tab-item span.lh62{
+  line-height: 62px;
 }
 
 .tab-content {
@@ -1071,7 +1138,7 @@ body {
   line-height: 50px;
   margin: 0;
   color: #fff !important;
-  background: #F1906D;
+  background: #CEA972;
   padding: 0 !important;
   border-radius: 6px;
   font-size: 24px;
@@ -1175,16 +1242,16 @@ body {
 .post-btn {
   border-radius: 50px;
   color: #fff;
-  -webkit-background: linear-gradient(to right, #F1906D, #F07144);
-  -moz-background: linear-gradient(to right, #F1906D, #F07144);
-  -o-background: linear-gradient(to right, #F1906D, #F07144);
-  background: linear-gradient(to right, #F1906D, #F07144);
+  -webkit-background: linear-gradient(to right, #CEA972, #A79049);
+  -moz-background: linear-gradient(to right, #CEA972, #A79049);
+  -o-background: linear-gradient(to right, #CEA972, #A79049);
+  background: linear-gradient(to right, #CEA972, #A79049);
   height: 50px;
   line-height: 50px;
   font-size: 26px;
-  -webkit-box-shadow: 0px 9px 13px 0px rgba(243, 126, 84, 0.66);
-  -moz-box-shadow: 0px 9px 13px 0px rgba(243, 126, 84, 0.66);
-  box-shadow: 0px 9px 13px 0px rgba(243, 126, 84, 0.66);
+  -webkit-box-shadow: 0px 9px 13px 0px rgba(206, 169, 114, 0.66);
+  -moz-box-shadow: 0px 9px 13px 0px rgba(206, 169, 114, 0.66);
+  box-shadow: 0px 9px 13px 0px rgba(206, 169, 114, 0.66);
   border: none;
 }
 
@@ -1303,7 +1370,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #F1906D;
+  background: #CEA972;
   -webkit-transform: scaleX(0);
   -moz-transform: scaleX(0);
   -o-transform: scaleX(0);
@@ -1321,7 +1388,7 @@ body {
 }
 
 .min-sidebar .sidebar-tree li .sidebar-tree-item.active {
-  border-left: 2px solid #F1906D;
+  border-left: 2px solid #CEA972;
   padding-left: 28px;
 }
 
@@ -1360,7 +1427,7 @@ body {
   height: 45px;
   line-height: 45px;
   color: #fff;
-  background: #F1906D;
+  background: #CEA972;
   border-radius: 6px;
   border: none;
   outline: none;
@@ -1421,34 +1488,37 @@ body {
 
 /* -------------------orders.html------------------- */
 .order-container {
-  width: 770px;
+  overflow: hidden;
   margin: 30px 0 0 20px;
   font-size: 18px;
   border: #bfbfbf 1px solid;
 }
 
 .order-header {
-  background: #bbb;
-  font-size: 16px;
+  overflow: hidden;
   height: 40px;
   line-height: 40px;
+  padding: 0 30px;
   border-bottom: 1px solid #bfbfbf;
-  overflow: hidden;
-  padding-left: 30px;
+  background: #bbb;
+  font-size: 16px;
 }
-.order-tab{
+
+.order-tab {
   height: 38px;
   line-height: 38px;
   border-bottom: 1px solid #bfbfbf;
 }
+
 .order-tab .order-tab-item {
   height: 38px;
   line-height: 38px;
   text-align: center;
   border-right: 1px solid #bfbfbf;
+  cursor: pointer;
 }
 
-.order-tab .order-tab-item:last-of-type{
+.order-tab .order-tab-item:last-of-type {
   border-right: 0;
 }
 
@@ -1461,18 +1531,27 @@ body {
 }
 
 .order-main .order-side ul li {
+  cursor: pointer;
+  overflow: hidden;
   height: 38px;
   line-height: 38px;
   padding: 0 20px;
   border-right: 1px solid #bfbfbf;
   border-bottom: 1px solid #bfbfbf;
 }
-.order-main .order-side ul li:last-of-type{
+
+.order-main .order-side ul li:last-of-type {
   border-bottom: none;
 }
-.order-main .order-side ul li.active{
+
+.order-main .order-side ul li.active {
   background: #e5e5e5;
 }
+
+.order-content {
+  margin-left: 177px;
+}
+
 /* -------------------orders.html end------------------- */
 
 /* -------------------aboutus.html------------------- */

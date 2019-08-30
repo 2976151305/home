@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,22 +16,65 @@
   <![endif]-->
   <title>文章详情</title>
 </head>
+
 <body>
   <header id="header"></header>
-  <main></main>
+  <main>
+    <div class="layui-container">
+      <div class="location">
+        <span>您当前的位置：装修知识<span class="color-ce"></span></span>
+        <hr>
+      </div>
+      <div class="article-main">
+        <h1 class="article-title"></h1>
+        <img class="cover-img" src="">
+        <div class="article-sub">
+          <div class="f-l article-count">
+            <span class="count"></span>
+            <span class="upload-date"></span>
+          </div>
+          <div class="f-r article-collection">
+            <i class="layui-icon layui-icon-rate"></i>
+            <span>收藏这篇文章</span>
+          </div>
+          <div class="layui-clear"></div>
+        </div>
+        <div class="article-content textJ"></div>
+      </div>
+    </div>
+  </main>
   <footer id="footer"></footer>
 
   <script src="../layui/layui.js"></script>
   <script>
-    jQuery(function(){
+    jQuery(function () {
       var id = active.getQueryString('id')
+      var $num = $('.article-sub .article-count .count')
+      var $uploadDate = $('.article-sub .article-count .upload-date')
+      var $collection = $('.article-collection')
+      var $content = $('.article-content')
+      var $coverImg = $('.article-main img')
+      var $title = $('.article-title')
+      var $location = $('.location .color-ce')
       active.query(`/decorate/articles/api/article/detail/${id}`).then(res => {
         console.log(res)
-      }).catch(err => new Error(err))
+        if(res.code === 'success'){
+          $title.text(res.data.title)
+          $content.html(res.data.content)
+          $num.text(res.data.numbers)
+          $coverImg.attr('src', res.data.cover_img)
+          $location.text(' > ' + res.data.title)
+          $uploadDate.text('发布时间：' + active.formatDate(res.data.last_update_time))
+        }
+      }).catch(err => {
+        layer.msg('获取失败，请稍后重试')
+        new Error(err)
+      })
     })
-    layui.use(['element'], function(){
-
+    layui.use('layer', function () {
+      var layer = layui.layer
     })
   </script>
 </body>
+
 </html>

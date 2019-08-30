@@ -5,9 +5,9 @@
     </div>
     <div class="f-r f0">
       <div class="layui-inline login-center">
-        <a href="./login.html" class="color-g f14">登录</a>
-        <a href="./register.html" class="color-g f14">注册</a>
-        <a href="javascript:;" class="f14">消息（<span class="color-g f14">5</span>）</a>
+        <a href="./login.html" class="color-ce f14">登录</a>
+        <a href="./register.html" class="color-ce f14">注册</a>
+        <a href="javascript:;" class="f14">消息(<span class="color-ce f14"></span>)</a>
       </div>
       <span class="f14">整装之家App咨询热线:0000-000-000</span>
     </div>
@@ -38,12 +38,22 @@
   path = path[path.length - 1]
   var $navItem = $('.navigation ul li')
   $navItem.each((i, item) => {
-    var itemPath = $(item).find('a').attr('href').split('/')[1]
+    var itemPath = $(item).find('a').attr('href').split('/')
+    itemPath = itemPath[itemPath.length - 1]
     if (path === '' && i === 0) {
       $(item).find('a').addClass('active')
     }
-    if (itemPath === path && itemPath != "") {
+    if (itemPath === path && itemPath !== "") {
       $(item).find('a').addClass('active')
     }
   })
+  let uid = active.getLocalStorage('uid')
+  if (uid !== null) {
+    active.query(`/decorate/users/api/note/unread/${uid}/`).then(res => {
+      if (res.code === 'success') {
+        let $msgCount = $('.login-center span')
+        $msgCount.text(res.count)
+      }
+    })
+  }
 </script>

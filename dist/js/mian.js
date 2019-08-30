@@ -116,46 +116,20 @@ var active = {
     let start = phone.slice(0, 4)
     let end = phone.slice(7, 11)
     return `${start}...${end}`
+  },
+  getLocalStorage: function (name) {
+    if (localStorage.getItem(name) && localStorage.getItem(name) !== '')
+      return localStorage.getItem(name)
+    else return null
+  },
+  isLogin: function () {
+    let uid = active.getLocalStorage('uid')
+    if (uid === null)
+      window.location.href = '../page/login.html'
+    else return true
+  },
+  formatDate: function (date) {
+    var year = date.split('T')
+    return year[0]
   }
-  /**
-   * 获取手机验证码
-   * @param {object} self 获取验证码dom节点
-   * @param {string} phone 手机号
-   */
 };
-
-function getCode(self, phone) {
-  if (!active.verify(phone)) {
-    layer.msg('请输入您的手机号码');
-    return;
-  }
-  if (!active.verify(phone, '^[1][3,4,5,6,7,8,9][0-9]{9}$')) {
-    layer.msg('请输入有效的手机号码');
-    return;
-  }
-  var time = 60;
-  if (time === 60) {
-    active.query('/decorate/users/api/sms/send/', {
-      phone: phone
-    }).then(function (res) {
-      console.log(res);
-      if (res.code === 'success') {
-        layer.msg(res.msg);
-        var interval = setInterval(function () {
-          if (time === 0) {
-            time = 60;
-            self.html('获取验证码');
-            clearInterval(interval);
-            return;
-          }
-          self.html('\u8BF7' + time + 's\u540E\u91CD\u65B0\u83B7\u53D6');
-          time--;
-        }, 1000);
-      } else {
-        layer.msg(res.msg);
-      }
-    }).catch(function (err) {
-      return new Error(err);
-    });
-  }
-}
