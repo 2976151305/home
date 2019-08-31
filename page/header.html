@@ -7,7 +7,7 @@
       <div class="layui-inline login-center">
         <a href="./login.html" class="color-ce f14">登录</a>
         <a href="./register.html" class="color-ce f14">注册</a>
-        <a href="javascript:;" class="f14">消息(<span class="color-ce f14"></span>)</a>
+        <a href="./message.html" class="f14 msg">消息</a>
       </div>
       <span class="f14">整装之家App咨询热线:0000-000-000</span>
     </div>
@@ -23,7 +23,7 @@
     <ul class="textR">
       <li><a href="./">首页</a></li>
       <li><a href="./">装修案例</a></li>
-      <li><a href="./">智能家居</a></li>
+      <li><a href="./smarthome.html">智能家居</a></li>
       <li><a href="./knowlege.html">装修知识</a></li>
       <li><a href="./photos.html">装修效果图</a></li>
       <li><a href="./aboutus.html">关于我们</a></li>
@@ -51,8 +51,8 @@
   if (uid !== null) {
     active.query(`/decorate/users/api/note/unread/${uid}/`).then(res => {
       if (res.code === 'success') {
-        let $msgCount = $('.login-center span')
-        $msgCount.text(res.count)
+        let $msgCount = $('.login-center .msg')
+        $msgCount.html("消息(<span class=\"color-ce f14\">" + res.count + "</span>)")
       }
     })
   }

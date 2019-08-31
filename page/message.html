@@ -45,10 +45,6 @@
     jQuery(function () {
       $('.min-sidebar').load('./sidebar.html')
       var uid = active.getLocalStorage('uid')
-      if (typeof uid === 'null') {
-        window.location.href = './login.html'
-        return
-      }
       var $messageBox = $('.message-container ul')
       let msgArr = []
       active.query(`/decorate/users/api/notes/${uid}/`).then(res => {
@@ -56,21 +52,35 @@
         if (res.code === 'success') {
           res.data.forEach(item => {
             msgArr.push(`
-            <li data-no="${item.id}">${item.title}</li>
+            <li data-no="${item.id}">
+              <div class="msg-date">${replaceDate(item.create_time)}
+                <span class="msg-arrow layui-icon layui-icon-down"></span>
+              </div>
+              <p class="msg-content layui-elip">${item.note}</p>
+            </li>
             `.trim())
           })
           $messageBox.append(msgArr.join(''))
-          $messageBox.find('li').on('click', function () {
+          
+          $messageBox.find('li .msg-arrow').on('click', function () {
             var self = $(this)
-            var note_id = self.data('no')
+            var note_id = self.parents('li').data('no')
+            self.toggleClass('layui-icon-up')
+            self.parent().siblings('.msg-content').toggleClass('auto')
             active.query(`/decorate/users/api/note/read/${uid}/${note_id}/`, undefined, 'POST').then(
-            res => {})
+              res => {})
           })
         }
       }).catch(err => {
         layer.msg('获取失败,请稍后重试')
         new Error(err)
       })
+      // 格式化时间
+      function replaceDate(date) {
+        let time = date.replace('T', ' ')
+        time = time.split('.')
+        return time[0]
+      }
     })
     layui.use('layer', function () {
       var layer = layui.layer

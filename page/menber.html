@@ -48,7 +48,7 @@
   <footer id="footer"></footer>
   <script src="../layui/layui.js"></script>
   <script>
-    var uid = localStorage.getItem('uid')
+    var uid = active.getLocalStorage('uid')
     var $avatar1 = $('.user-avatar-src img')
     var $open = $('.avatar-shade')
     var $file = $('input[type="file"]')
@@ -67,7 +67,6 @@
           layer.msg('请选择正确的图片文件')
           return
         }
-        var uid = localStorage.getItem('uid')
         $.ajax({
           url: `${BASEURL}/decorate/users/api/upload/avatar/${uid}/`,
           method: 'POST',

@@ -39,11 +39,6 @@
   <script src="../layui/layui.js"></script>
   <script>
     jQuery(function () {
-      let uid = localStorage.getItem('uid') ? localStorage.getItem('uid') : false
-      if (!uid) {
-        window.location.href = './login.html'
-        return
-      }
       $('.min-sidebar').load('./sidebar.html')
       var $orderBox = $('.menber-container')
       var processArr = []

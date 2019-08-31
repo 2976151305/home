@@ -20,72 +20,63 @@
 <body>
   <header id="header"></header>
   <main>
-    <div class="layui-container block-mb block-mt">
-      <div class="layui-col-space30">
-        <div class="layui-col-lg5">
-          <img class="cover-img" style="height: 600px;">
-        </div>
-        <div class="layui-col-lg7">
-          <div class="layui-tab layui-tab-brief" lay-filter="change">
-            <ul class="layui-tab-title textC">
-              <li class="layui-this layui-col-lg4">账号密码登录</li>
-              <li class="layui-col-lg4">验证码登录</li>
-              <li class="layui-col-lg4">微信登录</li>
-            </ul>
-            <div class="layui-tab-content">
-              <div class="layui-tab-item layui-show layui-form">
-                <div class="layui-form-item">
-                  <label for="" class="layui-form-label">手机号码</label>
-                  <div class="layui-input-block">
-                    <input type="tel" id="phone1" name="phone" class="layui-input" required lay-verify="required"
-                      placeholder="请输入登录手机号码" maxlength="11">
-                  </div>
-                </div>
-                <div class="layui-form-item">
-                  <label class="layui-form-label">密码</label>
-                  <div class="layui-input-block">
-                    <input class="layui-input" type="password" required lay-verify="required" name="password"
-                      autocomplete="off" placeholder="请输入密码" minlength="6">
-                  </div>
-                </div>
-                <div class="layui-form-item">
-                  <div class="layui-input-block">
-                    <button class="layui-input layui-bg-green" lay-submit lay-filter="f1">立即登录</button>
-                  </div>
-                </div>
-              </div>
-              <div class="layui-tab-item layui-form">
-                <div class="layui-form-item">
-                  <label for="" class="layui-form-label">手机号码</label>
-                  <div class="layui-input-block">
-                    <input type="tel" id="phone2" name="phone" class="layui-input" required lay-verify="required"
-                      placeholder="请输入登录手机号码" maxlength="11">
-                  </div>
-                </div>
-                <div class="layui-form-item">
-                  <label class="layui-form-label">验证码</label>
-                  <div class="layui-input-inline">
-                    <input type="text" name="sms" required lay-verify="required" placeholder="请输入验证码" autocomplete="off"
-                      class="layui-input" maxlength="4">
-                  </div>
-                  <div class="layui-form-mid layui-word-aux get-code">获取验证码</div>
-                </div>
-                <div class="layui-form-item">
-                  <div class="layui-input-block">
-                    <button class="layui-input layui-bg-green" lay-submit lay-filter="f2">立即登录</button>
-                  </div>
-                </div>
-              </div>
-              <div class="layui-tab-item layui-form textC">
-                <img class="cover-img block-mb block-mt" style="width: 200px; height: 200px;">
+    <div class="login-container">
+      <div class="layui-tab layui-tab-brief login-box f-r" lay-filter="change">
+        <ul class="layui-tab-title">
+          <li class="layui-this layui-col-lg4">账号密码登录</li>
+          <li class="layui-col-lg4">验证码登录</li>
+          <li class="layui-col-lg4">微信登录</li>
+        </ul>
+        <div class="layui-tab-content">
+          <!-- 账号密码登录 -->
+          <div class="layui-tab-item layui-show layui-form">
+            <div class="layui-form-item">
+              <label for="" class="layui-form-label"><i class="layui-icon layui-icon-cellphone"></i>手机号码</label>
+              <div class="layui-input-block">
+                <input type="tel" id="phone1" name="phone" class="layui-input" required lay-verify="required"
+                  placeholder="请输入登录手机号码" maxlength="11">
               </div>
             </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label"><i class="layui-icon layui-icon-password"></i>密码</label>
+              <div class="layui-input-block">
+                <input class="layui-input" type="password" required lay-verify="required" name="password"
+                  autocomplete="off" placeholder="请输入密码" minlength="6">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <button class="layui-input post-btn" lay-submit lay-filter="f1">立即登录</button>
+            </div>
+          </div>
+          <!-- 手机验证码登录 -->
+          <div class="layui-tab-item layui-form">
+            <div class="layui-form-item">
+              <label for="" class="layui-form-label"><i class="layui-icon layui-icon-cellphone"></i>手机号码</label>
+              <div class="layui-input-block">
+                <input type="tel" id="phone2" name="phone" class="layui-input" required lay-verify="required"
+                  placeholder="请输入登录手机号码" maxlength="11">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">验证码</label>
+              <div class="layui-input-inline">
+                <input type="text" name="sms" required lay-verify="required" placeholder="请输入验证码" autocomplete="off"
+                  class="layui-input" maxlength="4">
+              </div>
+              <div class="layui-form-mid layui-word-aux get-code">获取验证码</div>
+            </div>
+            <div class="layui-form-item">
+              <button class="layui-input post-btn" lay-submit lay-filter="f2">立即登录</button>
+            </div>
+          </div>
+          <!-- 二维码登录 -->
+          <div class="layui-tab-item layui-form textC">
+            <img class="cover-img" style="width: 200px; height: 200px;">
           </div>
         </div>
       </div>
       <div class="layui-clear"></div>
     </div>
-    <div class="layui-clear"></div>
   </main>
   <footer id="footer"></footer>
   <script src="../layui/layui.js"></script>
@@ -93,7 +84,7 @@
   <script src="../js/crypto-js.min.js"></script>
   <script>
     jQuery(function () {
-      if (localStorage.getItem('uid')) window.location.href = "./"
+      active.isLogin()
       var $getCode = $('.get-code')
       // 账号密码
       var $phone1 = $("#phone1")
@@ -125,7 +116,7 @@
                   clearInterval(interval);
                   return;
                 }
-                self.html('\u8BF7' + time + 's\u540E\u91CD\u65B0\u83B7\u53D6');
+                self.html(time + 's');
                 time--;
               }, 1000);
             } else {

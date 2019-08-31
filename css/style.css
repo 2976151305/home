@@ -79,6 +79,14 @@ body {
   color: #fff;
 }
 
+.layui-col-space45 {
+  margin: -22.5px;
+}
+
+.layui-col-space45>* {
+  padding: 22.5px;
+}
+
 @media screen and (min-width: 1230px) {
   .layui-container {
     width: 1230px;
@@ -251,17 +259,47 @@ body {
   left: 0;
 }
 
+.banner {
+  position: relative;
+}
+
+.introduce {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 958px;
+  line-height: 50px;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 24px;
+}
+
+.diy-btn-skin {
+  height: 40px;
+  line-height: 40px;
+  font-size: 24px;
+  color: #fff;
+  background: #CEA972;
+  border-radius: 50px;
+  -webkit-box-shadow: 0px 6px 8px 0px rgba(206, 169, 114, 0.53);
+  -moz-box-shadow: 0px 6px 8px 0px rgba(206, 169, 114, 0.53);
+  -o-box-shadow: 0px 6px 8px 0px rgba(206, 169, 114, 0.53);
+  box-shadow: 0px 6px 8px 0px rgba(206, 169, 114, 0.53);
+}
+
 /* -------------------公共样式 end------------------- */
 
 /* -------------------头部------------------- */
 #header {
   background: #fff;
+  border-bottom: 1px solid #A0A0A0;
 }
 
 .top {
   height: 42px;
   line-height: 42px;
   background: #F7F7F7;
+  border-bottom: 1px solid #A0A0A0;
 }
 
 .top .login-center {
@@ -848,13 +886,141 @@ body {
 
 /* -------------------apply.html------------------- */
 .apply-btn {
-  width: 180px;
-  height: 56px;
-  border-radius: 4px;
-  margin: 40px 0;
+  width: 130px;
+  border-radius: 6px;
+  margin-top: 30px;
+}
+
+.apply-conditions {
+  width: 1420px;
+}
+
+.condition-item {
+  background: url(../images/bg6.jpg) no-repeat center / cover;
+  height: 200px;
+  color: #fff;
+  padding: 0 65px;
+}
+
+.condition-item span {
+  -webkit-display: table-cell;
+  -moz-display: table-cell;
+  display: table-cell;
+  width: 335px;
+  text-align: center;
+  height: 200px;
+  line-height: 24px;
+  font-size: 20px;
+  vertical-align: middle;
+}
+
+.busniess-item {
+  background: #f5f5f5;
+  font-size: 22px;
+  color: #999;
+  height: 300px;
+}
+
+.busniess-item h3 {
+  font-size: 26px;
+  color: #333;
+}
+
+.questions {
+  font-size: 20px;
+}
+
+.questions dt {
+  color: #000;
+  line-height: 1;
+  margin-bottom: 14px;
+  font-weight: bold;
+}
+
+.questions dd {
+  margin-left: 30px;
+  margin-bottom: 50px;
+  line-height: 30px;
+}
+
+.questions dd.no-mt {
+  margin-bottom: 0;
 }
 
 /* -------------------apply.html end------------------- */
+
+/* -------------------cooperation.html------------------- */
+.questions h2{
+  font-size: 24px;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 14px;
+}
+.questions ol {
+  margin-bottom: 50px;
+  margin-left: 30px;
+  line-height: 30px;
+}
+
+.questions ol[type='a'] li {
+  list-style-type: lower-alpha;
+}
+.questions ol[type='1'] li {
+  list-style-type: decimal;
+}
+.apply-box{
+  height: 670px;
+  background: #eee;
+}
+.apply-box .layui-col-lg6{
+  height: 100%;
+}
+.vertical-text{
+  position: absolute;
+  right: 0;
+  top: 50%;
+  height: 400px;
+  padding: 0 27px;
+  text-align: center;
+  border: 15px solid #CABCA9;
+  font-size: 36px;
+  background: #fff;
+  -webkit-writing-mode: vertical-rl;
+  -moz-writing-mode: vertical-rl;
+  -ms-writing-mode: tb-rl;
+  writing-mode: vertical-rl;
+  -moz-transform: translate(-20px, -50%);
+  -webkit-transform: translate(-20px, -50%);
+  -ms-transform: translate(-20px, -50%);
+  transform: translate(-20px, -50%);
+}
+
+.apply-box .conditions{
+  width: 730px;
+  font-size: 22px;
+  line-height: 35px;
+  margin-top: 106px;
+}
+.apply-box .conditions ul li{
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.apply-box .conditions span{
+  margin: 40px 0;
+}
+.cooperation-btn{
+  cursor: pointer;
+  margin-top: 65px;
+  font-size: 40px;
+  -webkit-text-shadow:0px 4px 4px rgba(59,53,53,0.5);
+  -moz-text-shadow:0px 4px 4px rgba(59,53,53,0.5);
+  -ms-text-shadow:0px 4px 4px rgba(59,53,53,0.5);
+  text-shadow:0px 4px 4px rgba(59,53,53,0.5);
+  vertical-align: middle;
+}
+
+/* -------------------cooperation.html end------------------- */
 
 /* -------------------case.html------------------- */
 .collection {
@@ -1013,7 +1179,7 @@ body {
   margin-right: 50px;
 }
 
-.tab-item span.lh62{
+.tab-item span.lh62 {
   line-height: 62px;
 }
 
@@ -1129,6 +1295,117 @@ body {
 
 /* -------------------konwlege.html end------------------- */
 
+/* -------------------login.html------------------- */
+.login-box,
+.register-box {
+  width: 610px;
+  margin: 110px 210px 110px 0;
+  background: #fff;
+  border-radius: 10px;
+  padding: 90px 50px 82px;
+}
+
+.login-box .layui-tab-title {
+  height: 48px;
+}
+
+.login-box .layui-tab-title li {
+  font-size: 28px;
+  height: auto;
+  line-height: 1;
+  padding: 0 0 20px;
+  margin-bottom: 77px;
+}
+
+.login-box .layui-tab-title .layui-this:after {
+  height: 49px;
+}
+
+.login-box.layui-tab-brief>.layui-tab-title .layui-this {
+  color: #B28950
+}
+
+.login-box.layui-tab-brief>.layui-tab-more li.layui-this:after,
+.layui-tab-brief>.layui-tab-title .layui-this:after {
+  border-color: #B28950;
+}
+
+.login-box .layui-tab-content {
+  padding: 0 50px;
+}
+
+.register-box .layui-form-item,
+.login-box .layui-form-item {
+  margin-bottom: 40px;
+}
+
+.register-box .layui-form-item:last-of-type,
+.login-box .layui-form-item:last-of-type {
+  margin-bottom: 0;
+}
+
+.register-box .layui-form-item label,
+.login-box .layui-form-item label {
+  width: 155px;
+  height: 50px;
+  line-height: 50px;
+  text-align: left;
+  padding: 0;
+  font-size: 26px;
+}
+
+.register-box .layui-form-item label .layui-icon,
+.login-box .layui-form-item label .layui-icon {
+  font-size: inherit;
+  margin-right: 10px;
+}
+
+.register-box .layui-form-item .layui-input-block,
+.login-box .layui-form-item .layui-input-block {
+  margin-left: 155px;
+}
+
+.register-box .layui-form-item .layui-input-block .layui-input,
+.register-box .layui-form-item .layui-input-inline .layui-input,
+.login-box .layui-form-item .layui-input-block .layui-input,
+.login-box .layui-form-item .layui-input-inline .layui-input {
+  height: 50px;
+  line-height: 50px;
+  padding-left: 20px;
+  font-size: 18px;
+  color: #aaa;
+  border-radius: 6px;
+}
+
+.register-box .layui-form-item .layui-input-inline,
+.login-box .layui-form-item .layui-input-inline {
+  width: 140px;
+  margin-right: 22px;
+}
+
+.register-box .layui-form-item .layui-input::placeholder,
+.login-box .layui-form-item .layui-input::placeholder {
+  color: #aaa;
+}
+
+.post-btn {
+  border-radius: 50px;
+  color: #fff;
+  -webkit-background: linear-gradient(to right, #CEA972, #A79049);
+  -moz-background: linear-gradient(to right, #CEA972, #A79049);
+  -o-background: linear-gradient(to right, #CEA972, #A79049);
+  background: linear-gradient(to right, #CEA972, #A79049);
+  height: 50px;
+  line-height: 50px;
+  font-size: 26px;
+  -webkit-box-shadow: 0px 9px 13px 0px rgba(206, 169, 114, 0.66);
+  -moz-box-shadow: 0px 9px 13px 0px rgba(206, 169, 114, 0.66);
+  box-shadow: 0px 9px 13px 0px rgba(206, 169, 114, 0.66);
+  border: none;
+}
+
+/* -------------------login.html end------------------- */
+
 /* -------------------register.html------------------- */
 .get-code {
   cursor: pointer;
@@ -1144,7 +1421,8 @@ body {
   font-size: 24px;
 }
 
-.register-container {
+.register-container,
+.login-container {
   background: url(../images/register.jpg) no-repeat center / cover;
 }
 
@@ -1175,55 +1453,7 @@ body {
 
 .register-box {
   width: 510px;
-  margin: 110px 222px 110px 0;
-  background: #fff;
-  border-radius: 10px;
   padding: 62px 100px 92px;
-}
-
-.register-box .layui-form-item {
-  margin-bottom: 40px;
-}
-
-.register-box .layui-form-item:last-of-type {
-  margin-bottom: 0;
-}
-
-.register-box .layui-form-item label {
-  width: 155px;
-  height: 50px;
-  line-height: 50px;
-  text-align: left;
-  padding: 0;
-  font-size: 26px;
-}
-
-.register-box .layui-form-item label .layui-icon {
-  font-size: inherit;
-  margin-right: 10px;
-}
-
-.register-box .layui-form-item .layui-input-block {
-  margin-left: 155px;
-}
-
-.register-box .layui-form-item .layui-input-block .layui-input,
-.register-box .layui-form-item .layui-input-inline .layui-input {
-  height: 50px;
-  line-height: 50px;
-  padding-left: 20px;
-  font-size: 18px;
-  color: #aaa;
-  border-radius: 6px;
-}
-
-.register-box .layui-form-item .layui-input-inline {
-  width: 140px;
-  margin-right: 22px;
-}
-
-.register-box .layui-form-item .layui-input::placeholder {
-  color: #aaa;
 }
 
 .register-box .layui-form-checkbox[lay-skin=primary] i {
@@ -1237,22 +1467,6 @@ body {
 
 .register-box .layui-form-checkbox[lay-skin=primary]:hover i {
   border-color: #3288D1;
-}
-
-.post-btn {
-  border-radius: 50px;
-  color: #fff;
-  -webkit-background: linear-gradient(to right, #CEA972, #A79049);
-  -moz-background: linear-gradient(to right, #CEA972, #A79049);
-  -o-background: linear-gradient(to right, #CEA972, #A79049);
-  background: linear-gradient(to right, #CEA972, #A79049);
-  height: 50px;
-  line-height: 50px;
-  font-size: 26px;
-  -webkit-box-shadow: 0px 9px 13px 0px rgba(206, 169, 114, 0.66);
-  -moz-box-shadow: 0px 9px 13px 0px rgba(206, 169, 114, 0.66);
-  box-shadow: 0px 9px 13px 0px rgba(206, 169, 114, 0.66);
-  border: none;
 }
 
 /* -------------------register.html end------------------- */
@@ -1325,7 +1539,7 @@ body {
 
 .min-sidebar {
   float: left;
-  min-height: 100%;
+  min-height: 890px;
   width: 240px;
   background: #fff;
 }
@@ -1388,8 +1602,7 @@ body {
 }
 
 .min-sidebar .sidebar-tree li .sidebar-tree-item.active {
-  border-left: 2px solid #CEA972;
-  padding-left: 28px;
+  background: #CEA972;
 }
 
 .min-sidebar .sidebar-tree li .sidebar-tree-item.un-text-indent {
@@ -1416,7 +1629,9 @@ body {
   position: relative;
   margin-left: 260px;
   width: 940px;
+  min-height: 890px;
   background: #fff;
+  overflow: hidden;
 }
 
 .save {
@@ -1438,7 +1653,7 @@ body {
 
 .user-avatar-nickname-box {
   width: 150px;
-  margin-top: 114px;
+  margin: 114px auto 114px;
 }
 
 .user-avatar-nickname-box .user-avatar-src {
@@ -1554,6 +1769,112 @@ body {
 
 /* -------------------orders.html end------------------- */
 
+/* -------------------message.html------------------- */
+.message-container {
+  padding: 0 40px;
+}
+
+.message-container ul li {
+  padding: 40px 0 30px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.message-container ul li .msg-date {
+  position: relative;
+  font-size: 18px;
+  color: #666;
+  line-height: 1;
+  margin-bottom: 15px;
+}
+
+.message-container ul li .msg-content {
+  width: 670px;
+  line-height: 30px;
+  text-align: justify;
+  font-size: 20px;
+}
+
+.message-container ul li .msg-content.auto {
+  height: auto;
+  text-overflow: unset;
+  white-space: normal;
+  overflow: unset;
+}
+
+.message-container ul li .msg-arrow {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  right: 40px;
+  padding: 0 10px 10px;
+}
+
+/* -------------------message.html end------------------- */
+
+/* -------------------caseCollection.html------------------- */
+.collection-box {
+  width: 590px;
+  padding: 30px 0;
+}
+
+.collection-box ul li {
+  margin-bottom: 15px;
+}
+
+.collection-box ul li .collection-item {
+  position: relative;
+}
+
+.collection-box ul li .collection-item .collection-item-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 20px;
+  height: 36px;
+  line-height: 36px;
+  font-size: 18px;
+  color: #fff;
+  background: rgba(0, 0, 0, .7);
+}
+
+.no-collection {
+  font-size: 16px;
+  color: #999;
+}
+
+/* -------------------caseCollection.html end------------------- */
+
+/* -------------------applyLoan.html------------------- */
+.loan-box {
+  width: 756px;
+  margin-top: 68px;
+}
+
+.loan-box img {
+  margin-bottom: 40px;
+}
+
+.loan-item {
+  padding: 60px 24px;
+  background: #f5f5f5;
+  color: #999;
+}
+
+.loan-item h3 {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.loan-btn {
+  width: 170px;
+  margin-top: 60px;
+}
+
+/* -------------------applyLoan.html end------------------- */
+
 /* -------------------aboutus.html------------------- */
 .tablecell {
   -webkit-display: table-cell;
@@ -1578,7 +1899,7 @@ body {
 
 .tablecell p {
   width: 526px;
-  font-size: 16px;
+  font-size: 18px;
   color: #666;
   line-height: 30px;
   text-align: justify;

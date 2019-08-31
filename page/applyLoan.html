@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="../layui/css/layui.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../layui/css/layui.mobile.css">
+  <script src="../js/jquery-1.11.3.min.js"></script>
+  <script src="../dist/js/mian.js"></script>
+  <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <title>装修贷款</title>
+  <style>
+    body {
+      background: #f7f7f7;
+    }
+  </style>
+</head>
+
+<body>
+  <header id="header"></header>
+  <main>
+    <div class="layui-container">
+      <aside class="min-sidebar">
+      </aside>
+      <div class="menber-container">
+        <h2 class="nav-title">装修贷款</h2>
+        <div class="loan-box marginAuto textC">
+          <img src="../images/banner6.jpg">
+          <div class="layui-col-space30">
+            <div class="layui-col-lg4">
+              <div class="loan-item">
+                <h3>环保不达标，负责到底</h3>
+                <p>11项德系材料，签署环保协议</p>
+              </div>
+            </div>
+            <div class="layui-col-lg4">
+              <div class="loan-item">
+                <h3>环保不达标，负责到底</h3>
+                <p>11项德系材料，签署环保协议</p>
+              </div>
+            </div>
+            <div class="layui-col-lg4">
+              <div class="loan-item">
+                <h3>环保不达标，负责到底</h3>
+                <p>11项德系材料，签署环保协议</p>
+              </div>
+            </div>
+          </div>
+          <div class="layui-clear"></div>
+          <button class="layui-btn block marginAuto diy-btn-skin loan-btn">立即申请</button>
+        </div>
+      </div>
+      <div class="layui-clear"></div>
+    </div>
+  </main>
+  <footer id="footer"></footer>
+  <script src="../layui/layui.js"></script>
+  <script>
+    jQuery(function () {
+      $('.min-sidebar').load('./sidebar.html')
+      var uid = active.getLocalStorage('uid')
+    })
+    layui.use(['element', 'layer'], function () {
+      var element = layui.element
+      var layer = layui.layer
+    })
+  </script>
+</body>
+
+</html>
