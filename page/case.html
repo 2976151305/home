@@ -21,35 +21,25 @@
   <header id="header"></header>
   <main class="case-detail">
     <div class="article-detail-top">
-      <div class="layui-col-lg6">
-        <div class="case-img"></div>
-      </div>
-      <div class="layui-col-lg6">
-        <div class="case-info">
-          <h2></h2>
-          <p class="textJ"></p>
-        </div>
-      </div>
-    </div>
-    <div class="layui-clear"></div>
-    <div class="layui-tab layui-tab-brief" lay-filter="change">
-      <div class="case-tab">
+      <div class="layui-tab case-tab">
         <ul class="layui-tab-title textC layui-container">
           <li class="layui-this layui-col-lg4">案例详情</li>
           <li class="layui-col-lg4">物品清单</li>
           <li class="layui-col-lg4">售后保障</li>
         </ul>
       </div>
+    </div>
+    <div class="layui-clear"></div>
+    <div class="layui-tab layui-tab-brief block-mt100">
       <div class="layui-tab-content layui-container">
+        <!-- 块1 -->
         <div class="layui-tab-item layui-show">
-          <div class="diy-table">
-            <div class="diy-table-header diy-table-row">
-              <div class="diy-table-column diy-table-type">类型</div>
-            </div>
-            <div class="diy-table-body"></div>
-          </div>
         </div>
-        <div class="layui-tab-item"></div>
+        <!-- 块2 -->
+        <div class="layui-tab-item">
+
+        </div>
+        <!-- 块3 -->
         <div class="layui-tab-item">
           <img class="cover-img" height="400px;">
         </div>
@@ -76,10 +66,9 @@
   <script src="../layui/layui.js"></script>
   <script>
     jQuery(function () {
+      var $articleTop = $('.article-detail-top')
       var $tabItem = $('.case-tab .layui-tab-title li')
-      var $coverImg = $('.article-detail-top .case-img')
-      var $title = $('.article-detail-top .case-info > h2')
-      var $content = $('.article-detail-top .case-info > p')
+      var $tabContentItem = $('.layui-tab-content .layui-tab-item')
       let $tabContent = $('.case-detail .layui-tab-content')
       var id = active.getQueryString('id')
       var $collection = $('.collection')
@@ -89,23 +78,20 @@
         let template2 = ``
         if (res.code === 'success') {
           let data = res.data[0]
-          $coverImg.attr('style', `background: url(${data.cover_img}) no-repeat center / cover`)
-          $title.text(data.title)
-          $content.text(data.features_describe)
+          $articleTop.css('background', 'url(' + data.cover_img + ') no-repeat center / cover')
         }
       }).catch(err => new Error(err))
       $tabItem.on('click', function () {
-        var $tabItem = $(this).parents().find('.case-tab').siblings('.layui-tab-content').children('.layui-tab-item');
-        $tabItem.removeClass('layui-anim layui-anim-fadein');
-        $tabItem.eq($(this).index()).addClass('layui-anim layui-anim-fadein');
+        $tabContentItem.removeClass('layui-show layui-anim layui-anim-fadein').eq($(this).index()).addClass(
+          'layui-show layui-anim layui-anim-fadein')
       })
-      $collection.on('click', function(){
+      $collection.on('click', function () {
         active.isLogin()
         var self = $(this)
         let uid = active.getLocalStorage('uid')
         active.query(`/decorate/cases/api/case/collect/${uid}/${id}/`, undefined, 'POST').then(res => {
           console.log(res)
-          if(res.code === 'success'){
+          if (res.code === 'success') {
             self.find('i').removeClass('layui-icon-rate').addClass('layui-icon-rate-solid')
           }
         }).catch(err => {
@@ -130,6 +116,7 @@
                 <div class="layui-col-lg4 more-case-item">
                   <a href="./case.html?id=${item.id}" class="layui-show-lg-block">
                     <div class="percent-box">
+                      <h3 class="layui-elip">${item.title}</h3>
                       <div class="img-box" style="background: url(${item.cover_img}) no-repeat center / cover"></div>
                     </div>
                   </a>

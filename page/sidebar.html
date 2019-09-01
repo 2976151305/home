@@ -26,4 +26,12 @@
 
 <script>
   active.isLogin()
+  var $avatar = $('.avatar')
+  var $phone = $('.phone')
+  active.query(`/decorate/users/api/user/${active.getLocalStorage('uid')}/`).then(res => {
+    if(res.code === 'success'){
+      $avatar.attr('src', res.data.avatar_url)
+      $phone.text(active.slicePhone(res.data.phone))
+    }
+  })
 </script>

@@ -18,15 +18,21 @@ jQuery(function () {
   }
   var flag = true;
   $smart.on('mouseover', function () {
-    if(!flag) return
+    if (!flag) return
     var self = $(this);
     self.find('.smart-shade').css({
       'opacity': '1'
     });
     let imgArr = []
-    for(let i = 0; i < 7; i++){
+    for (let i = 0; i < 7; i++) {
       let img = `<img class="hover-img hover-img${i + 1} layui-anim layui-anim-fadein" src="../images/hover${i + 1}.png" style="-webkit-animation-delay: ${1000 + i * 500}s; animation-delay: ${1000 + i * 500}ms;">`
-      imgArr.push(img)
+      if (i === 6) {
+        img = `<div class="tip layui-anim layui-anim-fadein" style="-webkit-animation-delay: ${1000 + i * 500}s; animation-delay: ${1000 + i * 500}ms;">
+          <h1>HUMANIZED SERVICE</h1>
+          <span class="layui-inline">智能化体验，让您拥有一个舒适的家</span>
+        </div>`
+      }
+      imgArr.push(img.trim())
     }
     self.append(imgArr.join(''))
     flag = false;
@@ -168,21 +174,27 @@ layui.use(['element', 'carousel', 'layer'], function () {
       layer.msg('填写装修面积和手机号码之后才能免费预约哦！');
       return false;
     }
+    if (!active.verify($phone, '^[1][3,4,5,6,7,8,9][0-9]{9}$')) {
+      layer.msg('请输入正确的手机格式');
+      return false;
+    }
     var data = {
       phone: $phone,
       area: $area,
       city: $province + $city
     };
     active.query('/decorate/cases/api/case/apply/', data, 'POST').then(function (res) {
-      console.log(res);
       if (res.code === 'success') {
         layer.open({
-          title: '预约成功',
-          icon: 1,
+          skin: 'open-skin1',
+          title: '预约成功!',
+          move: false,
+          closeBtn: false,
+          area: ['582px'],
           content: '稍后会有装修管家以xxxx或xxxx开头的号码回电您，向您免费提供装修咨询服务。',
-          btn: '知道了',
-          shade: .5,
-          shadeClose: false
+          btn: '我知道了',
+          shade: .3,
+          shadeClose: true
         });
         if (!localStorage.getItem('c')) {
           localStorage.setItem('c', true);

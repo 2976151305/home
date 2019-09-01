@@ -92,7 +92,6 @@
         if (res.code === 'success') {
           var $avatar = $('.avatar')
           var $phoneBox = $('.phone')
-          $avatar.attr('src', res.data.avatar_url)
           $avatar1.attr('src', res.data.avatar_url)
           $phoneBox.text(active.slicePhone(res.data.phone))
         }
