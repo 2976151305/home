@@ -1433,8 +1433,36 @@ body {
   border: none;
 }
 
-.case-detail .layui-tab-content {
+.case-detail .layui-tab-content{
   padding: 0;
+}
+.case-detail .layui-tab{
+  margin: 100px auto 0;
+}
+
+.item-list{
+  height: 500px;
+  margin-bottom: 100px;
+}
+
+.item-list .item-ind{
+  padding: 0 50px;
+  font-size: 24px;
+  color: #666;
+  line-height: 30px;
+}
+
+.item-list .item-ind h2{
+  font-size: 40px;
+  margin-bottom: 30px;
+  line-height: 1;
+}
+
+.item-list .item-ind h3{
+  font-size: 30px;
+  color: #333;
+  margin-bottom: 20px;
+  line-height: 1;
 }
 
 /* -------------------case.html end------------------- */

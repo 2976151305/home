@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../layui/css/layui.css">
   <link rel="stylesheet" href="../css/style.css">
-  
+
   <script src="../js/jquery-1.11.3.min.js"></script>
   <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -30,14 +30,13 @@
       </div>
     </div>
     <div class="layui-clear"></div>
-    <div class="layui-tab layui-tab-brief block-mt100">
-      <div class="layui-tab-content layui-container">
+    <div class="layui-tab layui-tab-brief block-mt100 layui-container">
+      <div class="layui-tab-content">
         <!-- 块1 -->
         <div class="layui-tab-item layui-show">
         </div>
         <!-- 块2 -->
         <div class="layui-tab-item">
-
         </div>
         <!-- 块3 -->
         <div class="layui-tab-item">
@@ -47,7 +46,7 @@
       <div class="layui-clear"></div>
     </div>
     <div class="layui-container">
-      <div class="textC block-mb60 block-mt60">
+      <div class="textC block-mb60 block-mt100">
         <div class="textL title marginAuto layui-inline">
           <h1>更多案例</h1>
           <span class="block">MORE CASE</span>
@@ -69,37 +68,82 @@
       var $articleTop = $('.article-detail-top')
       var $tabItem = $('.case-tab .layui-tab-title li')
       var $tabContentItem = $('.layui-tab-content .layui-tab-item')
-      let $tabContent = $('.case-detail .layui-tab-content')
+      var $tabContent = $('.case-detail .layui-tab-content')
       var id = active.getQueryString('id')
       var $collection = $('.collection')
       active.query(`/decorate/cases/api/case/detail/${id}/`).then(res => {
         console.log(res)
-        let template1 = ``
-        let template2 = ``
         if (res.code === 'success') {
           let data = res.data[0]
+          let item_lists = []
           $articleTop.css('background', 'url(' + data.cover_img + ') no-repeat center / cover')
+          data.item_lists.map((item, index) => {
+            item_lists.push(templateStr((index + 1) % 2, item))
+          })
+          $('.layui-tab-item').eq(1).append(item_lists.join(''))
+          console.log(item_lists)
         }
       }).catch(err => new Error(err))
       $tabItem.on('click', function () {
         $tabContentItem.removeClass('layui-show layui-anim layui-anim-fadein').eq($(this).index()).addClass(
           'layui-show layui-anim layui-anim-fadein')
       })
+      var uid = active.getLocalStorage('uid')
       $collection.on('click', function () {
         active.isLogin()
         var self = $(this)
-        let uid = active.getLocalStorage('uid')
         active.query(`/decorate/cases/api/case/collect/${uid}/${id}/`, undefined, 'POST').then(res => {
-          console.log(res)
           if (res.code === 'success') {
-            self.find('i').removeClass('layui-icon-rate').addClass('layui-icon-rate-solid')
+            if (self.find('i').attr('class').includes('layui-icon-rate-solid'))
+              self.find('i').removeClass('layui-icon-rate-solid').addClass('layui-icon-rate')
+            else
+              self.find('i').removeClass('layui-icon-rate').addClass('layui-icon-rate-solid')
           }
         }).catch(err => {
-          layer.msg('收藏失败，请稍后重试')
+          layer.msg('操作失败，请稍后重试')
           new Error(err)
         })
       })
+      if (uid !== null) {
+        active.query(`/decorate/cases/api/case/collect/${uid}`).then(res => {
+          if (res.code === 'success') {
+            res.data.forEach(item => {
+              if (item.id === parseFloat(id)) {
+                $collection.find('i').removeClass('layui-icon-rate').addClass('layui-icon-rate-solid')
+                return false
+              }
+            })
+          }
+        })
+      }
     })
+
+    function templateStr(num, item) {
+      if (num === 0)
+        return `
+        <div class="item-list">
+          <div class="layui-col-lg6 item-ind textR">
+            <h2 class="layui-elip color-ce">${item.region}</h2>
+            <h3>${item.name}</h3>
+            <p>${item.features_describe}</p>
+          </div>
+          <div class="layui-col-lg6">
+            <img src="${item.image}" class="cover-img">
+          </div>
+        </div>`.trim()
+      else
+        return `
+        <div class="item-list">
+          <div class="layui-col-lg6">
+            <img src="${item.image}" class="cover-img">
+          </div>
+          <div class="layui-col-lg6 item-ind">
+            <h2 class="layui-elip color-ce">${item.region}</h2>
+            <h3>${item.name}</h3>
+            <p>${item.features_describe}</p>
+          </div>
+        </div>`.trim()
+    }
     layui.use(['element', 'flow'], function () {
       var element = layui.element
       var flow = layui.flow
