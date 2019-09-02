@@ -14,12 +14,15 @@ var active = {
    * @param {string} method 方法
    * @param {object} headers 请求头
    */
-  query: function query(api_url, data, method, headers) {
+  query: function query(api_url, data, method, withCredentials, headers) {
     return new Promise(function (resolve, reject) {
       $.ajax({
         url: BASEURL + api_url,
         data: data || '',
         method: method || 'GET',
+        xhrFields: {
+          withCredentials: withCredentials || false
+        },
         headers: headers || {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -51,13 +54,18 @@ var active = {
     if (r != null) return decodeURI(r[2]);
     return null;
   },
+  setCookies: function setCookie(name, value, expiremMinutes) {
+    var exdate = new Date();
+    exdate.setTime(exdate.getTime() + expiremMinutes * 60 * 1000);
+    document.cookie = name + "=" + escape(value) + ";expires=" + exdate.toGMTString() + ";path=/"
+  },
   /**
    * 设置cookie
    * @param {string} c_name cookie名
    * @param {string} value cookie值
    * @param {number} expiremMinutes cookie保存时间(分)
    */
-  setCookie: function setCookie(c_name, value, expiremMinutes) {
+  encryptionCookie: function setCookie(c_name, value, expiremMinutes) {
     var exdate = new Date();
     var cipherValue = CryptoJS.AES.encrypt(value, "secret key 123").toString();
     // console.log(cipherValue)

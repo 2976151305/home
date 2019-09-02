@@ -135,16 +135,18 @@ body {
 }
 
 .open-skin2 .layui-layer-title {
-  padding: 60px 0 50px;
+  padding: 60px 0 0;
   text-align: center;
   font-size: 22px;
   border: none;
   background: #fff;
+  line-height: 1;
 }
 
 .open-skin2.layui-layer-dialog .layui-layer-content {
-  padding: 0 80px;
+  padding: 50px 80px 0;
   font-size: 20px;
+  overflow-y: hidden;
 }
 
 .open-skin2 .layui-layer-btn {
@@ -366,7 +368,100 @@ body {
   box-shadow: 0px 6px 8px 0px rgba(206, 169, 114, 0.53);
 }
 
+.float-bar {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.float-bar .float-bar-item {
+  width: 96px;
+  height: 96px;
+  text-align: center;
+  vertical-align: middle;
+  color: #717070;
+}
+
 /* -------------------公共样式 end------------------- */
+
+/* -------------------背景图标------------------- */
+.css-sprite {
+  background: url(../images/sprite.png) no-repeat;
+  background-size: 137px 1196px;
+  background-position-x: -10px;
+}
+
+.sicon1,
+.sicon2 {
+  width: 66px;
+  height: 66px;
+}
+
+.sicon1 {
+  background-position-y: -559px;
+}
+
+.sicon2 {
+  background-position-y: -644px;
+}
+
+.sicon3,
+.sicon4,
+.sicon5 {
+  width: 117px;
+  height: 117px;
+  margin: 0 auto;
+  margin-bottom: 5px;
+}
+
+.sicon3 {
+  background-position-y: -815px;
+}
+
+.sicon4 {
+  background-position-y: -938px;
+}
+
+.sicon5 {
+  background-position-y: -1072px;
+}
+
+.sicon6,
+.sicon7,
+.sicon8 {
+  width: 62px;
+  height: 62px;
+}
+
+.sicon6 {
+  background-position-y: -399px;
+}
+
+.sicon7 {
+  background-position-y: -247px;
+}
+
+.sicon8 {
+  background-position-y: -103px;
+}
+
+.tab-item:hover .sicon6 {
+  background-position-y: -479px;
+}
+
+.tab-item:hover .sicon7 {
+  background-position-y: -321px;
+}
+
+.tab-item:hover .sicon8 {
+  background-position-y: -175px;
+}
+
+/* -------------------背景图标 end------------------- */
 
 /* -------------------头部------------------- */
 #header {
@@ -746,6 +841,17 @@ body {
   left: 0;
   bottom: 0;
   overflow: hidden;
+  -webkit-transition: transform .5s ease;
+  -moz-transition: transform .5s ease;
+  -ms-transition: transform .5s ease;
+  transition: transform .5s ease;
+}
+
+.percent-box:hover .img-box {
+  -webkit-transform: scale(1.08);
+  -moz-transform: scale(1.08);
+  -ms-transform: scale(1.08);
+  transform: scale(1.08);
 }
 
 .advantage .advantage-box .advantage-item .go-detail {
@@ -872,6 +978,7 @@ body {
 .percent-box {
   position: relative;
   padding-top: 90%;
+  overflow: hidden;
 }
 
 .percent-box h3 {
@@ -1045,6 +1152,7 @@ body {
   font-size: 22px;
   color: #999;
   height: 300px;
+  padding-top: 90px;
 }
 
 .busniess-item h3 {
@@ -1104,6 +1212,38 @@ body {
 
 .diy-skin .layui-input-block.self {
   margin-left: 190px;
+}
+
+.diy-skin .layui-input-block select {
+  max-width: 50%;
+  border: none;
+}
+
+.diy-skin .layui-input {
+  height: 40px;
+  line-height: 40px;
+}
+
+.diy-skin .layui-form-item .layui-input-inline {
+  margin-right: 20px;
+  width: 233px;
+}
+
+.diy-skin .get-code {
+  width: 77px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 18px;
+  border-radius: 0;
+}
+
+.diy-skin .post-btn {
+  width: 300px;
+  height: 48px;
+  line-height: 48px;
+  font-size: 20px;
+  margin: 60px auto 100px;
+  background: linear-gradient(to right, #CEA972, #DCB781);
 }
 
 .layui-form-radio>i:hover,
@@ -1352,11 +1492,12 @@ body {
 /* -------------------konwlege.html------------------- */
 .tab-list {
   font-size: 0;
+  border-bottom: 1px #bfbfbf solid;
 }
 
 .tab-item {
   cursor: pointer;
-  margin: 66px 0;
+  margin: 62px 0;
   background: #fff;
   font-size: 24px;
 }
@@ -1721,6 +1862,18 @@ body {
 
 .category .category-row ul li a.active::after {
   width: 100%;
+}
+
+.photos {
+  position: relative;
+  height: 1000px;
+}
+
+.photos img {
+  position: absolute;
+  width: 280px;
+  margin: 10px;
+  transition: all .5s ease;
 }
 
 /* -------------------photos.html end------------------- */
@@ -2096,6 +2249,36 @@ body {
 }
 
 /* -------------------aboutus.html end------------------- */
+/* -------------------complainService.html------------------- */
+.complain {
+  background: url(../images/enterbg.jpg) repeat;
+}
+
+.complain .title {
+  margin-top: 85px;
+  margin-bottom: 70px;
+}
+
+.complain .title>* {
+  color: #C4A88B;
+}
+
+.complain .title.textL::after {
+  background: #C4A88B;
+}
+
+.complaint-introduction {
+  padding: 0 95px;
+  font-size: 22px;
+  color: #fff;
+}
+
+.complaint-introduction ul li {
+  margin-bottom: 40px;
+  line-height: 40px;
+}
+
+/* -------------------complainService.html end------------------- */
 
 /* -------------------页脚------------------- */
 .layui-footer {

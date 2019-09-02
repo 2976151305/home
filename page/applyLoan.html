@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../layui/css/layui.css">
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../layui/css/layui.mobile.css">
+  
   <script src="../js/jquery-1.11.3.min.js"></script>
   <script src="../dist/js/mian.js"></script>
   <!--[if lt IE 9]>
@@ -61,6 +61,8 @@
   </main>
   <footer id="footer"></footer>
   <script src="../layui/layui.js"></script>
+  <script src="../js/distpicker.data.min.js"></script>
+  <script src="../js/distpicker.min.js"></script>
   <script>
     jQuery(function () {
       $('.min-sidebar').load('./sidebar.html')
@@ -69,6 +71,73 @@
     layui.use(['element', 'layer'], function () {
       var element = layui.element
       var layer = layui.layer
+      var $apply = $('.loan-btn')
+      var content = `
+      <div class="layui-form diy-skin">
+        <div class="layui-form-item">
+          <label class="layui-form-label">所在地</label>
+          <div class="layui-input-block" id="distpicker" data-toggle="distpicker">
+            <select name="province" lay-verify="required" id="province"></select>
+            <select name="city" lay-verify="required" id="city"></select>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">姓名</label>
+          <div class="layui-input-block">
+            <input type="text" name="name" id="name" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">手机</label>
+          <div class="layui-input-block">
+            <input type="tel" maxlength="11" name="phone" id="phone" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+      `.trim()
+      $apply.on('click', function () {
+        layer.open({
+          title: '请告诉我们以下信息方便我们联系到您',
+          area: '582px',
+          skin: 'open-skin2',
+          content,
+          shadeClose: true,
+          closeBtn: false,
+          shade: .5,
+          move: false,
+          btn: '提交',
+          btnAlign: 'c',
+          success: function () {
+            $("#distpicker").distpicker()
+          },
+          yes: function (index, layero) {
+            var name = $('#name').val()
+            var phone = $('#phone').val()
+            var city = $('#province').val() + $('#city').val()
+            var data = {
+              name,
+              phone,
+              city
+            }
+            active.query('/decorate/users/api/apply/loans/', data, 'POST').then(res => {
+              if (res.code === 'success') {
+                layer.open({
+                  skin: 'open-skin1',
+                  title: '提交成功！',
+                  content: '稍后会有装修管家以xxxx或xxxx开头的号码回电您，向您免费提供装修咨询服务。',
+                  area: '582px',
+                  closeBtn: false,
+                  move: false,
+                  shadeClose: true,
+                  btn: '我知道了'
+                })
+              } else {
+                layer.msg(res.msg)
+              }
+            }).catch(err => new Error(err))
+          }
+        })
+      })
     })
   </script>
 </body>

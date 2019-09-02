@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../layui/css/layui.css">
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../layui/css/layui.mobile.css">
+  
   <script src="../js/jquery-1.11.3.min.js"></script>
   <script src="../dist/js/mian.js"></script>
   <!--[if lt IE 9]>
@@ -24,22 +24,22 @@
       <img class="cover-img" src="../images/banner4.jpg">
     </div>
     <!-- 导航 -->
-    <div class="tab-list">
-      <div class=" layui-container">
+    <div class="tab-list" lay-filter="change">
+      <div class="layui-container">
         <div class="tab-item layui-col-lg4">
           <div class="layui-inline"></div>
           <span>新房装修小知识</span>
-          <i class="layui-inline"></i>
+          <i class="layui-inline css-sprite sicon6"></i>
         </div>
         <div class="tab-item layui-col-lg4 textC">
           <div class="layui-inline">
             <span class="textL">装修也要讲风水</span>
-            <i class="layui-inline"></i></div>
+            <i class="layui-inline css-sprite sicon7"></i></div>
         </div>
         <div class="tab-item layui-col-lg4 textR">
           <div class="layui-inline">
             <span class="lh62">业主社区</span>
-            <i class="layui-inline"></i></div>
+            <i class="layui-inline css-sprite sicon8"></i></div>
         </div>
         <div class="layui-clear"></div>
       </div>
@@ -51,7 +51,7 @@
         <div class="textC block-mt100 block-mb60">
           <div class="textL title marginAuto layui-inline">
             <h1>新房装修小知识</h1>
-            <span class="block">DECORATION TIPS</span>
+            <span class="block">Decoration Knowledge</span>
           </div>
         </div>
         <!-- 模块1 -->
@@ -72,22 +72,57 @@
         </div>
         <div class="layui-clear"></div>
       </div>
-      <div class="tab-content"></div>
+      <!-- 导航2 -->
       <div class="tab-content">
+        <div class="textC block-mt100 block-mb60">
+          <div class="textL title marginAuto layui-inline">
+            <h1>装修也要讲风水</h1>
+            <span class="block">Decoration Fengshui</span>
+          </div>
+        </div>
         <!-- 模块1 -->
-        <div class="layui-col-space10 block-1"></div>
+        <div class="layui-col-space20 block-1"></div>
         <div class="layui-clear"></div>
-        <div class="layui-col-space10">
+        <div class="layui-col-space15">
           <!-- 模块2 -->
           <div class="layui-article layui-border-box f-l"></div>
           <!-- 模块3 -->
           <div class="hot-block layui-border-box f-r">
             <div class="hot-list">
-              <h3 class="textC">热门话题</h3>
+              <div class="textC">
+                <h3 class="layui-inline">热门话题</h3>
+              </div>
               <ul></ul>
             </div>
           </div>
         </div>
+        <div class="layui-clear"></div>
+      </div>
+      <!-- 导航3 -->
+      <div class="tab-content">
+        <div class="textC block-mt100 block-mb60">
+          <div class="textL title marginAuto layui-inline">
+            <h1>业主社区</h1>
+            <span class="block">Owner Community</span>
+          </div>
+        </div>
+        <!-- 模块1 -->
+        <div class="layui-col-space20 block-1"></div>
+        <div class="layui-clear"></div>
+        <div class="layui-col-space15">
+          <!-- 模块2 -->
+          <div class="layui-article layui-border-box f-l"></div>
+          <!-- 模块3 -->
+          <div class="hot-block layui-border-box f-r">
+            <div class="hot-list">
+              <div class="textC">
+                <h3 class="layui-inline">热门话题</h3>
+              </div>
+              <ul></ul>
+            </div>
+          </div>
+        </div>
+        <div class="layui-clear"></div>
       </div>
     </div>
   </main>
@@ -101,7 +136,7 @@
       var $block1 = $('.block-1')
       var $articleList = $('.layui-article')
       var $hotList = $('.hot-block .hot-list ul')
-      $tabItem.children('div').on('click', function () {
+      $tabItem.find('.tab-item').on('click', function () {
         var index = $(this).index()
         $tabContent.siblings('.tab-content').removeClass('layui-show layui-anim layui-anim-fadein')
         $tabContent.eq(index).addClass('layui-show layui-anim layui-anim-fadein')
@@ -168,53 +203,102 @@
           }
           if (item.navigation_bar === "导航2") {
             if (item.location === "文章预览区(模块3)") {
-              arr2[0].push(item)
-            } else if (item.location === "文章展示区(模块4)") {
-              arr2[1].push(item)
-            } else if (item.location === "文章话题区(模块5)") {
-              arr2[2].push(item)
-            }
-          }
-          if (item.navigation_bar === "导航3") {
-            if (item.location === "文章预览区(模块3)") {
-              arr3[0].push(`
+              if (arr2[0].length < 3) {
+                arr2[0].push(`
                 <div class="layui-col-lg6">
-                  <div class="layui-col-lg12" style="background: url(${item.cover_img}) #ddd no-repeat center / cover; height: 100%;"></div>
+                  <a class="block" href="./article.html?id=${item.id}">
+                    <div style="background: url(${item.cover_img}) #ddd no-repeat center / cover;"></div>
+                  </a>
                 </div>
                 `.trim())
+              }
             } else if (item.location === "文章展示区(模块4)") {
-              arr3[1].push(`
+              arr2[1].push(`
               <article class="layui-article-item">
                 <header class="article-header">
-                  <h2>${item.title}</h2>
+                  <h2><a href="./article.html?id=${item.id}">${item.title}</a></h2>
                 </header>
                 <main class="article-body">
                   <img class="cover-img" src="${item.cover_img}">
                   <div class="date">
-                    <span>浏览次数：${item.numbers}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>发布时间：${active.formatDate(item.create)}</span>
+                    <span>浏览次数：${item.numbers}</span><span>发布时间：${active.formatDate(item.last_update_time)}</span>
                   </div>
-                  <p class="textJ">${item.introduction}</p>
+                  <p>${item.introduction}</p>
                 </main>
                 <footer class="textR">
-                  <a href="./article.html?id=${item.id}"><span>全文</span><i class="layui-icon layui-icon-next"></i></a>
+                  <a href="./article.html?id=${item.id}"><span>全文</span>&gt;&gt;&gt;</a>
                 </footer>
               </article>
               `.trim())
             } else if (item.location === "文章话题区(模块5)") {
-              arr3[2].push()
+              arr2[2].push(`
+              <li>
+                <a class="layui-inline" href="./article.html?id=${item.id}">
+                  <em class="layui-inline">${arr1[2].length + 1}</em>
+                  <span class="layui-inline layui-elip">${item.title}</span>
+                </a>
+              </li>
+              `.trim())
+            }
+          }
+          if (item.navigation_bar === "导航3") {
+            let i2 = 1
+            if (item.location === "文章预览区(模块3)") {
+              if (arr3[0].length < 3) {
+                arr3[0].push(`
+                <div class="layui-col-lg6">
+                  <a class="block" href="./article.html?id=${item.id}">
+                    <div style="background: url(${item.cover_img}) #ddd no-repeat center / cover;"></div>
+                  </a>
+                </div>
+                `.trim())
+              }
+            } else if (item.location === "文章展示区(模块4)") {
+              arr3[1].push(`
+              <article class="layui-article-item">
+                <header class="article-header">
+                  <h2><a href="./article.html?id=${item.id}">${item.title}</a></h2>
+                </header>
+                <main class="article-body">
+                  <img class="cover-img" src="${item.cover_img}">
+                  <div class="date">
+                    <span>浏览次数：${item.numbers}</span><span>发布时间：${active.formatDate(item.last_update_time)}</span>
+                  </div>
+                  <p>${item.introduction}</p>
+                </main>
+                <footer class="textR">
+                  <a href="./article.html?id=${item.id}"><span>全文</span>&gt;&gt;&gt;</a>
+                </footer>
+              </article>
+              `.trim())
+            } else if (item.location === "文章话题区(模块5)") {
+              arr3[2].push(`
+              <li>
+                <a class="layui-inline" href="./article.html?id=${item.id}">
+                  <em class="layui-inline">${arr1[2].length + 1}</em>
+                  <span class="layui-inline layui-elip">${item.title}</span>
+                </a>
+              </li>
+              `.trim())
+              i2++
             }
           }
         })
         console.log(arr1, arr2, arr3)
         $tabContent.eq(0).addClass('layui-show layui-anim layui-amin-fadein')
-        $block1.append(arr1[0])
-        $articleList.append(arr1[1])
-        $hotList.append(arr1[2])
+        $block1.eq(0).append(arr1[0])
+        $block1.eq(1).append(arr2[0])
+        $block1.eq(2).append(arr3[0])
+        $articleList.eq(0).append(arr1[1])
+        $articleList.eq(1).append(arr2[1])
+        $articleList.eq(2).append(arr3[1])
+        $hotList.eq(0).append(arr1[2])
+        $hotList.eq(1).append(arr2[2])
+        $hotList.eq(2).append(arr3[2])
       }).catch(err => new Error(err))
     })
     layui.use(['element'], function () {
       var element = layui.element
-      element.on('tab(change)', function () {})
     })
   </script>
 </body>

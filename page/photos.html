@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../layui/css/layui.css">
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../layui/css/layui.mobile.css">
+  
   <script src="../js/jquery-1.11.3.min.js"></script>
   <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -54,12 +54,14 @@
     jQuery(function () {
       active.query('/decorate/rendering/api/renderings/spaces/').then(res => {
         let type = [
-          `<li><a href="./photos.html?space_type=&area=${area_range}" class="${space_type ? '' : 'active'}">不限</a></li>`.trim()
+          `<li><a href="./photos.html?space_type=&area=${area_range}" class="${space_type ? '' : 'active'}">不限</a></li>`
+          .trim()
         ]
         if (res.code === 'success') {
           res.data.forEach(item => {
             type.push(
-              `<li><a href="./photos.html?space_type=${item.name}&area=${area_range}" class="${space_type === item.name ? 'active' : ''}">${item.name}</a></li>`.trim()
+              `<li><a href="./photos.html?space_type=${item.name}&area=${area_range}" class="${space_type === item.name ? 'active' : ''}">${item.name}</a></li>`
+              .trim()
             )
           })
           $type.find('ul').append(type.join(''))
@@ -67,12 +69,14 @@
       })
       active.query('/decorate/rendering/api/renderings/area/config/').then(res => {
         let area = [
-          `<li><a href="./photos.html?space_type=${space_type}&area=" class="${area_range ? '' : 'active'}">不限</a></li>`.trim()
+          `<li><a href="./photos.html?space_type=${space_type}&area=" class="${area_range ? '' : 'active'}">不限</a></li>`
+          .trim()
         ]
         if (res.code === 'success') {
           Object.keys(res.data).forEach(key => {
             area.push(
-              `<li><a href="./photos.html?space_type=${space_type}&area=${res.data[key]}" class="${area_range === res.data[key] ? 'active' : ''}">${res.data[key]}</a></li>`.trim()
+              `<li><a href="./photos.html?space_type=${space_type}&area=${res.data[key]}" class="${area_range === res.data[key] ? 'active' : ''}">${res.data[key]}</a></li>`
+              .trim()
             )
           })
           $area.find('ul').append(area.join(''))
@@ -92,11 +96,70 @@
           let imgArr = []
           res.data.forEach(item => {
             imgArr.push(
-              `<img class="cover-img" layer-src="${item.cover_img}" src="${item.cover_img}" alt="${item.name}">`
+              `<img layer-src="${item.cover_img}" src="${item.cover_img}" alt="${item.name}">`
               .trim()
             )
           })
           $('.photos').append(imgArr)
+          var colCount //定义列数
+          var colHeightArry = [] //定义列高度数组
+          var imgWidth = $('.photos img').outerWidth(true) //单张图片的宽度
+
+          colCount = parseInt($('.photos').width() / imgWidth) //计算出列数
+          for (var i = 0; i < colCount; i++) {
+            colHeightArry[i] = 0
+          }
+          //[0,0,0]
+          $('.photos img').on('load', function () {
+            var minValue = colHeightArry[0] //定义最小的高度
+            var minIndex = 0 //定义最小高度的下标
+            for (var i = 0; i < colCount; i++) {
+              if (colHeightArry[i] < minValue) { //如果最小高度组数中的值小于最小值
+                minValue = colHeightArry[i] //那么认为最小高度数组中的值是真正的最小值
+                minIndex = i //最小下标为当前下标
+              }
+            }
+            $(this).css({
+              left: minIndex * imgWidth,
+              top: minValue
+            })
+            colHeightArry[minIndex] += $(this).outerHeight(true)
+            $('.photos').css('height', colHeightArry[minIndex])
+          })
+          //当窗口大小重置之后，重新执行
+          $(window).on('resize', function () {
+            reset()
+          })
+          //当窗口加载完毕，执行瀑布流
+          $(window).on('load', function () {
+            reset()
+          })
+
+          //定义reset函数
+          function reset() {
+            var colHeightArry = []
+            colCount = parseInt($('.photos').width() / imgWidth)
+            for (var i = 0; i < colCount; i++) {
+              colHeightArry[i] = 0
+            }
+            $('.photos img').each(function () {
+              var minValue = colHeightArry[0]
+              var minIndex = 0
+              for (var i = 0; i < colCount; i++) {
+                if (colHeightArry[i] < minValue) {
+                  minValue = colHeightArry[i]
+                  minIndex = i
+                }
+              }
+
+              $(this).css({
+                left: minIndex * imgWidth,
+                top: minValue
+              })
+              colHeightArry[minIndex] += $(this).outerHeight(true)
+              $('.photos').css('height', colHeightArry[minIndex])
+            })
+          }
           layer.photos({
             photos: '.photos',
             anim: 5,

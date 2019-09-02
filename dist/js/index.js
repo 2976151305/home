@@ -74,6 +74,7 @@ layui.use(['element', 'carousel', 'layer'], function () {
   var carousel = layui.carousel;
   var layer = layui.layer;
   active.query('/decorate/advertising/api/adverts/').then(function (res) {
+    console.log(res)
     if (res.code === 'success') {
       var arr = [];
       res.data.forEach(function (item) {

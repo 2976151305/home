@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../layui/css/layui.css">
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../layui/css/layui.mobile.css">
+  
   <script src="../js/jquery-1.11.3.min.js"></script>
   <script src="../dist/js/mian.js"></script>
   <!--[if lt IE 9]>
@@ -64,18 +64,21 @@
       <div class="business layui-col-space45">
         <div class="layui-col-lg4">
           <div class="busniess-item textC">
+              <i class="css-sprite sicon3 block"></i>
             <h3>环保不达标，负责到底</h3>
             <p>11项德系材料，签署环保协议</p>
           </div>
         </div>
         <div class="layui-col-lg4">
           <div class="busniess-item textC">
+            <i class="css-sprite sicon4 block"></i>
             <h3>环保不达标，负责到底</h3>
             <p>11项德系材料，签署环保协议</p>
           </div>
         </div>
         <div class="layui-col-lg4">
           <div class="busniess-item textC">
+              <i class="css-sprite sicon5 block"></i>
             <h3>环保不达标，负责到底</h3>
             <p>11项德系材料，签署环保协议</p>
           </div>
@@ -122,34 +125,34 @@
       var layer = layui.layer
       var $apply = $('.apply-btn')
       var content = `
-      <h3 class="textC">请告诉我们以下信息方便我们联系到您</h3>
-      <div class="layui-form">
+      <div class="layui-form diy-skin">
         <div class="layui-form-item">
-          <label class="layui-form-label">联系人</label>
+          <label class="layui-form-label">所在地</label>
+          <div class="layui-input-block" id="distpicker" data-toggle="distpicker">
+            <select name="province" lay-verify="required" id="province"></select>
+            <select name="city" lay-verify="required" id="city"></select>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">姓名</label>
           <div class="layui-input-block">
             <input type="text" name="name" id="name" autocomplete="off" class="layui-input">
           </div>
         </div>
         <div class="layui-form-item">
-          <label class="layui-form-label">手机号码</label>
+          <label class="layui-form-label">手机</label>
           <div class="layui-input-block">
             <input type="tel" maxlength="11" name="phone" id="phone" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">所在地</label>
-          <div class="layui-input-block layui-col-space10" id="distpicker" data-toggle="distpicker">
-            <select name="province" lay-verify="required" id="province" class="layui-input layui-col-lg6"></select>
-            <select name="city" lay-verify="required" id="city" class="layui-input layui-col-lg6"></select>
           </div>
         </div>
       </div>
       `.trim()
       $apply.on('click', function () {
         layer.open({
-          title: false,
+          title: '请告诉我们以下信息方便我们联系到您',
+          area: '582px',
+          skin: 'open-skin2',
           content,
-          area: ['390px', '370px'],
           shadeClose: true,
           closeBtn: false,
           shade: .5,
@@ -168,10 +171,18 @@
               phone,
               city
             }
-            console.log(data)
             active.query('/decorate/users/api/apply/loans/', data, 'POST').then(res => {
               if (res.code === 'success') {
-                layer.msg('提交成功')
+                layer.open({
+                  skin: 'open-skin1',
+                  title: '提交成功！',
+                  content: '稍后会有装修管家以xxxx或xxxx开头的号码回电您，向您免费提供装修咨询服务。',
+                  area: '582px',
+                  closeBtn: false,
+                  move: false,
+                  shadeClose: true,
+                  btn: '我知道了'
+                })
               } else {
                 layer.msg(res.msg)
               }
