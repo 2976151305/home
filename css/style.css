@@ -391,7 +391,7 @@ body {
 /* -------------------背景图标------------------- */
 .css-sprite {
   background: url(../images/sprite.png) no-repeat;
-  background-size: 137px 1196px;
+  background-size: 150px 1196px;
   background-position-x: -10px;
 }
 
@@ -461,6 +461,33 @@ body {
   background-position-y: -175px;
 }
 
+.sicon9, .sicon10{
+  width: 21px;
+  height: 21px;
+  margin-right: 4px;
+}
+
+.sicon9{
+  background-position: -118px -11px;
+}
+
+.sicon10{
+  background-position: -86px -11px;
+}
+
+.sicon11, .sicon12{
+  width: 22px;
+  height: 22px;
+}
+
+.sicon11{
+  background-position: -116px -40px;
+}
+
+.sicon12{
+  background-position: -84px -40px;
+}
+
 /* -------------------背景图标 end------------------- */
 
 /* -------------------头部------------------- */
@@ -473,7 +500,6 @@ body {
   height: 42px;
   line-height: 42px;
   background: #F7F7F7;
-  border-bottom: 1px solid #A0A0A0;
 }
 
 .top .login-center {
@@ -1440,9 +1466,34 @@ body {
   margin: 100px auto 0;
 }
 
+.case-introduct{
+  margin-left: 20px;
+}
+
+.case-introduct h2{
+  width: 270px;
+  line-height: 30px;
+  padding-left: 20px;
+  letter-spacing: 4px;
+  margin-bottom: 30px;
+  border-left: 4px solid #CEA972;
+  font-size: 30px;
+  color: #CEA972;
+}
+
+.case-introduct p{
+  font-size: 24px;
+  color: #666;
+  text-align: justify;
+}
+
 .item-list{
   height: 500px;
   margin-bottom: 100px;
+}
+
+.item-list:last-of-type{
+  margin: 0;
 }
 
 .item-list .item-ind{
@@ -1846,9 +1897,8 @@ body {
 
 .category .category-row ul li {
   display: inline-block;
-  width: 80px;
   text-align: right;
-  margin-left: 77px;
+  margin-left: 80px;
   font-size: 20px;
 }
 

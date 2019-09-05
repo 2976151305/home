@@ -30,17 +30,29 @@
       </div>
     </div>
     <div class="layui-clear"></div>
-    <div class="layui-tab layui-tab-brief block-mt100 layui-container">
+    <div class="layui-tab layui-tab-brief block-mt100">
       <div class="layui-tab-content">
         <!-- 块1 -->
-        <div class="layui-tab-item layui-show">
+        <div class="layui-tab-item layui-container layui-show">
+          <div class="layui-col-space20">
+            <div class="layui-col-lg6">
+              <img class="cover-img left_layout_plan">
+            </div>
+            <div class="layui-col-lg6">
+              <div class="case-introduct">
+                <h2></h2>
+                <p></p>
+              </div>
+            </div>
+            <div class="layui-clear"></div>
+          </div>
         </div>
         <!-- 块2 -->
-        <div class="layui-tab-item">
+        <div class="layui-tab-item layui-container">
         </div>
         <!-- 块3 -->
         <div class="layui-tab-item">
-          <img class="cover-img" height="400px;">
+          <img class="cover-img" src="../images/after_sale.jpg">
         </div>
       </div>
       <div class="layui-clear"></div>
@@ -81,7 +93,9 @@
             item_lists.push(templateStr((index + 1) % 2, item))
           })
           $('.layui-tab-item').eq(1).append(item_lists.join(''))
-          console.log(item_lists)
+          $('.left_layout_plan').attr('src', data.left_layout_plan)
+          $('.case-introduct h2').text(data.title)
+          $('.case-introduct p').text(data.features_describe)
         }
       }).catch(err => new Error(err))
       $tabItem.on('click', function () {
