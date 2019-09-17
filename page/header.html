@@ -1,41 +1,66 @@
-<div class="top">
-  <div class="layui-container">
-    <div class="f-l">
-      <span>您好！欢迎来到整装之家</span>
-    </div>
-    <div class="f-r f0">
-      <div class="layui-inline login-center">
-        <a href="./login.html" class="color-ce f14 w-l">登录</a>
-        <a href="./register.html" class="color-ce f14 r-o">注册</a>
-        <a href="./message.html" class="f14 msg">消息</a>
+<div class="header">
+  <div class="top">
+    <div class="layui-container">
+      <div class="f-l">
+        <span>您好！欢迎来到整装之家</span>
       </div>
-      <span class="f14"><i class="layui-inline css-sprite sicon9"></i>整装之家App</span>
-      <span style="margin-left: 20px;" class="f14"><i class="layui-inline css-sprite sicon10"></i>咨询热线:0000-000-000</span>
+      <div class="f-r f0">
+        <div class="layui-inline login-center">
+          <a href="./login.html" class="color-ce f14 w-l">登录</a>
+          <a href="./register.html" class="color-ce f14 r-o">注册</a>
+          <a href="./message.html" class="f14 msg">消息</a>
+        </div>
+        <span class="f14"><i class="layui-inline css-sprite sicon9"></i>整装之家App</span>
+        <span style="margin-left: 20px;" class="f14"><i
+            class="layui-inline css-sprite sicon10"></i>咨询热线:02087228570</span>
+      </div>
+      <div class="layui-clear"></div>
     </div>
+  </div>
+  <div class="layui-clear"></div>
+  <div class="layui-container header-nav">
+    <div class="logo layui-col-lg2">
+      <img src="../images/logo.jpg">
+      <!-- <div class="layui-inline website-address">
+        <h2 class="layui-inline">整装之家</h2>
+        <span class="layui-inline">WWW.ZZZJ-GZ.COM</span>
+      </div> -->
+    </div>
+    <nav class="navigation layui-col-lg10">
+      <ul>
+        <li><a href="./">首页</a></li>
+        <li><a href="./case.html">装修案例</a></li>
+        <li><a href="./smarthome.html">智能家居</a></li>
+        <li><a href="./knowlege.html">装修知识</a></li>
+        <li><a href="./photos.html">装修效果图</a></li>
+        <li><a href="./aboutus.html">关于我们</a></li>
+        <li><a href="./member.html">个人中心</a></li>
+      </ul>
+    </nav>
     <div class="layui-clear"></div>
   </div>
 </div>
-<div class="layui-clear"></div>
-<div class="layui-container header-nav">
-  <div class="logo layui-col-lg3">
-    <img src="../images/logo.png">
-    <div class="layui-inline website-address">
-      <h2 class="layui-inline">整装之家</h2>
-      <span class="layui-inline">WWW.ZZZJ-GZ.COM</span>
+<div class="sm-header">
+  <div class="layui-container">
+    <div class="sm-logo f-l">
+      <img src="../images/logo.jpg">
+    </div>
+    <div class="f-r">
+      <i class="layui-icon layui-icon-shrink-right layui-inline" style="font-size: 24px;"></i>
     </div>
   </div>
-  <nav class="navigation layui-col-lg9">
-    <ul class="textR">
+  <div class="sm-menu">
+    <i class="layui-inline layui-icon layui-icon-close"></i>
+    <ul>
       <li><a href="./">首页</a></li>
-      <li><a href="./">装修案例</a></li>
+      <li><a href="./case.html">装修案例</a></li>
       <li><a href="./smarthome.html">智能家居</a></li>
       <li><a href="./knowlege.html">装修知识</a></li>
       <li><a href="./photos.html">装修效果图</a></li>
       <li><a href="./aboutus.html">关于我们</a></li>
-      <li><a href="./menber.html">个人中心</a></li>
+      <li><a href="./member.html">个人中心</a></li>
     </ul>
-  </nav>
-  <div class="layui-clear"></div>
+  </div>
 </div>
 
 <script>
@@ -61,4 +86,10 @@
       }
     })
   }
+  $('.layui-icon-shrink-right').on('click', function () {
+    $('.sm-menu').addClass('active')
+  })
+  $('.sm-menu .layui-icon-close').on('click', function(){
+    $(this).parent().removeClass('active')
+  })
 </script>

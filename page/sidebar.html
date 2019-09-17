@@ -1,14 +1,16 @@
 <section>
   <ul class="sidebar-tree">
     <li>
-      <div class="user-avatar textC">
-        <img src="" class="avatar latui-inline layui-circle">
-        <span class="latui-inline phone"></span>
-      </div>
+      <a href="./member.html">
+        <div class="user-avatar textC">
+          <img src="" class="avatar latui-inline layui-circle">
+          <span class="latui-inline phone"></span>
+        </div>
+      </a>
     </li>
     <li>
       <h4>我的订单</h4>
-      <a href="orders.html" class="sidebar-tree-item active"><span>装修订单</span></a>
+      <a href="./orders.html" class="sidebar-tree-item"><span>装修订单</span></a>
     </li>
     <li>
       <h4>我的收藏</h4>
@@ -26,10 +28,22 @@
 
 <script>
   active.isLogin()
+  var menberPath = window.location.pathname.split('/')
+  menberPath = menberPath[menberPath.length - 1]
+  var $sideItem = $('.sidebar-tree li')
+  for (var i = 0; i < $sideItem.length; i++) {
+    var a = $sideItem[i].querySelectorAll('a')
+    for (var k = 0; k < a.length; k++) {
+      var path = a[k].attributes.href.value
+      if (path.indexOf(menberPath) > 1) {
+        $(a[k]).addClass('active')
+      }
+    }
+  }
   var $avatar = $('.avatar')
   var $phone = $('.phone')
   active.query(`/decorate/users/api/user/${active.getLocalStorage('uid')}/`).then(res => {
-    if(res.code === 'success'){
+    if (res.code === 'success') {
       $avatar.attr('src', res.data.avatar_url)
       $phone.text(active.slicePhone(res.data.phone))
     }

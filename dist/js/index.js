@@ -24,9 +24,9 @@ jQuery(function () {
       'opacity': '1'
     });
     let imgArr = []
-    for (let i = 0; i < 7; i++) {
-      let img = `<img class="hover-img hover-img${i + 1} layui-anim layui-anim-fadein" src="../images/hover${i + 1}.png" style="-webkit-animation-delay: ${1000 + i * 500}s; animation-delay: ${1000 + i * 500}ms;">`
-      if (i === 6) {
+    for (let i = 0; i <= 8; i++) {
+      let img = `<img class="hover-img hover-img${i} layui-anim layui-anim-fadein" src="../images/hover${i}.png" style="-webkit-animation-delay: ${1000 + i * 500}s; animation-delay: ${1000 + i * 500}ms;">`
+      if (i === 0) {
         img = `<div class="tip layui-anim layui-anim-fadein" style="-webkit-animation-delay: ${1000 + i * 500}s; animation-delay: ${1000 + i * 500}ms;">
           <h1>HUMANIZED SERVICE</h1>
           <span class="layui-inline">智能化体验，让您拥有一个舒适的家</span>
@@ -51,7 +51,7 @@ jQuery(function () {
         rewind: false,
         responsive: {
           350: {
-            items: 1
+            items: 3
           },
           768: {
             items: 2
@@ -63,7 +63,7 @@ jQuery(function () {
             items: 4
           }
         },
-        smartSpeed: 500,
+        smartSpeed: 300,
         navText: ['<i class="layui-icon layui-icon-prev"></i>', '<i class="layui-icon layui-icon-next"></i>']
       });
     }
@@ -87,7 +87,6 @@ layui.use(['element', 'carousel', 'layer'], function () {
       carousel.render({
         elem: '#carousel',
         width: '100%',
-        height: '670px',
         anim: 'fade',
         interval: '5000'
       });
@@ -105,13 +104,12 @@ layui.use(['element', 'carousel', 'layer'], function () {
       });
       $caseCarousel.append(arr);
       $caseInfo.children('h2').text(caseCarousel[0].title);
-      $caseInfo.children('p').text(caseCarousel[0].features_describe);
+      $caseInfo.children('p').html(caseCarousel[0].features_describe);
       // case banner
       carousel.render({
         elem: '#case_carousel',
         autoplay: false,
         width: '100%',
-        height: '470px',
         arrow: 'always',
         indicator: 'none'
       });
@@ -125,9 +123,9 @@ layui.use(['element', 'carousel', 'layer'], function () {
       var i = 0;
       var arr = [];
       res.data.forEach(function (item) {
-        if (i < 5) {
+        if (i < 6) {
           if (item.if_join_recommend) {
-            arr.push(('    <article class="article-item">      <article>        <a class="block" href="./article.html?id=' + item.id + '">          <div class="article-cover-img" style="background: url(' + item.cover_img + ') no-repeat center / cover"></div>          <div class="layui-inline">            <h2 class="layui-elip">' + item.title + '</h2>            <p class="article-introduction">' + item.introduction + '</p>          </div>        </a>      </article>    </div>  ').trim());
+            arr.push(('    <article class="article-item layui-col-xs6 ' + (i == 5 ? 'layui-show-xs-block layui-hide-lg' : '') + '">      <article>        <a class="block" href="./article.html?id=' + item.id + '">          <div class="article-cover-img" style="background: url(' + item.cover_img + ') no-repeat center / cover"></div>          <div class="layui-inline">            <h2 class="layui-elip">' + item.title + '</h2>            <p class="article-introduction">' + item.introduction + '</p>          </div>        </a>      </article>    </div>  ').trim());
             i++;
           }
         }
@@ -144,7 +142,7 @@ layui.use(['element', 'carousel', 'layer'], function () {
       res.data.forEach(function (item) {
         if (i >= 6) return;
         if (item.if_join_recommend) {
-          arr.push(('  <div class="layui-col-lg4">    <div class="effect-item">      <div class="percent-box"></div>      <div class="effect-img-box" style="background: url(' + item.cover_img + ') no-repeat center / cover;"></div>      <div class="effect-shade">        <h3>' + item.name + '</h3>      </div>      <img layer-src="' + item.cover_img + '" class="effect-img" alt="' + item.name + '">    </div>  </div>  ').trim());
+          arr.push(('  <div class="layui-col-lg4 layui-col-xs6">    <div class="effect-item">      <div class="percent-box"></div>      <div class="effect-img-box" style="background: url(' + item.cover_img + ') no-repeat center / cover;"></div>      <div class="effect-shade">        <h3>' + item.name + '</h3>      </div>      <img layer-src="' + item.cover_img + '" class="effect-img" alt="' + item.name + '">    </div>  </div>  ').trim());
           i++;
         }
       });
@@ -153,6 +151,7 @@ layui.use(['element', 'carousel', 'layer'], function () {
         photos: '.effect',
         anim: 5,
         move: false,
+        shade: .3,
         tab: function tab(pic, layero) {}
       });
     }
@@ -162,7 +161,7 @@ layui.use(['element', 'carousel', 'layer'], function () {
   // 滑动切换监听事件
   carousel.on('change(case_carousel)', function (e) {
     $caseInfo.children('h2').text(caseCarousel[e.index].title);
-    $caseInfo.children('p').text(caseCarousel[e.index].features_describe);
+    $caseInfo.children('p').html(caseCarousel[e.index].features_describe);
   });
   var $apply = $('.apply');
   // 申请

@@ -204,7 +204,6 @@
                   }
                   active.query(`/decorate/users/api/phone/change/${order_id}/${uid}/`, data.field,
                     'POST', true).then(res => {
-                      console.log(res)
                     layer.msg(res.msg)
                   }).catch(err => {
                     layer.msg('提交失败，请稍后重试！')

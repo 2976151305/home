@@ -23,17 +23,10 @@ var active = {
         xhrFields: {
           withCredentials: withCredentials || false
         },
-        beforeSend: function (request) {
-          request.setRequestHeader('token', active.getLocalStorage('token'))
-        },
         headers: headers || {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         success: function success(res) {
-          if (res.expired) {
-            localStorage.removeItem('uid');
-            localStorage.removeItem('token');
-          }
           return resolve(res);
         },
         fail: function fail(err) {
@@ -121,8 +114,7 @@ var active = {
       return false;
     } else if (reg.length) {
       var r = new RegExp(reg);
-      if (!r.test(strings)) return false;
-      else return true;
+      if (!r.test(strings)) return false;else return true;
     } else {
       return true;
     }
@@ -133,13 +125,11 @@ var active = {
     return start + '...' + end;
   },
   getLocalStorage: function getLocalStorage(name) {
-    if (localStorage.getItem(name) && localStorage.getItem(name) !== '') return localStorage.getItem(name);
-    else return null;
+    if (localStorage.getItem(name) && localStorage.getItem(name) !== '') return localStorage.getItem(name);else return null;
   },
   isLogin: function isLogin() {
     var uid = active.getLocalStorage('uid');
-    if (uid === null) window.location.href = '../page/login.html';
-    else return true;
+    if (uid === null) window.location.href = '../page/login.html';else return true;
   },
   formatDate: function formatDate(date) {
     var year = date.split('T');

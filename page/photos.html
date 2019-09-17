@@ -91,18 +91,26 @@
         space_type,
         area: area_range
       }).then(res => {
+        console.log(res)
         if (res.code === 'success') {
           let imgArr = []
           res.data.forEach(item => {
             imgArr.push(
-              `<img layer-src="${item.cover_img}" src="${item.cover_img}" alt="${item.name}">`
+              `
+                <div class="photo-item">
+                  <img class="cover-img" layer-src="${item.cover_img}" src="${item.cover_img}" alt="${item.name}">
+                  <div class="photo-alt">
+                    <h3 class="elip">${item.name}</h3>
+                  </div>
+                </div>
+              `
               .trim()
             )
           })
-          $('.photos').append(imgArr)
+          $('.photos').append(imgArr.join(''))
           var colCount //定义列数
           var colHeightArry = [] //定义列高度数组
-          var imgWidth = $('.photos img').outerWidth(true) //单张图片的宽度
+          var imgWidth = $('.photos .photo-item').outerWidth(true) //单张图片的宽度
 
           colCount = parseInt($('.photos').width() / imgWidth) //计算出列数
           for (var i = 0; i < colCount; i++) {
@@ -114,16 +122,16 @@
             var minIndex = 0 //定义最小高度的下标
             for (var i = 0; i < colCount; i++) {
               if (colHeightArry[i] < minValue) { //如果最小高度组数中的值小于最小值
-                minValue = colHeightArry[i] //那么认为最小高度数组中的值是真正的最小值
+                minValue = i < 4 ? colHeightArry[i] : colHeightArry[i] + 50 //那么认为最小高度数组中的值是真正的最小值
                 minIndex = i //最小下标为当前下标
               }
             }
-            $(this).css({
+            $(this).parent().css({
               left: minIndex * imgWidth,
               top: minValue
             })
-            colHeightArry[minIndex] += $(this).outerHeight(true)
-            $('.photos').css('height', colHeightArry[minIndex])
+            colHeightArry[minIndex] += $(this).parent().outerHeight(true)
+            $('.photos').css('height', colHeightArry[minIndex] + 80)
           })
           //当窗口大小重置之后，重新执行
           $(window).on('resize', function () {
@@ -146,22 +154,23 @@
               var minIndex = 0
               for (var i = 0; i < colCount; i++) {
                 if (colHeightArry[i] < minValue) {
-                  minValue = colHeightArry[i]
+                  minValue = i < 4 ? colHeightArry[i] : colHeightArry[i] + 50
                   minIndex = i
                 }
               }
-              $(this).css({
+              $(this).parent().css({
                 left: minIndex * imgWidth,
                 top: minValue
               })
-              colHeightArry[minIndex] += $(this).outerHeight(true)
-              $('.photos').css('height', colHeightArry[minIndex])
+              colHeightArry[minIndex] += $(this).parent().outerHeight(true)
+              $('.photos').css('height', colHeightArry[minIndex] + 80)
             })
           }
           layer.photos({
             photos: '.photos',
             anim: 5,
             move: false,
+            shade: .5,
             tab: function (pic, layero) {}
           })
         }

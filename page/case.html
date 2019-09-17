@@ -83,21 +83,34 @@
       var $tabContent = $('.case-detail .layui-tab-content')
       var id = active.getQueryString('id')
       var $collection = $('.collection')
-      active.query(`/decorate/cases/api/case/detail/${id}/`).then(res => {
-        console.log(res)
-        if (res.code === 'success') {
-          let data = res.data[0]
-          let item_lists = []
-          $articleTop.css('background', 'url(' + data.cover_img + ') no-repeat center / cover')
-          data.item_lists.map((item, index) => {
-            item_lists.push(templateStr((index + 1) % 2, item))
-          })
-          $('.layui-tab-item').eq(1).append(item_lists.join(''))
-          $('.left_layout_plan').attr('src', data.left_layout_plan)
-          $('.case-introduct h2').text(data.title)
-          $('.case-introduct p').text(data.features_describe)
-        }
-      }).catch(err => new Error(err))
+      if (id === null) {
+        active.query('/decorate/cases/api/case/recommend/').then(res => {
+          if (res.code === 'success') {
+            id = res.data.cases[0].id
+            getCase(id)
+          }
+        })
+      } else {
+        getCase(id)
+      }
+
+      function getCase(id) {
+        active.query(`/decorate/cases/api/case/detail/${id}/`).then(res => {
+          if (res.code === 'success') {
+            let data = res.data[0]
+            let item_lists = []
+            $articleTop.css('background', 'url(' + data.cover_img + ') no-repeat center / cover')
+            data.item_lists.map((item, index) => {
+              item_lists.push(templateStr((index + 1) % 2, item))
+            })
+            $('.layui-tab-item').eq(1).append(item_lists.join(''))
+            $('.left_layout_plan').attr('src', data.left_layout_plan)
+            $('.case-introduct h2').text(data.title)
+            $('.case-introduct p').html(data.features_describe)
+          }
+        }).catch(err => new Error(err))
+
+      }
       $tabItem.on('click', function () {
         $tabContentItem.removeClass('layui-show layui-anim layui-anim-fadein').eq($(this).index()).addClass(
           'layui-show layui-anim layui-anim-fadein')
