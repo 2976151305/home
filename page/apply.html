@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../layui/css/layui.css">
   <link rel="stylesheet" href="../css/style.css">
-  
+
   <script src="../js/jquery-1.11.3.min.js"></script>
   <script src="../dist/js/mian.js"></script>
   <!--[if lt IE 9]>
@@ -64,7 +64,7 @@
       <div class="business layui-col-space45">
         <div class="layui-col-lg4">
           <div class="busniess-item textC">
-              <i class="css-sprite sicon3 block"></i>
+            <i class="css-sprite sicon3 block"></i>
             <h3>环保不达标，负责到底</h3>
             <p>11项德系材料，签署环保协议</p>
           </div>
@@ -78,7 +78,7 @@
         </div>
         <div class="layui-col-lg4">
           <div class="busniess-item textC">
-              <i class="css-sprite sicon5 block"></i>
+            <i class="css-sprite sicon5 block"></i>
             <h3>环保不达标，负责到底</h3>
             <p>11项德系材料，签署环保协议</p>
           </div>
@@ -121,57 +121,37 @@
   <script src="../js/distpicker.min.js"></script>
   <script>
     layui.use(['element', 'layer'], function () {
-      var element = layui.element
-      var layer = layui.layer
-      var $apply = $('.apply-btn')
-      var content = `
-      <div class="layui-form diy-skin">
-        <div class="layui-form-item">
-          <label class="layui-form-label">所在地</label>
-          <div class="layui-input-block" id="distpicker" data-toggle="distpicker">
-            <select name="province" lay-verify="required" id="province"></select>
-            <select name="city" lay-verify="required" id="city"></select>
-          </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">姓名</label>
-          <div class="layui-input-block">
-            <input type="text" name="name" id="name" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">手机</label>
-          <div class="layui-input-block">
-            <input type="tel" maxlength="11" name="phone" id="phone" autocomplete="off" class="layui-input">
-          </div>
-        </div>
-      </div>
-      `.trim()
+      var element = layui.element;
+      var layer = layui.layer;
+      var $apply = $('.apply-btn');
+      var content =
+        '\n  <div class="layui-form diy-skin">\n    <div class="layui-form-item">\n      <label class="layui-form-label">\u6240\u5728\u5730</label>\n      <div class="layui-input-block" id="distpicker" data-toggle="distpicker">\n        <select name="province" lay-verify="required" id="province"></select>\n        <select name="city" lay-verify="required" id="city"></select>\n      </div>\n    </div>\n    <div class="layui-form-item">\n      <label class="layui-form-label">\u59D3\u540D</label>\n      <div class="layui-input-block">\n        <input type="text" name="name" id="name" autocomplete="off" class="layui-input">\n      </div>\n    </div>\n    <div class="layui-form-item">\n      <label class="layui-form-label">\u624B\u673A</label>\n      <div class="layui-input-block">\n        <input type="tel" maxlength="11" name="phone" id="phone" autocomplete="off" class="layui-input">\n      </div>\n    </div>\n  </div>\n  '
+        .trim();
       $apply.on('click', function () {
         layer.open({
           title: '请告诉我们以下信息方便我们联系到您',
           area: '582px',
           skin: 'open-skin2',
-          content,
+          content: content,
           shadeClose: true,
           closeBtn: false,
           shade: .5,
           move: false,
           btn: '提交',
           btnAlign: 'c',
-          success: function () {
-            $("#distpicker").distpicker()
+          success: function success() {
+            $("#distpicker").distpicker();
           },
-          yes: function (index, layero) {
-            var name = $('#name').val()
-            var phone = $('#phone').val()
-            var city = $('#province').val() + $('#city').val()
+          yes: function yes(index, layero) {
+            var name = $('#name').val();
+            var phone = $('#phone').val();
+            var city = $('#province').val() + $('#city').val();
             var data = {
-              name,
-              phone,
-              city
-            }
-            active.query('/decorate/users/api/apply/loans/', data, 'POST').then(res => {
+              name: name,
+              phone: phone,
+              city: city
+            };
+            active.query('/decorate/users/api/apply/loans/', data, 'POST').then(function (res) {
               if (res.code === 'success') {
                 layer.open({
                   skin: 'open-skin1',
@@ -182,15 +162,17 @@
                   move: false,
                   shadeClose: true,
                   btn: '我知道了'
-                })
+                });
               } else {
-                layer.msg(res.msg)
+                layer.msg(res.msg);
               }
-            }).catch(err => new Error(err))
+            }).catch(function (err) {
+              return console.log(err);
+            });
           }
-        })
-      })
-    })
+        });
+      });
+    });
   </script>
 </body>
 

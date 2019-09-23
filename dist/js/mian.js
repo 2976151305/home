@@ -33,6 +33,7 @@ var active = {
           if (res.expired) {
             localStorage.removeItem('uid');
             localStorage.removeItem('token');
+            localStorage.removeItem('phone');
           }
           return resolve(res);
         },

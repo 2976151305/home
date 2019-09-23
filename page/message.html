@@ -28,7 +28,7 @@
     <div class="layui-container">
       <aside class="min-sidebar">
       </aside>
-      <div class="menber-container">
+      <div class="member-container">
         <h2 class="nav-title">消息中心</h2>
         <div class="message-container">
           <ul>
@@ -73,7 +73,7 @@
         }
       }).catch(err => {
         layer.msg('获取失败,请稍后重试')
-        new Error(err)
+        console.log(err)
       })
       // 格式化时间
       function replaceDate(date) {

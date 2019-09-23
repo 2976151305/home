@@ -21,161 +21,169 @@
   <div class="banner">
     <img class="cover-img" src="../images/bg5.jpg">
   </div>
-  <main class="layui-container">
-    <div class="category">
-      <div class="category-row category-row-type">
-        <div class="category-type layui-inline">
-          <i class="layui-inline css-sprite sicon11"></i>
-          <h3 class="layui-inline">装修空间</h3>
+  <main>
+    <div class="layui-container">
+      <div class="category">
+        <div class="category-row category-row-type">
+          <div class="category-type layui-inline">
+            <i class="layui-inline css-sprite sicon11"></i>
+            <h3 class="layui-inline">装修空间</h3>
+          </div>
+          <ul class="layui-inline">
+          </ul>
         </div>
-        <ul class="layui-inline">
-        </ul>
-      </div>
-      <div class="category-row category-row-area">
-        <div class="category-type layui-inline">
-          <i class="layui-inline css-sprite sicon12"></i>
-          <h3 class="layui-inline">面积大小</h3>
+        <div class="category-row category-row-area">
+          <div class="category-type layui-inline">
+            <i class="layui-inline css-sprite sicon12"></i>
+            <h3 class="layui-inline">面积大小</h3>
+          </div>
+          <ul class="layui-inline">
+          </ul>
         </div>
-        <ul class="layui-inline">
-        </ul>
       </div>
     </div>
-    <div class="photos"></div>
+    <div class="photos-container">
+      <div class="photos"></div>
+    </div>
   </main>
   <footer id="footer"></footer>
 
   <script src="../layui/layui.js"></script>
   <script>
-    var $type = $('.category-row-type')
-    var $area = $('.category-row-area')
-    var space_type = active.getQueryString('space_type') ? active.getQueryString('space_type') : ''
-    var area_range = active.getQueryString('area') ? active.getQueryString('area') : ''
+    var $type = $('.category-row-type');
+    var $area = $('.category-row-area');
+    var space_type = active.getQueryString('space_type') ? active.getQueryString('space_type') : '';
+    var area_range = active.getQueryString('area') ? active.getQueryString('area') : '';
     jQuery(function () {
-      active.query('/decorate/rendering/api/renderings/spaces/').then(res => {
-        let type = [
-          `<li><a href="./photos.html?space_type=&area=${area_range}" class="${space_type ? '' : 'active'}">不限</a></li>`
-          .trim()
-        ]
-        if (res.code === 'success') {
-          res.data.forEach(item => {
-            type.push(
-              `<li><a href="./photos.html?space_type=${item.name}&area=${area_range}" class="${space_type === item.name ? 'active' : ''}">${item.name}</a></li>`
-              .trim()
-            )
-          })
-          $type.find('ul').append(type.join(''))
+      $.ajax({
+        url: BASEURL + '/decorate/rendering/api/renderings/',
+        dataType: 'json',
+        success: function success(res) {
+          c(res);
         }
-      })
-      active.query('/decorate/rendering/api/renderings/area/config/').then(res => {
-        let area = [
-          `<li><a href="./photos.html?space_type=${space_type}&area=" class="${area_range ? '' : 'active'}">不限</a></li>`
-          .trim()
-        ]
+      });
+
+      function c(res) {
+        var b = res;
+        console.log(b);
+      }
+      active.query('/decorate/rendering/api/renderings/spaces/').then(function (res) {
+        var type = [('<li><a href="./photos.html?space_type=&area=' + area_range + '" class="' + (space_type ?
+          '' : 'active') + '">\u4E0D\u9650</a></li>').trim()];
         if (res.code === 'success') {
-          Object.keys(res.data).forEach(key => {
-            area.push(
-              `<li><a href="./photos.html?space_type=${space_type}&area=${res.data[key]}" class="${area_range === res.data[key] ? 'active' : ''}">${res.data[key]}</a></li>`
-              .trim()
-            )
-          })
-          $area.find('ul').append(area.join(''))
+          res.data.forEach(function (item) {
+            type.push(('<li><a href="./photos.html?space_type=' + item.name + '&area=' + area_range +
+                '" class="' + (space_type === item.name ? 'active' : '') + '">' + item.name + '</a></li>')
+              .trim());
+          });
+          $type.find('ul').append(type.join(''));
         }
-      })
-    })
+      });
+      active.query('/decorate/rendering/api/renderings/area/config/').then(function (res) {
+        var area = [('<li><a href="./photos.html?space_type=' + space_type + '&area=" class="' + (area_range ?
+          '' : 'active') + '">\u4E0D\u9650</a></li>').trim()];
+        if (res.code === 'success') {
+          Object.keys(res.data).forEach(function (key) {
+            area.push(('<li><a href="./photos.html?space_type=' + space_type + '&area=' + res.data[key] +
+              '" class="' + (area_range === res.data[key] ? 'active' : '') + '">' + res.data[key] +
+              '</a></li>').trim());
+          });
+          $area.find('ul').append(area.join(''));
+        }
+      });
+    });
 
     layui.use(['element', 'layer', 'flow'], function () {
-      var element = layui.element
-      var layer = layui.layer
-      var flow = layui.flow
+      var element = layui.element;
+      var layer = layui.layer;
+      var flow = layui.flow;
       active.query('/decorate/rendering/api/renderings/', {
-        space_type,
+        space_type: space_type,
         area: area_range
-      }).then(res => {
-        console.log(res)
+      }).then(function (res) {
         if (res.code === 'success') {
-          let imgArr = []
-          res.data.forEach(item => {
-            imgArr.push(
-              `
-                <div class="photo-item">
-                  <img class="cover-img" layer-src="${item.cover_img}" src="${item.cover_img}" alt="${item.name}">
-                  <div class="photo-alt">
-                    <h3 class="elip">${item.name}</h3>
-                  </div>
-                </div>
-              `
-              .trim()
-            )
-          })
-          $('.photos').append(imgArr.join(''))
-          var colCount //定义列数
-          var colHeightArry = [] //定义列高度数组
-          var imgWidth = $('.photos .photo-item').outerWidth(true) //单张图片的宽度
-
-          colCount = parseInt($('.photos').width() / imgWidth) //计算出列数
-          for (var i = 0; i < colCount; i++) {
-            colHeightArry[i] = 0
-          }
-          //[0,0,0]
-          $('.photos img').on('load', function () {
-            var minValue = colHeightArry[0] //定义最小的高度
-            var minIndex = 0 //定义最小高度的下标
-            for (var i = 0; i < colCount; i++) {
-              if (colHeightArry[i] < minValue) { //如果最小高度组数中的值小于最小值
-                minValue = i < 4 ? colHeightArry[i] : colHeightArry[i] + 50 //那么认为最小高度数组中的值是真正的最小值
-                minIndex = i //最小下标为当前下标
-              }
-            }
-            $(this).parent().css({
-              left: minIndex * imgWidth,
-              top: minValue
-            })
-            colHeightArry[minIndex] += $(this).parent().outerHeight(true)
-            $('.photos').css('height', colHeightArry[minIndex] + 80)
-          })
-          //当窗口大小重置之后，重新执行
-          $(window).on('resize', function () {
-            reset()
-          })
-          //当窗口加载完毕，执行瀑布流
-          $(window).on('load', function () {
-            reset()
-          })
 
           //定义reset函数
-          function reset() {
-            var colHeightArry = []
-            colCount = parseInt($('.photos').width() / imgWidth)
+          var reset = function reset() {
+            var colHeightArry = [];
+            colCount = parseInt($('.photos').width() / imgWidth);
             for (var i = 0; i < colCount; i++) {
-              colHeightArry[i] = 0
+              colHeightArry[i] = 0;
             }
             $('.photos img').each(function () {
-              var minValue = colHeightArry[0]
-              var minIndex = 0
+              var minValue = colHeightArry[0];
+              var minIndex = 0;
               for (var i = 0; i < colCount; i++) {
                 if (colHeightArry[i] < minValue) {
-                  minValue = i < 4 ? colHeightArry[i] : colHeightArry[i] + 50
-                  minIndex = i
+                  minValue = i < 4 ? colHeightArry[i] : colHeightArry[i] + 50;
+                  minIndex = i;
                 }
               }
               $(this).parent().css({
                 left: minIndex * imgWidth,
                 top: minValue
-              })
-              colHeightArry[minIndex] += $(this).parent().outerHeight(true)
-              $('.photos').css('height', colHeightArry[minIndex] + 80)
-            })
+              });
+              colHeightArry[minIndex] += $(this).parent().outerHeight(true);
+              $('.photos').css('height', colHeightArry[minIndex] + 80);
+            });
+          };
+
+          var imgArr = [];
+          res.data.forEach(function (item) {
+            imgArr.push((
+                '\n                <div class="photo-item">\n                  <img class="cover-img" layer-src="' +
+                item.cover_img + '" src="' + item.cover_img + '" alt="' + item.name +
+                '">\n                  <div class="photo-alt">\n                    <h3 class="elip">' +
+                item.name + '</h3>\n                  </div>\n                </div>\n              ')
+              .trim());
+          });
+          $('.photos').append(imgArr.join(''));
+          var colCount; //定义列数
+          var colHeightArry = []; //定义列高度数组
+          var imgWidth = $('.photos .photo-item').outerWidth(true); //单张图片的宽度
+
+          colCount = parseInt($('.photos').width() / imgWidth); //计算出列数
+          for (var i = 0; i < colCount; i++) {
+            colHeightArry[i] = 0;
           }
+          //[0,0,0]
+          $('.photos img').on('load', function () {
+            var minValue = colHeightArry[0]; //定义最小的高度
+            var minIndex = 0; //定义最小高度的下标
+            for (var i = 0; i < colCount; i++) {
+              if (colHeightArry[i] < minValue) {
+                //如果最小高度组数中的值小于最小值
+                minValue = i < 4 ? colHeightArry[i] : colHeightArry[i] + 50; //那么认为最小高度数组中的值是真正的最小值
+                minIndex = i; //最小下标为当前下标
+              }
+            }
+            $(this).parent().css({
+              left: minIndex * imgWidth,
+              top: minValue
+            });
+            colHeightArry[minIndex] += $(this).parent().outerHeight(true);
+            $('.photos').css('height', colHeightArry[minIndex] + 80);
+          });
+          //当窗口大小重置之后，重新执行
+          $(window).on('resize', function () {
+            reset();
+          });
+          //当窗口加载完毕，执行瀑布流
+          $(window).on('load', function () {
+            reset();
+          });
           layer.photos({
             photos: '.photos',
             anim: 5,
             move: false,
             shade: .5,
-            tab: function (pic, layero) {}
-          })
+            tab: function tab(pic, layero) {}
+          });
         }
-      }).catch(err => new Error(err))
-    })
+      }).catch(function (err) {
+        return console.log(err);
+      });
+    });
   </script>
 </body>
 

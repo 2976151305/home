@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../layui/css/layui.css">
   <link rel="stylesheet" href="../css/style.css">
-  
+
   <script src="../js/jquery-1.11.3.min.js"></script>
   <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -28,7 +28,7 @@
     <div class="layui-container">
       <aside class="min-sidebar">
       </aside>
-      <div class="menber-container">
+      <div class="member-container">
         <h2 class="nav-title">装修订单</h2>
       </div>
       <div class="layui-clear"></div>
@@ -39,132 +39,107 @@
   <script src="../layui/layui.js"></script>
   <script>
     layui.use(['layer', 'form'], function () {
-      var layer = layui.layer
-      var form = layui.form
-      $('.min-sidebar').load('./sidebar.html')
-      var $orderBox = $('.menber-container')
-      var processArr = []
-      var uid = active.getLocalStorage('uid')
-      active.query(`/decorate/users/api/user/order/${uid}/`).then(res => {
+      var layer = layui.layer;
+      var form = layui.form;
+      $('.min-sidebar').load('./sidebar.html');
+      var $orderBox = $('.member-container');
+      var processArr = [];
+      var uid = active.getLocalStorage('uid');
+      active.query('/decorate/users/api/user/order/' + uid + '/').then(function (res) {
         // console.log(res)
         if (res.code === 'success') {
-          let orderArr = []
-          res.data.forEach((item, index) => {
-            processArr.push(item.process)
-            orderArr.push(`
-            <div class="order-container">
-              <div class="order-header">
-                <span class="orderno">订单号：${item.trade_no}</span>
-                <span class="area">面积：${item.area}平方</span>
-                <span class="city">城市：${item.city}</span>
-                <span class="cellphone">手机号码：${active.slicePhone(item.phone)}</span>
-                <span class="update" data-order="${item.trade_no}">修改</span>
-              </div>
-              <div class="order-tab" data-index="${index}">
-                <div class="layui-col-lg4 order-tab-item active">装修前</div>
-                <div class="layui-col-lg4 order-tab-item">装修中</div>
-                <div class="layui-col-lg4 order-tab-item">装修后</div>
-              </div>
-              <div class="order-main">
-                <div class="order-side f-l">
-                  <ul>
-                    ${processArr[index].slice(0, 7).map((it, idx) => {
-                      return `<li class="${idx === 0 ? 'active' : ''}">${it.name}</li>`
-                    }).join('')}
-                  </ul>
-                </div>
-                <div class="order-content">${item.process[0].note}</div>
-              </div>
-            </div>`.trim())
-          })
-          $orderBox.append(orderArr)
-          // 初始化流程点击事件
-          $('.order-side ul li').on('click', function () {
-            var self = $(this)
-            changeStep(self, self.index())
-          })
-          var $orderItem = $('.order-tab .order-tab-item')
-          var $update = $('.update')
-
-          function changeTab(el, content, index, arr_start, arr_end) {
-            el.html(processArr[index].slice(arr_start, arr_end).map((item, index) =>
-              `<li class="${index === 0 ? 'active' : ''}">${item.name}</li>`.trim()).join(''))
+          var changeTab = function changeTab(el, content, index, arr_start, arr_end) {
+            el.html(processArr[index].slice(arr_start, arr_end).map(function (item, index) {
+              return ('<li class="' + (index === 0 ? 'active' : '') + '">' + item.name + '</li>')
+            .trim();
+            }).join(''));
             // 切换时初始化内容区域
-            content.text(processArr[index][arr_start].status === '已完成' ? processArr[index][arr_start]
-              .note : processArr[index][arr_start].status)
+            content.text(processArr[index][arr_start].status === '已完成' ? processArr[index][arr_start].note :
+              processArr[index][arr_start].status);
             // 重新绑定流程点击事件
             $('.order-side ul li').on('click', function () {
-              var self = $(this)
-              changeStep(self, arr_start + self.index())
-            })
-          }
+              var self = $(this);
+              changeStep(self, arr_start + self.index());
+            });
+          };
 
-          function changeStep(self, item_index) {
-            self.siblings().removeClass('active')
-            self.addClass('active')
+          var changeStep = function changeStep(self, item_index) {
+            self.siblings().removeClass('active');
+            self.addClass('active');
             // 订单索引
-            var parentIndex = self.parents('.order-main').siblings('.order-tab').data('index')
+            var parentIndex = self.parents('.order-main').siblings('.order-tab').data('index');
             // 显示区域
-            var $content = self.parents('.order-side').siblings('.order-content')
+            var $content = self.parents('.order-side').siblings('.order-content');
             $content.text(processArr[parentIndex][item_index].status === '已完成' ? processArr[parentIndex][
-                item_index
-              ]
-              .note : processArr[parentIndex][item_index].status)
-          }
+              item_index
+            ].note : processArr[parentIndex][item_index].status);
+          };
+
+          var orderArr = [];
+          res.data.forEach(function (item, index) {
+            processArr.push(item.process);
+            orderArr.push((
+              '\n        <div class="order-container">\n          <div class="order-header">\n            <span class="orderno">\u8BA2\u5355\u53F7\uFF1A' +
+              item.trade_no + '</span>\n            <span class="area">\u9762\u79EF\uFF1A' + item.area +
+              '\u5E73\u65B9</span>\n <span class="city">\u57CE\u5E02\uFF1A' + item.city +
+              '</span>\n            <span class="cellphone">\u624B\u673A\u53F7\u7801\uFF1A' + active
+              .slicePhone(item.phone) + '</span>\n            <span class="update" data-order="' + item
+              .trade_no +
+              '">\u4FEE\u6539</span>\n    </div>\n          <div class="order-tab" data-index="' +
+              index +
+              '">\n            <div class="layui-col-lg4 order-tab-item active">\u88C5\u4FEE\u524D</div>\n            <div class="layui-col-lg4 order-tab-item">\u88C5\u4FEE\u4E2D</div>\n            <div class="layui-col-lg4 order-tab-item">\u88C5\u4FEE\u540E</div>\n          </div>\n          <div class="order-main">\n            <div class="order-side f-l">\n              <ul>\n                ' +
+              processArr[index].slice(0, 7).map(function (it, idx) {
+                return '<li class="' + (idx === 0 ? 'active' : '') + '">' + it.name + '</li>';
+              }).join('') +
+              '\n              </ul>\n            </div>\n            <div class="order-content">' +
+              item.process[0].note + '</div>\n          </div>\n        </div>').trim());
+          });
+          $orderBox.append(orderArr);
+          // 初始化流程点击事件
+          $('.order-side ul li').on('click', function () {
+            var self = $(this);
+            changeStep(self, self.index());
+          });
+          var $orderItem = $('.order-tab .order-tab-item');
+          var $update = $('.update');
 
           $orderItem.on('click', function () {
-            var self = $(this)
-            self.siblings().removeClass('active')
-            self.addClass('active')
-            var orderIndex = self.parent().data('index')
-            var $orderSide = self.parent().siblings('.order-main').find('.order-side ul')
-            var $orderContent = self.parent().siblings('.order-main').find('.order-content')
+            var self = $(this);
+            self.siblings().removeClass('active');
+            self.addClass('active');
+            var orderIndex = self.parent().data('index');
+            var $orderSide = self.parent().siblings('.order-main').find('.order-side ul');
+            var $orderContent = self.parent().siblings('.order-main').find('.order-content');
             if (self.index() === 0) {
-              changeTab($orderSide, $orderContent, orderIndex, 0, 7)
+              changeTab($orderSide, $orderContent, orderIndex, 0, 7);
             } else if (self.index() === 1) {
-              changeTab($orderSide, $orderContent, orderIndex, 7, 15)
+              changeTab($orderSide, $orderContent, orderIndex, 7, 15);
             } else if (self.index() === 2) {
-              changeTab($orderSide, $orderContent, orderIndex, 15, 17)
+              changeTab($orderSide, $orderContent, orderIndex, 15, 17);
             }
-          })
-          let content = `
-          <div class="layui-form diy-skin">
-            <div class="layui-form-item">
-              <label class="layui-form-label">新手机号</label>
-              <div class="layui-input-block">
-                <input type="tel" name="phone" required lay-verify="required" maxlength="11" autocomplete="off" class="layui-input">
-              </div>
-            </div>
-            <div class="layui-form-item">
-              <label class="layui-form-label">验证码</label>
-              <div class="layui-input-inline">
-                <input type="text" name="sms" required lay-verify="required" autocomplete="off"
-                  class="layui-input" maxlength="4">
-              </div>
-              <div class="layui-form-mid layui-word-aux get-code">发送</div>
-            </div>
-            <button class="layui-input post-btn" lay-submit lay-filter="f">确认修改</button>
-          </div>
-          `.trim()
+          });
+          var content =
+            '\n      <div class="layui-form diy-skin">\n        <div class="layui-form-item">\n          <label class="layui-form-label">\u65B0\u624B\u673A\u53F7</label>\n          <div class="layui-input-block">\n            <input type="tel" name="phone" required lay-verify="required" maxlength="11" autocomplete="off" class="layui-input">\n          </div>\n        </div>\n        <div class="layui-form-item">\n          <label class="layui-form-label">\u9A8C\u8BC1\u7801</label>\n          <div class="layui-input-inline">\n            <input type="text" name="sms" required lay-verify="required" autocomplete="off"\n              class="layui-input" maxlength="4">\n          </div>\n          <div class="layui-form-mid layui-word-aux get-code">\u53D1\u9001</div>\n        </div>\n        <button class="layui-input post-btn" lay-submit lay-filter="f">\u786E\u8BA4\u4FEE\u6539</button>\n      </div>\n      '
+            .trim();
           $update.on('click', function () {
-            var self = $(this)
+            var self = $(this);
             layer.open({
               title: false,
-              content,
+              content: content,
               closeBtn: false,
               shadeClose: true,
               area: '582px',
               move: false,
               btn: false,
               skin: 'open-skin2',
-              success: function () {
-                form.render()
-                var $phone = $('input[name="phone"]')
-                var $sms = $('input[name="sms"]')
-                var $getCode = $('.get-code')
-                var time = 60
+              success: function success() {
+                form.render();
+                var $phone = $('input[name="phone"]');
+                var $sms = $('input[name="sms"]');
+                var $getCode = $('.get-code');
+                var time = 60;
                 $getCode.on('click', function () {
-                  let self = $(this)
+                  var self = $(this);
                   if (!active.verify($phone.val())) {
                     layer.msg('请输入您的手机号码');
                     return;
@@ -192,32 +167,32 @@
                         layer.msg(res.msg);
                       }
                     }).catch(function (err) {
-                      return new Error(err);
+                      return console.log(err);
                     });
                   }
-                })
+                });
                 form.on('submit(f)', function (data) {
-                  var order_id = self.data('order')
+                  var order_id = self.data('order');
                   if (!active.verify($phone.val(), '^[1][3,4,5,7,8][0-9]{9}$')) {
-                    layer.msg('请输入正确的手机号码!')
+                    layer.msg('请输入正确的手机号码!');
                     return;
                   }
-                  active.query(`/decorate/users/api/phone/change/${order_id}/${uid}/`, data.field,
-                    'POST', true).then(res => {
-                    layer.msg(res.msg)
-                  }).catch(err => {
-                    layer.msg('提交失败，请稍后重试！')
-                  })
-                })
+                  active.query('/decorate/users/api/phone/change/' + order_id + '/' + uid + '/',
+                    data.field, 'POST', true).then(function (res) {
+                    layer.msg(res.msg);
+                  }).catch(function (err) {
+                    layer.msg('提交失败，请稍后重试！');
+                  });
+                });
               }
-            })
-          })
+            });
+          });
         }
-      }).catch(err => {
-        layer.msg('获取失败,请稍后重试')
-        new Error(err)
-      })
-    })
+      }).catch(function (err) {
+        layer.msg('获取失败,请稍后重试');
+        console.log(err);
+      });
+    });
   </script>
 </body>
 

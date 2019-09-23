@@ -88,27 +88,22 @@
       id: "wxqr",
       appid: "wxe147353379a20d5e",
       scope: "snsapi_login",
-      // redirect_uri: encodeURIComponent("http://www.zzzj.com.cn"),
-      redirect_uri: encodeURIComponent('http://' + window.location.host),
+      redirect_uri: encodeURIComponent("http://www.zzzj.com.cn/page/wxLogin.html"),
+      // redirect_uri: encodeURIComponent('http://' + window.location.host + '/page/wxLogin.html'),
       state: Math.ceil(Math.random() * 1000),
       style: "black",
       href: "data:text/css;base64,LmltcG93ZXJCb3ggLnFyY29kZSB7d2lkdGg6IDIwMHB4O21hcmdpbjogMDt9DQouaW1wb3dlckJveCAudGl0bGUge2Rpc3BsYXk6IG5vbmU7fQ0KLmltcG93ZXJCb3ggLmluZm8ge2Rpc3BsYXk6IG5vbmU7O30NCi5zdGF0dXNfaWNvbiB7ZGlzcGxheTogbm9uZX0="
     });
-    var wxiframe = window.parent.document.getElementById('wxiframe')
-    wxiframe.onload = function(){
-      console.log(this.contentWindow.location)
-    }
     jQuery(function () {
-      if (active.getLocalStorage('uid'))
-        window.location.href = './index.html'
-      var $getCode = $('.get-code')
+      if (active.getLocalStorage('uid')) window.location.href = './index.html';
+      var $getCode = $('.get-code');
       // 账号密码
-      var $phone1 = $("#phone1")
+      var $phone1 = $("#phone1");
       // 短信验证
-      var $phone2 = $("#phone2")
+      var $phone2 = $("#phone2");
       var time = 60;
       $getCode.on('click', function () {
-        let self = $(this)
+        var self = $(this);
         if (!active.verify($phone2.val())) {
           layer.msg('请输入您的手机号码');
           return;
@@ -137,47 +132,47 @@
               layer.msg(res.msg);
             }
           }).catch(function (err) {
-            return new Error(err);
+            return console.log(err);
           });
         }
-      })
-    })
+      });
+    });
     layui.use(['element', 'form'], function () {
-      var element = layui.element
-      var form = layui.form
+      var element = layui.element;
+      var form = layui.form;
       form.on('submit(f1)', function (data) {
-        login('/decorate/users/api/login/password/', data)
-      })
+        login('/decorate/users/api/login/password/', data);
+      });
       form.on('submit(f2)', function (data) {
-        login('/decorate/users/api/login/sms/', data)
-      })
+        login('/decorate/users/api/login/sms/', data);
+      });
       element.on('tab(change)', function () {
-        active.tabChangeAnimate($(this))
-      })
-    })
+        active.tabChangeAnimate($(this));
+      });
+    });
 
     function login(url, data) {
       if (!active.verify(data.field.phone, '^[1][3,4,5,7,8][0-9]{9}$')) {
-        layer.msg('请输入有效的手机号码')
-        return
+        layer.msg('请输入有效的手机号码');
+        return;
       }
-      let dataObj = data.field
-      active.query(url, dataObj).then(res => {
+      var dataObj = data.field;
+      active.query(url, dataObj).then(function (res) {
         if (res.code === 'success') {
-          console.log(res)
+          console.log(res);
           layer.msg(res.msg, {
             time: 1000
-          })
+          });
           localStorage.setItem('uid', res.user_id);
           localStorage.setItem('token', res.token);
-          setTimeout(() => {
-            window.location.href = './'
+          setTimeout(function () {
+            window.location.href = './';
           }, 1000);
-        } else layer.msg(res.msg)
-      }).catch(err => {
-        layer.msg('请稍后重试')
-        new Error(err)
-      })
+        } else layer.msg(res.msg);
+      }).catch(function (err) {
+        layer.msg('请稍后重试');
+        console.log(err);
+      });
     }
   </script>
 </body>

@@ -27,25 +27,27 @@
 </section>
 
 <script>
-  active.isLogin()
-  var menberPath = window.location.pathname.split('/')
-  menberPath = menberPath[menberPath.length - 1]
-  var $sideItem = $('.sidebar-tree li')
-  for (var i = 0; i < $sideItem.length; i++) {
-    var a = $sideItem[i].querySelectorAll('a')
-    for (var k = 0; k < a.length; k++) {
-      var path = a[k].attributes.href.value
-      if (path.indexOf(menberPath) > 1) {
-        $(a[k]).addClass('active')
+  active.isLogin();
+  if (active.getLocalStorage('uid') !== null) {
+    var menberPath = window.location.pathname.split('/');
+    menberPath = menberPath[menberPath.length - 1];
+    var $sideItem = $('.sidebar-tree li');
+    for (var i = 0; i < $sideItem.length; i++) {
+      var a = $sideItem[i].querySelectorAll('a');
+      for (var k = 0; k < a.length; k++) {
+        var path = a[k].attributes.href.value;
+        if (path.indexOf(menberPath) > 1) {
+          $(a[k]).addClass('active');
+        }
       }
     }
+    var $avatar = $('.avatar');
+    var $phone = $('.phone');
+    active.query('/decorate/users/api/user/' + active.getLocalStorage('uid') + '/').then(function (res) {
+      if (res.code === 'success') {
+        $avatar.attr('src', res.data.avatar_url);
+        $phone.text(active.slicePhone(res.data.phone));
+      }
+    });
   }
-  var $avatar = $('.avatar')
-  var $phone = $('.phone')
-  active.query(`/decorate/users/api/user/${active.getLocalStorage('uid')}/`).then(res => {
-    if (res.code === 'success') {
-      $avatar.attr('src', res.data.avatar_url)
-      $phone.text(active.slicePhone(res.data.phone))
-    }
-  })
 </script>

@@ -7,7 +7,6 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../layui/css/layui.css">
   <link rel="stylesheet" href="../css/style.css">
-  
   <script src="../js/jquery-1.11.3.min.js"></script>
   <script src="../dist/js/mian.js"></script>
   <!--[if lt IE 9]>
@@ -42,66 +41,88 @@
         <div class="article-content textJ"></div>
       </div>
     </div>
+    <div class="share-bar">
+      <h4>分享到</h4>
+      <div class="share-item">
+        <i class="layui-inline css-sprite sicon16"></i>
+        <div id="share1" class="qr"></div>
+      </div>
+      <div class="share-item">
+        <i class="layui-inline css-sprite sicon17"></i>
+        <div id="share2" class="qr"></div>
+      </div>
+    </div>
   </main>
   <footer id="footer"></footer>
 
   <script src="../layui/layui.js"></script>
+  <script src="../js/qrcode.min.js"></script>
   <script>
     jQuery(function () {
-      var id = active.getQueryString('id')
-      var $num = $('.article-sub .article-count .count')
-      var $uploadDate = $('.article-sub .article-count .upload-date')
-      var $collection = $('.article-collection')
-      var $content = $('.article-content')
-      var $coverImg = $('.article-main img')
-      var $title = $('.article-title')
-      var $location = $('.location .color-ce')
-      var uid = active.getLocalStorage('uid')
-      active.query(`/decorate/articles/api/article/detail/${id}`).then(res => {
-        console.log(res)
-        if(res.code === 'success'){
-          $title.text(res.data.title)
-          $content.html(res.data.content)
-          $num.text(res.data.numbers)
-          $coverImg.attr('src', res.data.cover_img)
-          $location.text(' > ' + res.data.title)
-          $uploadDate.text('发布时间：' + active.formatDate(res.data.last_update_time))
+      $('#share1').qrcode({
+        width: 100,
+        height: 100,
+        text: window.location.href
+      });
+      $('#share2').qrcode({
+        width: 100,
+        height: 100,
+        text: window.location.href
+      });
+      var id = active.getQueryString('id');
+      var $num = $('.article-sub .article-count .count');
+      var $uploadDate = $('.article-sub .article-count .upload-date');
+      var $collection = $('.article-collection');
+      var $content = $('.article-content');
+      var $coverImg = $('.article-main img');
+      var $title = $('.article-title');
+      var $location = $('.location .color-ce');
+      var uid = active.getLocalStorage('uid');
+      active.query('/decorate/articles/api/article/detail/' + id).then(function (res) {
+        console.log(res);
+        if (res.code === 'success') {
+          $title.text(res.data.title);
+          $content.html(res.data.content);
+          $num.text(res.data.numbers);
+          $coverImg.attr('src', res.data.cover_img);
+          $location.text(' > ' + res.data.title);
+          $uploadDate.text('发布时间：' + active.formatDate(res.data.last_update_time));
         }
-      }).catch(err => {
-        layer.msg('获取失败，请稍后重试')
-        new Error(err)
-      })
+      }).catch(function (err) {
+        layer.msg('获取失败，请稍后重试');
+        console.log(err);
+      });
       $collection.on('click', function () {
-        active.isLogin()
-        var self = $(this)
-        active.query(`/decorate/articles/api/article/collect/${uid}/${id}/`, undefined, 'POST').then(res => {
-          if (res.code === 'success') {
-            if (self.find('i').attr('class').includes('layui-icon-rate-solid'))
-              self.find('i').removeClass('layui-icon-rate-solid').addClass('layui-icon-rate')
-            else
-              self.find('i').removeClass('layui-icon-rate').addClass('layui-icon-rate-solid')
-          }
-        }).catch(err => {
-          layer.msg('操作失败，请稍后重试')
-          new Error(err)
-        })
-      })
+        active.isLogin();
+        var self = $(this);
+        active.query('/decorate/articles/api/article/collect/' + uid + '/' + id + '/', undefined, 'POST').then(
+          function (res) {
+            if (res.code === 'success') {
+              if (self.find('i').attr('class').includes('layui-icon-rate-solid')) self.find('i').removeClass(
+                'layui-icon-rate-solid').addClass('layui-icon-rate');
+              else self.find('i').removeClass('layui-icon-rate').addClass('layui-icon-rate-solid');
+            }
+          }).catch(function (err) {
+          layer.msg('操作失败，请稍后重试');
+          console.log(err);
+        });
+      });
       if (uid !== null) {
-        active.query(`/decorate/articles/api/article/collect/${uid}/`).then(res => {
+        active.query('/decorate/articles/api/article/collect/' + uid + '/').then(function (res) {
           if (res.code === 'success') {
-            res.data.forEach(item => {
+            res.data.forEach(function (item) {
               if (item.id === parseFloat(id)) {
-                $collection.find('i').removeClass('layui-icon-rate').addClass('layui-icon-rate-solid')
-                return false
+                $collection.find('i').removeClass('layui-icon-rate').addClass('layui-icon-rate-solid');
+                return false;
               }
-            })
+            });
           }
-        })
+        });
       }
-    })
+    });
     layui.use('layer', function () {
-      var layer = layui.layer
-    })
+      var layer = layui.layer;
+    });
   </script>
 </body>
 

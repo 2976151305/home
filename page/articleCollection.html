@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../layui/css/layui.css">
   <link rel="stylesheet" href="../css/style.css">
-  
+
   <script src="../js/jquery-1.11.3.min.js"></script>
   <script src="../dist/js/mian.js"></script>
   <!--[if lt IE 9]>
@@ -27,7 +27,7 @@
   <div class="layui-container">
     <aside class="min-sidebar">
     </aside>
-    <div class="menber-container">
+    <div class="member-container">
       <h2 class="nav-title">文章资讯</h2>
       <div class="collection-box marginAuto">
         <ul></ul>
@@ -40,32 +40,26 @@
   </div>
   <footer id="footer"></footer>
   <script>
-    $('.min-sidebar').load('./sidebar.html')
-    var $collectionBox = $('.collection-box ul')
-    var $noCollection = $('.no-collection')
-    var uid = active.getLocalStorage('uid')
-    active.query(`/decorate/articles/api/article/collect/${uid}/`).then(res => {
-      console.log(res)
+    $('.min-sidebar').load('./sidebar.html');
+    var $collectionBox = $('.collection-box ul');
+    var $noCollection = $('.no-collection');
+    var uid = active.getLocalStorage('uid');
+    active.query('/decorate/articles/api/article/collect/' + uid + '/').then(function (res) {
+      console.log(res);
       if (res.code === 'success') {
-        let arr = []
-        res.data.forEach(item => {
-          arr.push(`
-          <li>
-            <a href="./article.html?id=${item.id}" target="_blank" class="block">
-              <div class="collection-item">
-                <h2 class="collection-item-title layui-elip">${item.title}</h2>
-                <img class="cover-img" src="${item.cover_img}">
-              </div>
-            </a>
-          </li>
-          `.trim())
-        })
-        $collectionBox.append(arr.join(''))
+        var arr = [];
+        res.data.forEach(function (item) {
+          arr.push(('\n          <li>\n            <a href="./article.html?id=' + item.id +
+            '" target="_blank" class="block">\n              <div class="collection-item">\n                <h2 class="collection-item-title layui-elip">' +
+            item.title + '</h2>\n                <img class="cover-img" src="' + item.cover_img +
+            '">\n              </div>\n            </a>\n          </li>\n          ').trim());
+        });
+        $collectionBox.append(arr.join(''));
         if (arr.length <= 0) {
-          $noCollection.removeClass('layui-hide').addClass('layui-show')
+          $noCollection.removeClass('layui-hide').addClass('layui-show');
         }
       }
-    })
+    });
   </script>
 </body>
 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="../js/jquery-1.11.3.min.js"></script>
+  <script src="../dist/js/mian.js"></script>
+  <title>绑定微信</title>
+</head>
+
+<body>
+  <script src="../layui/layui.js"></script>
+  <script>
+    layui.use('layer', function () {
+      var layer = layui.layer;
+      var code = active.getQueryString('code');
+      var data = {
+        phone: active.getLocalStorage('phone'),
+        code: code
+      };
+      active.query('/decorate/users/api/user/authorized/', data, 'POST').then(function (res) {
+        if (res.code === 'success') {
+          layer.msg('绑定成功，下次可直接微信扫码登录');
+          setTimeout(function () {
+            window.parent.parent.document.getElementById('wxiframe').remove();
+          }, 3000);
+        } else {
+          layer.msg('绑定失败，请重新尝试');
+          setTimeout(function () {
+            // 刷新二维码页面
+            window.parent.parent.document.getElementById('wxiframe').contentWindow.location.replace(
+              'https://open.weixin.qq.com/connect/qrconnect?appid=wxe147353379a20d5e&scope=snsapi_login&redirect_uri=' +
+              encodeURIComponent("http://www.zzzj.com.cn/page/bindWx.html") + '&state= ' + Math.ceil(Math
+                .random() * 1000) +
+              '&login_type=jssdk&self_redirect=true&styletype=&sizetype=&bgcolor=&rst=&style=black&href=data:text/css;base64,LmltcG93ZXJCb3ggLnFyY29kZSB7d2lkdGg6IDIwMHB4O21hcmdpbjogMDt9DQouaW1wb3dlckJveCAudGl0bGUge2Rpc3BsYXk6IG5vbmU7fQ0KLmltcG93ZXJCb3ggLmluZm8ge2Rpc3BsYXk6IG5vbmU7O30NCi5zdGF0dXNfaWNvbiB7ZGlzcGxheTogbm9uZX0='
+              );
+          }, 3000);
+        }
+        console.log(res);
+      });
+    });
+  </script>
+</body>
+
+</html>

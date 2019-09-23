@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="../css/style.css">
   <script src="../js/jquery-1.11.3.min.js"></script>
   <script src="../dist/js/mian.js"></script>
+  <script src="../js/wxLogin.js"></script>
   <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -27,82 +28,208 @@
     <div class="layui-container">
       <aside class="min-sidebar">
       </aside>
-      <div class="menber-container">
+      <div class="member-container">
         <h2 class="nav-title">个人资料</h2>
-        <button class="save">保存</button>
-        <div class="user-box">
-          <div class="user-avatar-nickname-box marginAuto textC">
-            <div class="layui-circle user-avatar-src layui-inline">
-              <input type="file" class="layui-hide" name="avatar" accept=".jpg,.png,.gif,.jpeg">
-              <img>
-              <div class="avatar-shade">修改头像</div>
-            </div>
-            <em class="phone"></em>
-          </div>
+        <div class="textC layui-hide" id="qr_box" style="width:400px;">
+          <div id="wxqr" style="margin-top: 30px;"></div>
+          <span class="layui-inline" style="margin: 10px 0;">扫码绑定微信，之后可通过微信登录整装之家</span>
         </div>
+        <form action="" class="layui-form" style="margin-top: 30px;" onsubmit="return false">
+          <div class="layui-form-item">
+            <label class="layui-form-label">用&nbsp;&nbsp;户&nbsp;&nbsp;名：</label>
+            <div class="layui-input-inline" style="line-height: 38px;">
+              <span class="layui-inline phone"></span>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：</label>
+            <div class="layui-input-inline">
+              <input type="text" name="nickname" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</label>
+            <div class="layui-input-inline">
+              <input type="radio" name="gender" value="男" title="男">
+              <input type="radio" name="gender" value="女" title="女">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">Q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Q：</label>
+            <div class="layui-input-inline">
+              <input type="text" name="qq_number" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">注册状态：</label>
+            <div class="layui-input-inline">
+              <select name="register_status" style="width: 100%;">
+                <option value="还没买房">还没买房</option>
+                <option value="已买房，未拿到钥匙">已买房，未拿到钥匙</option>
+                <option value="准备装修">准备装修</option>
+                <option value="已订装修公司">已订装修公司</option>
+                <option value="已装修">已装修</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">所在城市：</label>
+            <div class="layui-input-block" id="distpicker">
+              <select name="province" id="province"></select>
+              <select name="city" id="city"></select>
+              <select name="district" id="district"></select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-inline">
+              <input type="text" class="layui-input" name="detail_address" placeholder="请输入详细地址">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">当前头像：</label>
+            <div class="layui-input-inline">
+              <input type="file" class="layui-hide" name="avatar" accept=".jpg,.png,.gif,.jpeg">
+              <img src="" width="75" height="75" class="avatar-shade user-avatar-src" style="cursor: pointer;">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-input-block">
+              <button class="save" lay-submit lay-filter="post">保存</button>
+            </div>
+          </div>
+        </form>
       </div>
       <div class="layui-clear"></div>
     </div>
   </main>
   <footer id="footer"></footer>
   <script src="../layui/layui.js"></script>
+  <script src="../js/distpicker.data.min.js"></script>
+  <script src="../js/distpicker.min.js"></script>
   <script>
-    var uid = active.getLocalStorage('uid')
-    var $avatar1 = $('.user-avatar-src img')
-    var $open = $('.avatar-shade')
-    var $file = $('input[type="file"]')
-    var $save = $('.save')
+    var uid = active.getLocalStorage('uid');
+    var $open = $('.user-avatar-src');
+    var $file = $('input[type="file"]');
+    var $save = $('.save');
     jQuery(function () {
-      $('.min-sidebar').load('./sidebar.html')
+      $('.min-sidebar').load('./sidebar.html');
       $open.on('click', function () {
-        $file.click()
-      })
-      $save.on('click', function () {
-        var formData = new FormData()
-        var files = $file[0].files[0]
-        formData.append('image', files)
-        if (files.type !== "image/png" && files.type !== "image/jpg" && files.type !== "image/jpeg" && files
-          .type !== "image/gif") {
-          layer.msg('请选择正确的图片文件')
-          return
+        $file.click();
+        $file.on('change', function () {
+          var file = $(this)[0].files[0];
+          if (file.type !== "image/png" && file.type !== "image/jpg" && file.type !== "image/jpeg" &&
+            file
+            .type !== "image/gif") {
+            layer.msg('请选择正确的图片文件');
+            return;
+          }
+          var windowURL = window.URL || window.webkitURL;
+          var dataURL = windowURL.createObjectURL(file);
+          $open.attr('src', dataURL)
+        })
+      });
+      active.query('/decorate/users/api/user/' + uid + '/').then(function (res) {
+        console.log(res);
+        if (res.code === 'success') {
+          // 验证是否绑定微信
+          if (!res.data.if_authorized) {
+            $('#qr_box').removeClass('layui-hide')
+            // 微信内嵌扫码
+            var obj = new WxLogin({
+              self_redirect: true,
+              id: "wxqr",
+              appid: "wxe147353379a20d5e",
+              scope: "snsapi_login",
+              redirect_uri: encodeURIComponent("http://www.zzzj.com.cn/page/bindWx.html"),
+              // redirect_uri: encodeURIComponent('http://' + window.location.host + '/page/bindWx.html'),
+              state: Math.ceil(Math.random() * 1000),
+              style: "black",
+              href: "data:text/css;base64,LmltcG93ZXJCb3ggLnFyY29kZSB7d2lkdGg6IDIwMHB4O21hcmdpbjogMDt9DQouaW1wb3dlckJveCAudGl0bGUge2Rpc3BsYXk6IG5vbmU7fQ0KLmltcG93ZXJCb3ggLmluZm8ge2Rpc3BsYXk6IG5vbmU7O30NCi5zdGF0dXNfaWNvbiB7ZGlzcGxheTogbm9uZX0="
+            });
+          }
+          var $avatar = $('.avatar');
+          var $phoneBox = $('.phone');
+          localStorage.setItem('phone', res.data.phone);
+          $open.attr('src', res.data.avatar_url);
+          $phoneBox.text(active.slicePhone(res.data.phone));
+          $('input[name="qq_number"]').val(res.data.qq_number)
+          $('input[name="nickname"]').val(res.data.nickname)
+          $('input[name="detail_address"]').val(res.data.detail_address)
+          // 绑定单选
+          var $gender = $('input[type="radio"]')
+          if (res.data.gender === $gender[0].value) {
+            $gender.eq(0).attr('checked', 'checked')
+          } else {
+            $gender.eq(1).attr('checked', 'checked')
+          }
+          // 绑定注册状态
+          var $reg_opt = $('select[name="register_status"]').find('option')
+          for (var i = 0; i < $reg_opt.length; i++) {
+            if (res.data.register_status === $reg_opt[i].value) {
+              $reg_opt.eq(i).attr('selected', 'selected')
+              break;
+            }
+          }
+          // 绑定省市区
+          $("#distpicker").distpicker({
+            province: res.data.province,
+            city: res.data.city,
+            district: res.data.district
+          });
         }
+      }).catch(function (err) {
+        layer.msg('获取失败，请稍后重试');
+        console.log(err);
+      });
+    });
+    layui.use(['element', 'layer', 'form'], function () {
+      var element = layui.element;
+      var layer = layui.layer;
+      var form = layui.form
+      form.on('submit(post)', function (data) {
+        var dataObj = data.field
+        var formData = new FormData();
+        var files = $file[0].files[0];
+        formData.append('image', files);
+        formData.append('qq_number', dataObj.qq_number)
+        formData.append('nickname', dataObj.nickname)
+        formData.append('register_status', dataObj.register_status)
+        formData.append('gender', dataObj.gender)
+        formData.append('detail_address', dataObj.detail_address)
+        formData.append('province', dataObj.province)
+        formData.append('city', dataObj.city)
+        formData.append('district', dataObj.district)
         $.ajax({
-          url: `${BASEURL}/decorate/users/api/upload/avatar/${uid}/`,
+          url: BASEURL + '/decorate/users/api/update/' + uid + '/user/',
           method: 'POST',
           processData: false,
           contentType: false,
           data: formData,
+          beforeSend: function beforeSend(request) {
+            request.setRequestHeader('token', active.getLocalStorage('token'));
+          },
           dataType: 'json',
-          success: function (res) {
+          success: function success(res) {
+            console.log(res)
             if (res.code === 'success') {
-              var $avatar = $('.avatar')
-              $avatar.attr('src', res.avatar_url)
-              $avatar1.attr('src', res.avatar_url)
-              layer.msg('提交成功')
+              var $avatar = $('.avatar');
+              $avatar.attr('src', res.avatar_url);
+              layer.msg('提交成功', {
+                time: 1000
+              });
+              setTimeout(() => {
+                window.location.reload();
+              }, 1000);
             }
           },
-          fail: function (err) {
-            layer.msg('提交失败')
-            new Error(err)
+          fail: function fail(err) {
+            layer.msg('提交失败');
+            console.log(err);
           }
         })
       })
-      active.query(`/decorate/users/api/user/${uid}/`).then(res => {
-        if (res.code === 'success') {
-          var $avatar = $('.avatar')
-          var $phoneBox = $('.phone')
-          $avatar1.attr('src', res.data.avatar_url)
-          $phoneBox.text(active.slicePhone(res.data.phone))
-        }
-      }).catch(err => {
-        layer.msg('获取失败，请稍后重试')
-        new Error(err)
-      })
-    })
-    layui.use(['element', 'layer'], function () {
-      var element = layui.element
-      var layer = layui.layer
-    })
+    });
   </script>
 </body>
 

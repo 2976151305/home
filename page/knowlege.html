@@ -233,7 +233,7 @@
               arr2[2].push(`
               <li>
                 <a class="layui-inline" href="./article.html?id=${item.id}">
-                  <em class="layui-inline">${arr1[2].length + 1}</em>
+                  <em class="layui-inline">${arr2[2].length + 1}</em>
                   <span class="layui-inline layui-elip">${item.title}</span>
                 </a>
               </li>
@@ -274,7 +274,7 @@
               arr3[2].push(`
               <li>
                 <a class="layui-inline" href="./article.html?id=${item.id}">
-                  <em class="layui-inline">${arr1[2].length + 1}</em>
+                  <em class="layui-inline">${arr3[2].length + 1}</em>
                   <span class="layui-inline layui-elip">${item.title}</span>
                 </a>
               </li>
@@ -283,7 +283,6 @@
             }
           }
         })
-        console.log(arr1, arr2, arr3)
         $tabContent.eq(0).addClass('layui-show layui-anim layui-amin-fadein')
         $block1.eq(0).append(arr1[0])
         $block1.eq(1).append(arr2[0])
@@ -294,7 +293,7 @@
         $hotList.eq(0).append(arr1[2])
         $hotList.eq(1).append(arr2[2])
         $hotList.eq(2).append(arr3[2])
-      }).catch(err => new Error(err))
+      }).catch(err => console.log(err))
     })
     layui.use(['element'], function () {
       var element = layui.element

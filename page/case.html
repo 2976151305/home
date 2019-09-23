@@ -31,9 +31,9 @@
     </div>
     <div class="layui-clear"></div>
     <div class="layui-tab layui-tab-brief block-mt100">
-      <div class="layui-tab-content">
+      <div class="layui-tab-content layui-container">
         <!-- 块1 -->
-        <div class="layui-tab-item layui-container layui-show">
+        <div class="layui-tab-item layui-show">
           <div class="layui-col-space20">
             <div class="layui-col-lg6">
               <img class="cover-img left_layout_plan">
@@ -46,9 +46,29 @@
             </div>
             <div class="layui-clear"></div>
           </div>
+          <div class="list">
+            <h1>主要配置清单</h1>
+            <p>以下罗列了主材和相关性能参数，全部清单将由设计经理向您提供，欢迎预约&咨询</p>
+          </div>
+          <table class="layui-table diy-table" lay-skin="line">
+            <colgroup>
+              <col width="125">
+              <col width="365">
+              <col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th row-span="row">类型</th>
+                <th>产品</th>
+                <th>性能参数</th>
+              </tr>
+            </thead>
+            <tbody id="list">
+            </tbody>
+          </table>
         </div>
         <!-- 块2 -->
-        <div class="layui-tab-item layui-container">
+        <div class="layui-tab-item">
         </div>
         <!-- 块3 -->
         <div class="layui-tab-item">
@@ -77,129 +97,132 @@
   <script src="../layui/layui.js"></script>
   <script>
     jQuery(function () {
-      var $articleTop = $('.article-detail-top')
-      var $tabItem = $('.case-tab .layui-tab-title li')
-      var $tabContentItem = $('.layui-tab-content .layui-tab-item')
-      var $tabContent = $('.case-detail .layui-tab-content')
-      var id = active.getQueryString('id')
-      var $collection = $('.collection')
+      var $articleTop = $('.article-detail-top');
+      var $tabItem = $('.case-tab .layui-tab-title li');
+      var $tabContentItem = $('.layui-tab-content .layui-tab-item');
+      var $tabContent = $('.case-detail .layui-tab-content');
+      var id = active.getQueryString('id');
+      var $collection = $('.collection');
       if (id === null) {
-        active.query('/decorate/cases/api/case/recommend/').then(res => {
+        active.query('/decorate/cases/api/case/recommend/').then(function (res) {
           if (res.code === 'success') {
-            id = res.data.cases[0].id
-            getCase(id)
+            id = res.data.cases[0].id;
+            getCase(id);
           }
-        })
+        });
       } else {
-        getCase(id)
+        getCase(id);
       }
 
       function getCase(id) {
-        active.query(`/decorate/cases/api/case/detail/${id}/`).then(res => {
+        active.query('/decorate/cases/api/case/detail/' + id + '/').then(function (res) {
           if (res.code === 'success') {
-            let data = res.data[0]
-            let item_lists = []
-            $articleTop.css('background', 'url(' + data.cover_img + ') no-repeat center / cover')
-            data.item_lists.map((item, index) => {
-              item_lists.push(templateStr((index + 1) % 2, item))
-            })
-            $('.layui-tab-item').eq(1).append(item_lists.join(''))
-            $('.left_layout_plan').attr('src', data.left_layout_plan)
-            $('.case-introduct h2').text(data.title)
-            $('.case-introduct p').html(data.features_describe)
+            console.log(res);
+            var data = res.data[0];
+            var item_lists = [];
+            var tr_list = [];
+            $articleTop.css('background', 'url(' + data.cover_img + ') no-repeat center / cover');
+            // 排版结构
+            data.item_lists.map(function (item, index) {
+              item_lists.push(templateStr((index + 1) % 2, item));
+            });
+            // 配置类目表格
+            data.list_configs.map(function (item, index) {
+              if (item.produces.length > 0) {
+                item.produces.map(function (itm, idx) {
+                  tr_list.push(('\n                <tr>\n                  ' + (idx === 0 ?
+                    '<td rowspan="' + item.produces.length + '" row-span="row">' + item
+                    .type_name + '</td><td>' + itm.name + '</td><td>' + itm.describe + '</td>' :
+                    '<td>' + itm.name + '</td><td>' + itm.describe +
+                    '</td>') + '\n                </tr>\n              ').trim());
+                });
+              }
+            });
+            $('.layui-tab-item').eq(1).append(item_lists.join(''));
+            $('.left_layout_plan').attr('src', data.left_layout_plan);
+            $('.case-introduct h2').text(data.title);
+            $('.case-introduct p').html(data.features_describe);
+            $('#list').html(tr_list);
           }
-        }).catch(err => new Error(err))
-
+        }).catch(function (err) {
+          return console.log(err);
+        });
       }
       $tabItem.on('click', function () {
         $tabContentItem.removeClass('layui-show layui-anim layui-anim-fadein').eq($(this).index()).addClass(
-          'layui-show layui-anim layui-anim-fadein')
-      })
-      var uid = active.getLocalStorage('uid')
+          'layui-show layui-anim layui-anim-fadein');
+      });
+      var uid = active.getLocalStorage('uid');
       $collection.on('click', function () {
-        active.isLogin()
-        var self = $(this)
-        active.query(`/decorate/cases/api/case/collect/${uid}/${id}/`, undefined, 'POST').then(res => {
-          if (res.code === 'success') {
-            if (self.find('i').attr('class').includes('layui-icon-rate-solid'))
-              self.find('i').removeClass('layui-icon-rate-solid').addClass('layui-icon-rate')
-            else
-              self.find('i').removeClass('layui-icon-rate').addClass('layui-icon-rate-solid')
-          }
-        }).catch(err => {
-          layer.msg('操作失败，请稍后重试')
-          new Error(err)
-        })
-      })
+        active.isLogin();
+        var self = $(this);
+        active.query('/decorate/cases/api/case/collect/' + uid + '/' + id + '/', undefined, 'POST').then(
+          function (res) {
+            if (res.code === 'success') {
+              if (self.find('i').attr('class').includes('layui-icon-rate-solid')) self.find('i').removeClass(
+                'layui-icon-rate-solid').addClass('layui-icon-rate');
+              else self.find('i').removeClass('layui-icon-rate').addClass('layui-icon-rate-solid');
+            }
+          }).catch(function (err) {
+          layer.msg('操作失败，请稍后重试');
+          console.log(err);
+        });
+      });
+      // 判断是否登录
       if (uid !== null) {
-        active.query(`/decorate/cases/api/case/collect/${uid}`).then(res => {
+        active.query('/decorate/cases/api/case/collect/' + uid).then(function (res) {
           if (res.code === 'success') {
-            res.data.forEach(item => {
+            res.data.forEach(function (item) {
               if (item.id === parseFloat(id)) {
-                $collection.find('i').removeClass('layui-icon-rate').addClass('layui-icon-rate-solid')
-                return false
+                $collection.find('i').removeClass('layui-icon-rate').addClass('layui-icon-rate-solid');
+                return false;
               }
-            })
+            });
           }
-        })
+        });
       }
-    })
+    });
     // 模块二模板字符串
     function templateStr(num, item) {
-      if (num === 0)
-        return `
-        <div class="item-list">
-          <div class="layui-col-lg6 item-ind textR">
-            <h2 class="layui-elip color-ce">${item.region}</h2>
-            <h3>${item.name}</h3>
-            <p>${item.features_describe}</p>
-          </div>
-          <div class="layui-col-lg6">
-            <img src="${item.image}" class="cover-img">
-          </div>
-        </div>`.trim()
-      else
-        return `
-        <div class="item-list">
-          <div class="layui-col-lg6">
-            <img src="${item.image}" class="cover-img">
-          </div>
-          <div class="layui-col-lg6 item-ind">
-            <h2 class="layui-elip color-ce">${item.region}</h2>
-            <h3>${item.name}</h3>
-            <p>${item.features_describe}</p>
-          </div>
-        </div>`.trim()
+      if (num === 0) return (
+        '\n    <div class="item-list">\n      <div class="layui-col-lg6 item-ind textR">\n        <h2 class="layui-elip color-ce">' +
+        item.region + '</h2>\n        <h3>' + item.name + '</h3>\n        <p>' + item.features_describe +
+        '</p>\n      </div>\n      <div class="layui-col-lg6">\n        <img src="' + item.image +
+        '" class="cover-img">\n      </div>\n      <div class="layui-clear"></div>\n    </div>').trim();
+      else return ('\n    <div class="item-list">\n      <div class="layui-col-lg6">\n        <img src="' + item.image +
+        '" class="cover-img">\n      </div>\n      <div class="layui-col-lg6 item-ind">\n        <h2 class="layui-elip color-ce">' +
+        item.region + '</h2>\n        <h3>' + item.name + '</h3>\n        <p>' + item.features_describe +
+        '</p>\n      </div>\n      <div class="layui-clear"></div>\n   </div>').trim();
     }
     layui.use(['element', 'flow'], function () {
-      var element = layui.element
-      var flow = layui.flow
+      var element = layui.element;
+      var flow = layui.flow;
       flow.load({
         elem: '.more-case',
-        done: function (page, next) {
-          let list = []
+        done: function done(page, next) {
+          var list = [];
           active.query('/decorate/cases/api/cases/', {
-            page
-          }).then(res => {
+            page: page
+          }).then(function (res) {
             if (res.code === 'success') {
               layui.each(res.data.cases, function (index, item) {
-                list.push(`
-                <div class="layui-col-lg4 more-case-item">
-                  <a href="./case.html?id=${item.id}" class="layui-show-lg-block">
-                    <div class="percent-box">
-                      <h3 class="layui-elip">${item.title}</h3>
-                      <div class="img-box" style="background: url(${item.cover_img}) no-repeat center / cover"></div>
-                    </div>
-                  </a>
-                </div>
-                `.trim())
-              })
-              next(list.join(''), page < res.data.pageCount)
+                list.push((
+                  '\n            <div class="layui-col-lg4 more-case-item">\n              <a href="./case.html?id=' +
+                  item.id +
+                  '" class="layui-show-lg-block">\n                <div class="percent-box">\n                  <h3 class="layui-elip">' +
+                  item.title + '</h3>\n   <div class="img-box" style="background: url(' + item
+                  .cover_img +
+                  ') no-repeat center / cover"></div>\n                </div>\n              </a>\n            </div>\n            '
+                  ).trim());
+              });
+              next(list.join(''), page < res.data.pageCount);
             }
-          }).catch(err => new Error(err))
+          }).catch(function (err) {
+            return console.log(err);
+          });
         }
-      })
-    })
+      });
+    });
   </script>
 </body>
 

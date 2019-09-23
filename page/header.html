@@ -6,8 +6,15 @@
       </div>
       <div class="f-r f0">
         <div class="layui-inline login-center">
-          <a href="./login.html" class="color-ce f14 w-l">登录</a>
-          <a href="./register.html" class="color-ce f14 r-o">注册</a>
+          <div class="layui-inline userlogin layui-hide">
+            <span class="f14 nikename layui-inline" style="vertical-align: middle;">欢迎您，<span
+                id="nickname"></span></span>
+            <a class="color-ce f14 w-l" onclick="logout()" href="javascript:;">退出</a>
+          </div>
+          <div class="layui-inline userinfo layui-hide">
+            <a href="./login.html" class="color-ce f14 w-l">登录</a>
+            <a href="./register.html" class="color-ce f14 r-o">注册</a>
+          </div>
           <a href="./message.html" class="f14 msg">消息</a>
         </div>
         <span class="f14"><i class="layui-inline css-sprite sicon9"></i>整装之家App</span>
@@ -64,32 +71,49 @@
 </div>
 
 <script>
-  var path = window.location.pathname.split('/')
-  path = path[path.length - 1]
-  var $navItem = $('.navigation ul li')
-  $navItem.each((i, item) => {
-    var itemPath = $(item).find('a').attr('href').split('/')
-    itemPath = itemPath[itemPath.length - 1]
+  if (active.getLocalStorage('uid')) {
+    $('.userlogin').removeClass('layui-hide');
+  } else {
+    $('.userinfo').removeClass('layui-hide');
+  }
+  var path = window.location.pathname.split('/');
+  path = path[path.length - 1];
+  var $navItem = $('.navigation ul li');
+  $navItem.each(function (i, item) {
+    var itemPath = $(item).find('a').attr('href').split('/');
+    itemPath = itemPath[itemPath.length - 1];
     if (path === '' && i === 0) {
-      $(item).find('a').addClass('active')
+      $(item).find('a').addClass('active');
     }
     if (itemPath === path && itemPath !== "") {
-      $(item).find('a').addClass('active')
+      $(item).find('a').addClass('active');
     }
-  })
-  let uid = active.getLocalStorage('uid')
+  });
+  var uid = active.getLocalStorage('uid');
   if (uid !== null) {
-    active.query(`/decorate/users/api/note/unread/${uid}/`).then(res => {
+    active.query('/decorate/users/api/note/unread/' + uid + '/').then(function (res) {
       if (res.code === 'success') {
-        let $msgCount = $('.login-center .msg')
-        $msgCount.html("消息(<span class=\"color-ce f14\">" + res.count + "</span>)")
+        var $msgCount = $('.login-center .msg');
+        var nickname = res.nickname;
+        if (active.verify(nickname, '^[1][3,4,5,6,7,8,9][0-9]{9}$')) {
+          nickname = active.slicePhone(nickname);
+        }
+        $('#nickname').text(nickname);
+        $msgCount.html("消息(<span class=\"color-ce f14\">" + res.count + "</span>)");
       }
-    })
+    });
   }
   $('.layui-icon-shrink-right').on('click', function () {
-    $('.sm-menu').addClass('active')
-  })
-  $('.sm-menu .layui-icon-close').on('click', function(){
-    $(this).parent().removeClass('active')
-  })
+    $('.sm-menu').addClass('active');
+  });
+  $('.sm-menu .layui-icon-close').on('click', function () {
+    $(this).parent().removeClass('active');
+  });
+
+  function logout() {
+    localStorage.removeItem('uid');
+    localStorage.removeItem('token');
+    localStorage.removeItem('phone');
+    window.location.replace(window.location.href);
+  }
 </script>
