@@ -1,10 +1,19 @@
 'use strict';
 
 var BASEURL = 'https://api.houyangguang.cn';
+// var BASEURL = document.domain
 
 $(function () {
   $('#header').load('header.html');
   $('#footer').load('footer.html');
+  if (window.innerWidth <= 767) { // 手机尺寸
+    if ($('.wap-menu')) {
+      $('.wap-menu').on('click', function () {
+        active.toggleSideBar($('.min-sidebar'), true, 'show');
+        active.toggleSideBar($('.sm-menu'), false, 'active')
+      })
+    }
+  }
 });
 var active = {
   /**
@@ -14,15 +23,12 @@ var active = {
    * @param {string} method 方法
    * @param {object} headers 请求头
    */
-  query: function query(api_url, data, method, withCredentials, headers) {
+  query: function query(api_url, data, method, headers) {
     return new Promise(function (resolve, reject) {
       $.ajax({
         url: BASEURL + api_url,
         data: data || '',
         method: method || 'GET',
-        xhrFields: {
-          withCredentials: withCredentials || false
-        },
         beforeSend: function (request) {
           request.setRequestHeader('token', active.getLocalStorage('token'))
         },
@@ -30,10 +36,18 @@ var active = {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         success: function success(res) {
-          if (res.expired) {
+          // 清楚缓存
+          function removeLocalStorage() {
             localStorage.removeItem('uid');
             localStorage.removeItem('token');
             localStorage.removeItem('phone');
+          }
+          // token过期
+          if (res.expired) {
+            removeLocalStorage();
+          }
+          if (res.code === 'failed' && res.msg === 'token验证失败') {
+            removeLocalStorage();
           }
           return resolve(res);
         },
@@ -117,7 +131,6 @@ var active = {
    */
   verify: function verify(strings) {
     var reg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-
     if (!strings.length) {
       return false;
     } else if (reg.length) {
@@ -128,22 +141,38 @@ var active = {
       return true;
     }
   },
+  // 手机号显示
   slicePhone: function slicePhone(phone) {
     var start = phone.slice(0, 4);
     var end = phone.slice(7, 11);
     return start + '...' + end;
   },
+  // 获取localStorage
   getLocalStorage: function getLocalStorage(name) {
     if (localStorage.getItem(name) && localStorage.getItem(name) !== '') return localStorage.getItem(name);
     else return null;
   },
+  // 判断是否登录
   isLogin: function isLogin() {
     var uid = active.getLocalStorage('uid');
     if (uid === null) window.location.href = '../page/login.html';
     else return true;
   },
+  // 获取日期
   formatDate: function formatDate(date) {
     var year = date.split('T');
     return year[0];
+  },
+  /**
+   * 
+   * @param {object} obj 元素
+   * @param {boolean} b 显示隐藏
+   * @param {string} c 样式
+   */
+  toggleSideBar: function toggleSideBar(obj, b, c) {
+    if (obj) {
+      if (b) obj.addClass(c)
+      else obj.removeClass(c)
+    }
   }
 };

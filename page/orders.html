@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../layui/css/layui.css">
   <link rel="stylesheet" href="../css/style.css">
@@ -29,6 +29,9 @@
       <aside class="min-sidebar">
       </aside>
       <div class="member-container">
+        <div class="wap-menu f-l layui-hide-lg layui-hide-md layui-hide-sm layui-show-xs">
+          <img src="../images/wap-menu.png" class="cover-img">
+        </div>
         <h2 class="nav-title">装修订单</h2>
       </div>
       <div class="layui-clear"></div>
@@ -37,162 +40,446 @@
   <footer id="footer"></footer>
 
   <script src="../layui/layui.js"></script>
+  <script src="../js/distpicker.data.min.js"></script>
+  <script src="../js/distpicker.min.js"></script>
   <script>
-    layui.use(['layer', 'form'], function () {
+    layui.use(['layer', 'form', 'rate'], function () {
       var layer = layui.layer;
       var form = layui.form;
+      var rate = layui.rate;
       $('.min-sidebar').load('./sidebar.html');
       var $orderBox = $('.member-container');
-      var processArr = [];
+      var orderArr = []; // 订单
+      var processArr = []; // 订单进程
       var uid = active.getLocalStorage('uid');
-      active.query('/decorate/users/api/user/order/' + uid + '/').then(function (res) {
-        // console.log(res)
+      active.query(`/decorate/users/api/user/order/${uid}/`).then(res => {
+        console.log(res)
         if (res.code === 'success') {
-          var changeTab = function changeTab(el, content, index, arr_start, arr_end) {
-            el.html(processArr[index].slice(arr_start, arr_end).map(function (item, index) {
-              return ('<li class="' + (index === 0 ? 'active' : '') + '">' + item.name + '</li>')
-            .trim();
-            }).join(''));
+          var orders = []
+          res.data.forEach((item, index) => {
+            orderArr.push(item);
+            processArr.push(item.process);
+            orders.push(`
+            <div class="order-container">
+              <div class="order-header">
+                <span class="orderno">订单号：${item.trade_no}</span>
+                <span class="detail" data-index="${index}" style="cursor: pointer;">查看详情</span>
+              </div>
+              <div class="order-tab" data-index="${index}">
+                <div class="order-tab-item active">装修前</div>
+                <div class="order-tab-item">装修中</div>
+                <div class="order-tab-item">装修后</div>
+              </div>
+              <div class="order-main">
+                <div class="order-side">
+                  <ul>
+                    ${processArr[index].slice(0, 7).map((it, idx) => {
+                      return `<li class="${idx === 0 ? 'active' : ''}">${it.name}</li>`
+                    }).join('')}
+                  </ul>
+                </div>
+                <div class="order-content">
+                  <div class="layui-col-space20">
+                    <div class="layui-col-lg5 layui-col-md5 layui-col-sm5 layui-col-xs12">
+                      <div class="status">完成状态：${item.process[0].status}${item.process[0].status.indexOf('完成') > 0 ? (item.process[0].star_num > 0 ? '<span style="margin-left: 10px; font-size: 14px; color: #999;">已打分</span>' : '<span class="rate" data-name="' + item.process[0].name + '" data-process="' + item.process[0].id + '">去打分</span>') : ''}</div>
+                      <p class="note">${item.process[0].note}</p>
+                    </div>
+                    <div class="layui-col-lg7 layui-col-md7 layui-col-sm7 layui-col-xs12" class="img_arr">
+                      <img class="cover-img show_img" src="${item.process[0].images.length > 0 ? item.process[0].images[0].image : '../images/noimg.jpg'}"/>
+                      <div class="layui-col-space10 i-img-box" style="margin-top: 5px;"></div>
+                    </div>
+                    <div class="layui-clear"></div>
+                  </div>
+                </div>
+              </div>
+            </div>`.trim());
+          })
+          $orderBox.append(orders);
+          _init();
+          // 初始化
+          function _init() {
+            // 判断是否存在订单，防止找不到索引报错
+            if (orderArr.length > 0) {
+              for(var i = 0; i < orderArr.length; i++){
+                imgArr($($('.order-content')[i]), processArr[i][0].images);
+              }
+              // 初始化流程点击事件
+              $('.order-side ul li').on('click', function () {
+                var self = $(this);
+                changeStep(self, self.index());
+              })
+              // 初始化评分弹窗
+              $('.rate').on('click', function () {
+                var index = $(this).parents('.order-main').siblings('.order-tab').data('index');
+                open(this, index, 0);
+              })
+            }
+          }
+          var $orderItem = $('.order-tab .order-tab-item'); // 左侧栏
+          var $detail = $('.detail'); // 查看详情
+          // 循环图片数组
+          function imgArr(el, img_arr) {
+            var arr = [];
+            img_arr.forEach(function (item) {
+              arr.push('<img class="i-img" src="' + item.image + '" style="cursor: pointer;"/>'.trim());
+            });
+            el.find('.i-img-box').html(arr.join(''));
+            // 绑定图片切换
+            el.find('.i-img').on('click', function () {
+              var src = $(this).attr('src');
+              el.find('.show_img').attr('src', src);
+            });
+          }
+          // 切换左侧
+          /**
+           * 选项切换
+           * el {object} 左侧内容
+           * content {object} 内容容器
+           * index {number} 订单索引
+           * arr_start {number} 步骤开始位置
+           * arr_end {number} 步骤结束位置
+           */
+          function changeTab(el, content, index, arr_start, arr_end) {
+            el.html(processArr[index].slice(arr_start, arr_end).map((item, index) =>
+              `<li class="${index === 0 ? 'active' : ''}">${item.name}</li>`.trim()).join(''));
             // 切换时初始化内容区域
-            content.text(processArr[index][arr_start].status === '已完成' ? processArr[index][arr_start].note :
-              processArr[index][arr_start].status);
+            changeContent(content, index, arr_start);
             // 重新绑定流程点击事件
-            $('.order-side ul li').on('click', function () {
+            el.find('li').on('click', function () {
               var self = $(this);
               changeStep(self, arr_start + self.index());
             });
-          };
-
-          var changeStep = function changeStep(self, item_index) {
+          }
+          /**
+           * 步骤切换
+           * self {object} 内容对象
+           * item_index {number} 步骤索引
+           */
+          function changeStep(self, item_index) {
             self.siblings().removeClass('active');
             self.addClass('active');
             // 订单索引
             var parentIndex = self.parents('.order-main').siblings('.order-tab').data('index');
             // 显示区域
             var $content = self.parents('.order-side').siblings('.order-content');
-            $content.text(processArr[parentIndex][item_index].status === '已完成' ? processArr[parentIndex][
-              item_index
-            ].note : processArr[parentIndex][item_index].status);
-          };
-
-          var orderArr = [];
-          res.data.forEach(function (item, index) {
-            processArr.push(item.process);
-            orderArr.push((
-              '\n        <div class="order-container">\n          <div class="order-header">\n            <span class="orderno">\u8BA2\u5355\u53F7\uFF1A' +
-              item.trade_no + '</span>\n            <span class="area">\u9762\u79EF\uFF1A' + item.area +
-              '\u5E73\u65B9</span>\n <span class="city">\u57CE\u5E02\uFF1A' + item.city +
-              '</span>\n            <span class="cellphone">\u624B\u673A\u53F7\u7801\uFF1A' + active
-              .slicePhone(item.phone) + '</span>\n            <span class="update" data-order="' + item
-              .trade_no +
-              '">\u4FEE\u6539</span>\n    </div>\n          <div class="order-tab" data-index="' +
-              index +
-              '">\n            <div class="layui-col-lg4 order-tab-item active">\u88C5\u4FEE\u524D</div>\n            <div class="layui-col-lg4 order-tab-item">\u88C5\u4FEE\u4E2D</div>\n            <div class="layui-col-lg4 order-tab-item">\u88C5\u4FEE\u540E</div>\n          </div>\n          <div class="order-main">\n            <div class="order-side f-l">\n              <ul>\n                ' +
-              processArr[index].slice(0, 7).map(function (it, idx) {
-                return '<li class="' + (idx === 0 ? 'active' : '') + '">' + it.name + '</li>';
-              }).join('') +
-              '\n              </ul>\n            </div>\n            <div class="order-content">' +
-              item.process[0].note + '</div>\n          </div>\n        </div>').trim());
-          });
-          $orderBox.append(orderArr);
-          // 初始化流程点击事件
-          $('.order-side ul li').on('click', function () {
-            var self = $(this);
-            changeStep(self, self.index());
-          });
-          var $orderItem = $('.order-tab .order-tab-item');
-          var $update = $('.update');
-
+            changeContent($content, parentIndex, item_index);
+          }
+          /**
+           * 内容渲染
+           * content {object} 内容对象
+           * index {number} 订单索引
+           * item_index {number} 步骤索引
+           */
+          function changeContent($content, index, item_index) {
+            if (processArr.length > 0) {
+              $content.find('.status').html('完成状态：' + processArr[index][item_index].status + (processArr[index][
+                  item_index
+                ].status.indexOf('完成') > 0 ? (processArr[index][item_index].star_num > 0 ? '<span style="margin-left: 10px; font-size: 14px; color: #999;">已打分</span>' : '<span class="rate" data-name="' + processArr[index][item_index].name + '" data-process="' + processArr[index][item_index].id + '">去打分</span>') : ''));
+              $content.find('.note').text(processArr[index][item_index].note);
+              $content.find('.show_img').attr('src', processArr[index][item_index].images.length > 0 ?
+                processArr[
+                  index][
+                  item_index
+                ].images[0].image : '../images/noimg.jpg');
+              imgArr($content, processArr[index][item_index].images);
+              $content.find('.rate').on('click', function () {
+                open(this, index, item_index)
+              });
+            }
+          }
+          // 左侧条点击事件
           $orderItem.on('click', function () {
             var self = $(this);
             self.siblings().removeClass('active');
             self.addClass('active');
+            // 订单下标
             var orderIndex = self.parent().data('index');
+            // 订单进程容器
             var $orderSide = self.parent().siblings('.order-main').find('.order-side ul');
+            // 订单进程内容容器
             var $orderContent = self.parent().siblings('.order-main').find('.order-content');
             if (self.index() === 0) {
-              changeTab($orderSide, $orderContent, orderIndex, 0, 7);
+              changeTab($orderSide, $orderContent, orderIndex, 0, 5);
             } else if (self.index() === 1) {
-              changeTab($orderSide, $orderContent, orderIndex, 7, 15);
+              changeTab($orderSide, $orderContent, orderIndex, 5, 14);
             } else if (self.index() === 2) {
-              changeTab($orderSide, $orderContent, orderIndex, 15, 17);
+              changeTab($orderSide, $orderContent, orderIndex, 14, 15);
             }
-          });
-          var content =
-            '\n      <div class="layui-form diy-skin">\n        <div class="layui-form-item">\n          <label class="layui-form-label">\u65B0\u624B\u673A\u53F7</label>\n          <div class="layui-input-block">\n            <input type="tel" name="phone" required lay-verify="required" maxlength="11" autocomplete="off" class="layui-input">\n          </div>\n        </div>\n        <div class="layui-form-item">\n          <label class="layui-form-label">\u9A8C\u8BC1\u7801</label>\n          <div class="layui-input-inline">\n            <input type="text" name="sms" required lay-verify="required" autocomplete="off"\n              class="layui-input" maxlength="4">\n          </div>\n          <div class="layui-form-mid layui-word-aux get-code">\u53D1\u9001</div>\n        </div>\n        <button class="layui-input post-btn" lay-submit lay-filter="f">\u786E\u8BA4\u4FEE\u6539</button>\n      </div>\n      '
-            .trim();
-          $update.on('click', function () {
-            var self = $(this);
+          })
+          /**
+           * 评分弹窗
+           * el {object} dom元素
+           * index {number} 订单索引
+           * item_index {number} 步骤索引
+           */
+          function open(el, index, item_index) {
+            // 阻止ajax后事件响应
+            if(processArr[index][item_index].star_num > 0){
+              return
+            }
+            var data = orderArr[index];
+            var name = $(el).data('name');
+            var process_id = $(el).data('process');
+            var content = `
+            <div style="height: 40px; line-height: 40px; margin-bottom: 10px;">
+              <label class="layui-inline" style="margin-right: 10px;">评分:</label>
+              <div class="rate-container"></div>
+              <input type="hidden" value="" id="rate_num">
+            </div>
+            <textarea id="f_content" style="height: 100px; line-height: 20px; box-sizing: border-box; width: 100%; border-radius: 2px; border: 1px solid #e6e6e6; padding: 10px;"></textarea>
+            `.trim();
             layer.open({
-              title: false,
-              content: content,
+              skin: 'open-skin3',
+              title: '评价',
+              area: '450px',
+              content,
+              btn: '提交',
+              btnAlign: 'c',
               closeBtn: false,
               shadeClose: true,
-              area: '582px',
-              move: false,
-              btn: false,
-              skin: 'open-skin2',
-              success: function success() {
-                form.render();
-                var $phone = $('input[name="phone"]');
-                var $sms = $('input[name="sms"]');
-                var $getCode = $('.get-code');
-                var time = 60;
-                $getCode.on('click', function () {
-                  var self = $(this);
-                  if (!active.verify($phone.val())) {
-                    layer.msg('请输入您的手机号码');
-                    return;
+              success: function () {
+                rate.render({
+                  elem: '.rate-container',
+                  choose: function(value){
+                    $('#rate_num').val(value)
                   }
-                  if (!active.verify($phone.val(), '^[1][3,4,5,6,7,8,9][0-9]{9}$')) {
-                    layer.msg('请输入有效的手机号码');
-                    return;
+                })
+              },
+              yes: function(i, layero){
+                var star_num = $('#rate_num').val();
+                var comment_msg = $('#f_content').val();
+                if(!star_num.length){
+                  layer.msg('请对此流程进行打星');
+                  return;
+                }
+                active.query('/decorate/orders/api/user/feedback/' + active.getLocalStorage('uid') + '/' + process_id + '/', {star_nums: parseInt(star_num), comment_msg: comment_msg}, 'POST').then(function(res) {
+                  if(res.code === 'success'){
+                    layer.close(i);
+                    layer.msg('感谢您的评价');
+                    $(el).text('已打分').removeClass('rate').css({'marginLeft': '10px', 'fontSize': '14px', 'color': '#999'});
+                    processArr[index][item_index].star_num = parseInt(star_num)
                   }
-                  if (time === 60) {
-                    active.query('/decorate/users/api/sms/send/', {
-                      phone: $phone.val()
-                    }).then(function (res) {
-                      if (res.code === 'success') {
-                        var interval = setInterval(function () {
-                          if (time === 0) {
-                            time = 60;
-                            self.html('获取验证码');
-                            clearInterval(interval);
-                            return;
-                          }
-                          self.html(time + 's');
-                          time--;
-                        }, 1000);
-                      } else {
-                        layer.msg(res.msg);
-                      }
-                    }).catch(function (err) {
-                      return console.log(err);
+                }).catch(function(err) {
+                  throw new Error(err);
+                })
+              }
+            })
+          }
+          // 详情弹窗
+          $detail.on('click', function () {
+            var index = $(this).data('index');
+            var data = orderArr[parseInt(index)];
+            var order_id = data.trade_no;
+            var detail = `
+              <div>创建时间：${active.formatDate(data.create_time)}</div>
+              <div>订单编号：${data.trade_no}</div>
+              <div>业主姓名：${data.username}</div>
+              <div>业主性别：${data.user_gender}</div>
+              <div>手机号码：${data.phone} <span class="update" style="color: #cea972; margin-left: 10px;">修改</span></div>
+              <div>房屋面积：${data.area}m²</div>
+              <div>住宅户型：${data.hu_type}</div>
+              <div>所在地区：${data.province + data.city + data.district}</div>
+              <div>详细地址：${data.detail_address}</div>
+              <div>小区名称：${data.community_name}</div>
+            `.trim();
+            layer.open({
+              skin: 'open-skin3',
+              title: '订单详情',
+              area: '340px',
+              closeBtn: false,
+              shadeClose: true,
+              btn: '编辑',
+              btnAlign: 'c',
+              content: detail,
+              success: function () {
+                var $update = $('.update') // 更新手机号码
+                // 更新手机号弹窗
+                var content = `
+                  <div class="layui-form diy-skin">
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">新手机号</label>
+                      <div class="layui-input-block">
+                        <input type="tel" name="phone" required lay-verify="required" maxlength="11" autocompvare="off" class="layui-input">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">验证码</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="sms" required lay-verify="required" autocompvare="off"
+                          class="layui-input" maxlength="4">
+                      </div>
+                      <div class="layui-form-mid layui-word-aux get-code">发送</div>
+                    </div>
+                    <button class="layui-input post-btn" lay-submit lay-filter="f">确认修改</button>
+                  </div>
+                  `.trim()
+                $update.on('click', function () {
+                  layer.open({
+                    title: false,
+                    content,
+                    closeBtn: false,
+                    shadeClose: true,
+                    area: '582px',
+                    move: false,
+                    btn: false,
+                    skin: 'open-skin2',
+                    success: function () {
+                      form.render()
+                      var $phone = $('input[name="phone"]');
+                      var $sms = $('input[name="sms"]');
+                      var $getCode = $('.get-code');
+                      var time = 60
+                      $getCode.on('click', function () {
+                        var self = $(this)
+                        if (!active.verify($phone.val())) {
+                          layer.msg('请输入您的手机号码');
+                          return;
+                        }
+                        if (!active.verify($phone.val(),
+                            '^[1][3,4,5,6,7,8,9][0-9]{9}$')) {
+                          layer.msg('请输入有效的手机号码');
+                          return;
+                        }
+                        if (time === 60) {
+                          active.query('/decorate/users/api/sms/send/', {
+                            phone: $phone.val()
+                          }).then(function (res) {
+                            if (res.code === 'success') {
+                              var interval = setInterval(function () {
+                                if (time === 0) {
+                                  time = 60;
+                                  self.html('获取验证码');
+                                  clearInterval(interval);
+                                  return;
+                                }
+                                self.html(time + 's');
+                                time--;
+                              }, 1000);
+                            } else {
+                              layer.msg(res.msg);
+                            }
+                          }).catch(function (err) {
+                            return new Error(err);
+                          });
+                        }
+                      })
+                      form.on('submit(f)', function (data) {
+                        if (!active.verify($phone.val(), '^[1][3,4,5,7,8][0-9]{9}$')) {
+                          layer.msg('请输入正确的手机号码!')
+                          return;
+                        }
+                        active.query(
+                          `/decorate/users/api/phone/change/${order_id}/${uid}/`, data
+                          .field,
+                          'POST').then(res => {
+                          layer.msg(res.msg)
+                        }).catch(err => {
+                          layer.msg('提交失败，请稍后重试！')
+                        })
+                      })
+                    }
+                  })
+                })
+              },
+              yes: function (index, layero) {
+                // 编辑弹窗
+                var content = `
+                <div class="layui-form update-order">
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">业主姓名</label>
+                    <div class="layui-input-block">
+                      <input class="layui-input" type="text" name="username" value="${data.username}">
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">业主性别</label>
+                    <div class="layui-input-inline">
+                      <input type="radio" name="user_gender" value="男" title="男" ${data.user_gender === '男' ? 'checked' : '' }>
+                      <input type="radio" name="user_gender" value="女" title="女" ${data.user_gender === '女' ? 'checked' : '' }>
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">房屋面积</label>
+                    <div class="layui-input-inline">
+                      <input class="layui-input" type="text" name="area" value="${data.area}">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">m²</div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">房屋户型</label>
+                    <div class="layui-input-block">
+                      <input class="layui-input" style="display:inline-block; width: 40px;" name="living_room_nums" type="number" maxlength="2" value="${data.living_room_nums}">室
+                      <input class="layui-input" style="display:inline-block; width: 40px;" name="house_nums" type="number" maxlength="2" value="${data.house_nums}">厅
+                      <input class="layui-input" style="display:inline-block; width: 40px;" name="kitchen_nums" type="number" maxlength="2" value="${data.kitchen_nums}">厨
+                      <input class="layui-input" style="display:inline-block; width: 40px;" name="toilet_nums" type="number" maxlength="2" value="${data.toilet_nums}">卫
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">小区名称</label>
+                    <div class="layui-input-block">
+                      <input class="layui-input" type="text" name="community_name" value="${data.community_name}">
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">房源地址</label>
+                    <div class="layui-input-block" id="distpicker">
+                      <select name="province" lay-ignore></select>
+                      <select name="city" lay-ignore></select>
+                      <select name="district" lay-ignore></select>
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-block">
+                      <input class="layui-input" placeholder="详细地址" type="text" name="detail_address"
+                        value="${data.detail_address}">
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                      <button class="layui-input post-btn marginAuto" style="font-size: 20px;" lay-submit lay-filter="f">提交</button>
+                  </div>
+                </div>
+                `.trim()
+                layer.open({
+                  skin: 'open-skin2',
+                  title: '修改订单',
+                  area: '582px',
+                  content,
+                  closeBtn: false,
+                  shadeClose: true,
+                  btn: false,
+                  success: function () {
+                    form.render()
+                    form.on('submit(f)', function(res){
+                      console.log(res)
+                      active.query('/decorate/orders/api/order/edit/' + data.id + '/' + active.getLocalStorage('uid') + '/', res.field, 'POST').then(function(r) {
+                        console.log(r)
+                        if(r.code === 'success'){
+                          layer.msg('修改成功', {time: 1000})
+                          layer.close(index)
+                          setTimeout(() => {
+                            window.location.reload()
+                          }, 1000);
+                        }
+                      })
+                    })
+                    // 绑定省市区
+                    $("#distpicker").distpicker({
+                      province: data.province,
+                      city: data.city,
+                      district: data.district
                     });
                   }
-                });
-                form.on('submit(f)', function (data) {
-                  var order_id = self.data('order');
-                  if (!active.verify($phone.val(), '^[1][3,4,5,7,8][0-9]{9}$')) {
-                    layer.msg('请输入正确的手机号码!');
-                    return;
-                  }
-                  active.query('/decorate/users/api/phone/change/' + order_id + '/' + uid + '/',
-                    data.field, 'POST', true).then(function (res) {
-                    layer.msg(res.msg);
-                  }).catch(function (err) {
-                    layer.msg('提交失败，请稍后重试！');
-                  });
-                });
+                })
               }
-            });
-          });
+            })
+          })
         }
-      }).catch(function (err) {
-        layer.msg('获取失败,请稍后重试');
-        console.log(err);
-      });
-    });
+      }).catch(err => {
+        layer.msg('获取失败,请稍后重试')
+        throw new Error(err)
+      })
+    })
   </script>
 </body>
 

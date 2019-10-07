@@ -92,7 +92,8 @@ layui.use(['element', 'carousel', 'layer'], function () {
       });
     }
   }).catch(function (err) {
-    return console.log(err);
+    return 
+        throw new Error(err);
   });
   // 案例轮播
   active.query('/decorate/cases/api/case/recommend/').then(function (res) {
@@ -115,7 +116,8 @@ layui.use(['element', 'carousel', 'layer'], function () {
       });
     }
   }).catch(function (err) {
-    return console.log(err);
+    return 
+        throw new Error(err);
   });
 
   active.query('/decorate/articles/api/articles/').then(function (res) {
@@ -133,7 +135,8 @@ layui.use(['element', 'carousel', 'layer'], function () {
       $articleList.append(arr);
     }
   }).catch(function (err) {
-    console.log(err);
+    
+        throw new Error(err);
   });
   active.query('/decorate/rendering/api/renderings/').then(function (res) {
     if (res.code === 'success') {
@@ -156,7 +159,8 @@ layui.use(['element', 'carousel', 'layer'], function () {
       });
     }
   }).catch(function (err) {
-    return console.log(err);
+    return 
+        throw new Error(err);
   });
   // 滑动切换监听事件
   carousel.on('change(case_carousel)', function (e) {
@@ -208,7 +212,8 @@ layui.use(['element', 'carousel', 'layer'], function () {
       }
     }).catch(function (err) {
       layer.msg('提交失败,请稍后重试!');
-      console.log(err);
+      
+        throw new Error(err);
     });
   });
 });

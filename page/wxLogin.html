@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="../js/jquery-1.11.3.min.js"></script>
   <script src="../dist/js/mian.js"></script>
@@ -33,7 +33,7 @@
             // 刷新二维码页面
             window.parent.parent.document.getElementById('wxiframe').contentWindow.location.replace(
               'https://open.weixin.qq.com/connect/qrconnect?appid=wxe147353379a20d5e&scope=snsapi_login&redirect_uri=' +
-              encodeURIComponent("http://www.zzzj.com.cn/page/bindWx.html") + '&state=' +
+              encodeURIComponent(window.location.origin + "/page/bindWx.html") + '&state=' +
               Math.ceil(Math.random() * 1000) +
               '&login_type=jssdk&self_redirect=true&styletype=&sizetype=&bgcolor=&rst=&style=black&href=data:text/css;base64,LmltcG93ZXJCb3ggLnFyY29kZSB7d2lkdGg6IDIwMHB4O21hcmdpbjogMDt9DQouaW1wb3dlckJveCAudGl0bGUge2Rpc3BsYXk6IG5vbmU7fQ0KLmltcG93ZXJCb3ggLmluZm8ge2Rpc3BsYXk6IG5vbmU7O30NCi5zdGF0dXNfaWNvbiB7ZGlzcGxheTogbm9uZX0='
               );

@@ -26,14 +26,14 @@
   </div>
   <div class="layui-clear"></div>
   <div class="layui-container header-nav">
-    <div class="logo layui-col-lg2">
+    <div class="logo layui-col-lg2 layui-col-md2 layui-col-sm2">
       <img src="../images/logo.jpg">
       <!-- <div class="layui-inline website-address">
         <h2 class="layui-inline">整装之家</h2>
         <span class="layui-inline">WWW.ZZZJ-GZ.COM</span>
       </div> -->
     </div>
-    <nav class="navigation layui-col-lg10">
+    <nav class="navigation layui-col-lg10 layui-col-md10 layui-col-sm10">
       <ul>
         <li><a href="./">首页</a></li>
         <li><a href="./case.html">装修案例</a></li>
@@ -104,10 +104,12 @@
     });
   }
   $('.layui-icon-shrink-right').on('click', function () {
-    $('.sm-menu').addClass('active');
+    active.toggleSideBar($('.sm-menu'), true, 'active');
+    active.toggleSideBar($('.min-sidebar'), false, 'show');
   });
   $('.sm-menu .layui-icon-close').on('click', function () {
-    $(this).parent().removeClass('active');
+    active.toggleSideBar($('.sm-menu'), false, 'active');
+    active.toggleSideBar($('.min-sidebar'), false, 'show');
   });
 
   function logout() {

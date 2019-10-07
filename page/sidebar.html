@@ -7,6 +7,7 @@
           <span class="latui-inline phone"></span>
         </div>
       </a>
+      <div class="layui-inline layui-icon layui-icon-close layui-hide-lg layui-hide-md layui-hide-sm layui-show-xs"></div>
     </li>
     <li>
       <h4>我的订单</h4>
@@ -29,6 +30,10 @@
 <script>
   active.isLogin();
   if (active.getLocalStorage('uid') !== null) {
+    $('.min-sidebar .sidebar-tree li .layui-icon-close').on('click', function(){
+      active.toggleSideBar($('.min-sidebar'), false, 'show');
+      event.stopPropagation();
+    })
     var menberPath = window.location.pathname.split('/');
     menberPath = menberPath[menberPath.length - 1];
     var $sideItem = $('.sidebar-tree li');

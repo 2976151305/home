@@ -146,6 +146,7 @@ function getCode(self, phone) {
       } else {
         layer.msg(res.msg)
       }
-    }).catch(err => console.log(err))
+    }).catch(err => 
+        throw new Error(err))
   }
 }

@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../layui/css/layui.css">
   <link rel="stylesheet" href="../css/style.css">
@@ -25,17 +25,17 @@
     <!-- 导航 -->
     <div class="tab-list" lay-filter="change">
       <div class="layui-container">
-        <div class="tab-item layui-col-lg4">
+        <div class="tab-item layui-col-lg4 layui-col-md4 layui-col-sm4 layui-col-xs4">
           <div class="layui-inline"></div>
           <span>新房装修小知识</span>
           <i class="layui-inline css-sprite sicon6"></i>
         </div>
-        <div class="tab-item layui-col-lg4 textC">
+        <div class="tab-item layui-col-lg4 layui-col-md4 layui-col-sm4 layui-col-xs4 textC">
           <div class="layui-inline">
             <span class="textL">装修也要讲风水</span>
             <i class="layui-inline css-sprite sicon7"></i></div>
         </div>
-        <div class="tab-item layui-col-lg4 textR">
+        <div class="tab-item layui-col-lg4 layui-col-md4 layui-col-sm4 layui-col-xs4 textR">
           <div class="layui-inline">
             <span class="lh62">业主社区</span>
             <i class="layui-inline css-sprite sicon8"></i></div>
@@ -293,7 +293,7 @@
         $hotList.eq(0).append(arr1[2])
         $hotList.eq(1).append(arr2[2])
         $hotList.eq(2).append(arr3[2])
-      }).catch(err => console.log(err))
+      }).catch(err => {throw new Error(err)})
     })
     layui.use(['element'], function () {
       var element = layui.element
