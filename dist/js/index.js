@@ -25,9 +25,9 @@ jQuery(function () {
     });
     let imgArr = []
     for (let i = 0; i <= 8; i++) {
-      let img = `<img class="hover-img hover-img${i} layui-anim layui-anim-fadein" src="../images/hover${i}.png" style="-webkit-animation-delay: ${1000 + i * 500}s; animation-delay: ${1000 + i * 500}ms;">`
+      let img = `<img class="hover-img hover-img${i} layui-anim layui-anim-fadein" src="../images/hover${i}.png" style="-webkit-animation-delay: ${500 + i * 500}s; animation-delay: ${500 + i * 500}ms;">`
       if (i === 0) {
-        img = `<div class="tip layui-anim layui-anim-fadein" style="-webkit-animation-delay: ${1000 + i * 500}s; animation-delay: ${1000 + i * 500}ms;">
+        img = `<div class="tip layui-anim layui-anim-fadein" style="-webkit-animation-delay: ${500 + i * 500}s; animation-delay: ${500 + i * 500}ms;">
           <h1>HUMANIZED SERVICE</h1>
           <span class="layui-inline">智能化体验，让您拥有一个舒适的家</span>
         </div>`

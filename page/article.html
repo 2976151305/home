@@ -13,7 +13,7 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
-  <title>文章详情</title>
+  <title></title>
 </head>
 
 <body>
@@ -87,10 +87,10 @@
           $coverImg.attr('src', res.data.cover_img);
           $location.text(' > ' + res.data.title);
           $uploadDate.text('发布时间：' + active.formatDate(res.data.last_update_time));
+          document.title = res.data.title
         }
       }).catch(function (err) {
         layer.msg('获取失败，请稍后重试');
-        
         throw new Error(err);
       });
       $collection.on('click', function () {
@@ -105,8 +105,7 @@
             }
           }).catch(function (err) {
           layer.msg('操作失败，请稍后重试');
-          
-        throw new Error(err);
+          throw new Error(err);
         });
       });
       if (uid !== null) {

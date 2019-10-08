@@ -92,8 +92,7 @@ layui.use(['element', 'carousel', 'layer'], function () {
         interval: '5000',
       })
     }
-  }).catch(err => 
-        throw new Error(err))
+  }).catch(err => {throw new Error(err)})
   // 案例轮播
   active.query('/decorate/cases/api/case/recommend/').then(res => {
     if (res.code === 'success') {
@@ -118,8 +117,7 @@ layui.use(['element', 'carousel', 'layer'], function () {
         indicator: 'none'
       })
     }
-  }).catch(err => 
-        throw new Error(err))
+  }).catch(err => {throw new Error(err)})
 
   active.query('/decorate/articles/api/articles/').then(res => {
     if (res.code === 'success') {
@@ -148,8 +146,7 @@ layui.use(['element', 'carousel', 'layer'], function () {
       $articleList.append(arr)
     }
   }).catch(err => {
-    
-        throw new Error(err)
+    throw new Error(err)
   })
   active.query('/decorate/rendering/api/renderings/').then(res => {
     if (res.code === 'success') {
@@ -181,8 +178,7 @@ layui.use(['element', 'carousel', 'layer'], function () {
         tab: function (pic, layero) {}
       })
     }
-  }).catch(err => 
-        throw new Error(err))
+  }).catch(err => {throw new Error(err)})
   // 滑动切换监听事件
   carousel.on('change(case_carousel)', function (e) {
     $caseInfo.children('h2').text(caseCarousel[e.index].title)
