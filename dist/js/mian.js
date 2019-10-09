@@ -1,4 +1,4 @@
-'use strict';
+
 
 var BASEURL = 'https://api.houyangguang.cn';
 // var BASEURL = document.domain

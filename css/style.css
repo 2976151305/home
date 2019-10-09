@@ -610,6 +610,28 @@ th[row-span=row] {
   .title span {
     font-size: 12px;
   }
+  .share-bar .share-item{
+    padding: 10px;
+  }
+  .share-bar .share-item span{
+    font-size: 12px;
+    width: 40px;
+  }
+  .share-bar h4{
+    font-size: 12px;
+    padding: 10px 10px 5px;
+  }
+  .qr{
+    left: -105px;
+  }
+  .wx-qr-box{
+    left: -105px;
+    padding: 8px;
+  }
+  .wx-qr-box img{
+    width:80px;
+    height: 80px;
+  }
 }
 
 /* -------------------公共样式 end------------------- */
@@ -870,6 +892,33 @@ th[row-span=row] {
     background-position: -84px -40px;
   }
 
+  .sicon16,
+  .sicon17 {
+    width: 23px;
+    height: 23px;
+  }
+  
+  .sicon16 {
+    background-position: -38px -185px;
+  }
+  
+  .sicon17 {
+    background-position: -37px -159px;
+  }
+  .sicon18,
+  .sicon19 {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .sicon18 {
+    background-position: -4px -28px;
+  }
+  
+  .sicon19 {
+    background-position: -3px -3px;
+  }
+
   .sicon20,
   .sicon21,
   .sicon22 {
@@ -888,6 +937,12 @@ th[row-span=row] {
 
   .sicon22 {
     background-position: -39px -278px;
+  }
+
+  .sicon23 {
+    width: 13px;
+    height: 9px;
+    background-position: -38px -211px;
   }
 }
 
@@ -1065,7 +1120,7 @@ th[row-span=row] {
     transition: all .5s ease;
     box-shadow: -5px 0 22px rgba(100, 100, 100, .42);
     color: #fff;
-    z-index: 99;
+    z-index: 99999999;
   }
 
   .sm-menu .layui-icon-close {
@@ -2506,8 +2561,10 @@ th[row-span=row] {
 
 .article-main .article-sub {
   color: #999;
-  font-size: 20px;
-  line-height: 30px;
+  font-size: 18px;
+  line-height: 24px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #bfbfbf;
   margin: 20px 0;
 }
 
@@ -2528,6 +2585,9 @@ th[row-span=row] {
   color: #666;
   line-height: 28px;
 }
+.article-main .article-content p{
+  margin-bottom: 10px;
+}
 
 @media (max-width:767px) {
   .location {
@@ -2535,30 +2595,28 @@ th[row-span=row] {
   }
 
   .article-main {
-    padding: 20px 0 40px;
+    padding: 20px 0;
   }
 
   .article-main .article-title {
-    font-size: 20px;
+    font-size: 16px;
     margin-bottom: 15px;
   }
 
   .article-main .article-sub {
     font-size: 12px;
     margin: 10px 0;
+    line-height: 20px;
+    padding-bottom: 5px;
   }
 
   .article-main .article-sub .article-collection .layui-icon {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .article-main .article-content {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 20px;
-  }
-
-  .share-bar {
-    display: none;
   }
 }
 
@@ -2598,7 +2656,6 @@ th[row-span=row] {
 }
 .tab-item.active{
   border-color: #cea972;
-  border-width: 2px;
   color: #cea972;
 }
 

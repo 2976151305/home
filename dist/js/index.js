@@ -9,6 +9,7 @@ var $bottomBar = $('.bottom-bar');
 var $effect = $('.effect');
 var $smart = $('.smart-box');
 jQuery(function () {
+  // 初始化地区选择器
   $("#distpicker").distpicker();
   if (localStorage.getItem('c')) {
     $bottomBar.append('<a href="javascript:;" class="close-bottom-bar"><i class="layui-icon layui-icon-close"></i></a>');
@@ -17,6 +18,7 @@ jQuery(function () {
     });
   }
   var flag = true;
+  // 智能家居模块
   $smart.on('mouseover', function () {
     if (!flag) return
     var self = $(this);
@@ -37,6 +39,7 @@ jQuery(function () {
     self.append(imgArr.join(''))
     flag = false;
   });
+  // 装修现场
   active.query('/decorate/advertising/api/adverts/decorate/scene/').then(function (res) {
     if (res.code === 'success') {
       var arr = [];
@@ -73,6 +76,7 @@ layui.use(['element', 'carousel', 'layer'], function () {
   var element = layui.element;
   var carousel = layui.carousel;
   var layer = layui.layer;
+  // 首页banner
   active.query('/decorate/advertising/api/adverts/').then(function (res) {
     console.log(res)
     if (res.code === 'success') {
@@ -92,8 +96,7 @@ layui.use(['element', 'carousel', 'layer'], function () {
       });
     }
   }).catch(function (err) {
-    return 
-        throw new Error(err);
+    throw new Error(err);
   });
   // 案例轮播
   active.query('/decorate/cases/api/case/recommend/').then(function (res) {
@@ -116,16 +119,15 @@ layui.use(['element', 'carousel', 'layer'], function () {
       });
     }
   }).catch(function (err) {
-    return 
-        throw new Error(err);
+    throw new Error(err);
   });
-
+  // 文章列表
   active.query('/decorate/articles/api/articles/').then(function (res) {
     if (res.code === 'success') {
       var i = 0;
       var arr = [];
       res.data.forEach(function (item) {
-        if (i < 6) {
+        if (i < 6) { // 显示前六个
           if (item.if_join_recommend) {
             arr.push(('    <article class="article-item layui-col-xs6 ' + (i == 5 ? 'layui-show-xs-block layui-hide-lg' : '') + '">      <article>        <a class="block" href="./article.html?id=' + item.id + '">          <div class="article-cover-img" style="background: url(' + item.cover_img + ') no-repeat center / cover"></div>          <div class="layui-inline">            <h2 class="layui-elip">' + item.title + '</h2>            <p class="article-introduction">' + item.introduction + '</p>          </div>        </a>      </article>    </div>  ').trim());
             i++;
@@ -135,9 +137,9 @@ layui.use(['element', 'carousel', 'layer'], function () {
       $articleList.append(arr);
     }
   }).catch(function (err) {
-    
-        throw new Error(err);
+    throw new Error(err);
   });
+  // 装修效果图
   active.query('/decorate/rendering/api/renderings/').then(function (res) {
     if (res.code === 'success') {
       var arr = [];
@@ -212,8 +214,7 @@ layui.use(['element', 'carousel', 'layer'], function () {
       }
     }).catch(function (err) {
       layer.msg('提交失败,请稍后重试!');
-      
-        throw new Error(err);
+      throw new Error(err);
     });
   });
 });

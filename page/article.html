@@ -83,6 +83,7 @@
         if (res.code === 'success') {
           $title.text(res.data.title);
           $content.html(res.data.content);
+          $content.find('img').addClass('cover-img')
           $num.text(res.data.numbers);
           $coverImg.attr('src', res.data.cover_img);
           $location.text(' > ' + res.data.title);

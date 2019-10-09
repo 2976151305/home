@@ -112,6 +112,9 @@
     active.toggleSideBar($('.sm-menu'), false, 'active');
     active.toggleSideBar($('.min-sidebar'), false, 'show');
   });
+  if(uid){
+    $('.sm-menu ul').append('<li><a href="./member.html" onclick="logout()"><i class="layui-inline fa fa-sign-out"></i>退出登录</a></li>')
+  }
 
   function logout() {
     localStorage.removeItem('uid');
