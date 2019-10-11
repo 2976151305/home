@@ -24,19 +24,20 @@ var active = {
    * @param {object} headers 请求头
    */
   query: function query(api_url, data, method, headers) {
+    var self = this
     return new Promise(function (resolve, reject) {
       $.ajax({
         url: BASEURL + api_url,
         data: data || '',
         method: method || 'GET',
         beforeSend: function (request) {
-          request.setRequestHeader('token', active.getLocalStorage('token'))
+          request.setRequestHeader('token', self.getLocalStorage('token'))
         },
         headers: headers || {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         success: function success(res) {
-          // 清楚缓存
+          // 清除缓存
           function removeLocalStorage() {
             localStorage.removeItem('uid');
             localStorage.removeItem('token');
